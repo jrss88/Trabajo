@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="./WEB-INF/template/template.xhtml"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+
+        <br/>
+        <br/>
+       
+          
+              
+                
+                        <h:form class="well " id="formulario">
+                            <div class="modal-content">
+                                <center>
+                                    <h5>Introduzca sus datos Personales </h5>
+                                </center>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">account_circle</i>
+                                        <h:inputText id="name"  class="validate" value="#{userCtrl.user.name}"/>
+                                        <label for="name">Nombre Usuario</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">lock_outline</i>
+                                        <h:inputSecret id="pass"  class="validate" value="#{userCtrl.user.pass}"/>
+                                        <label for="pass">Password</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <div id="locationField">
+                                            <i class="material-icons prefix">my_location</i>
+                                            <input id="autocomplete"  placeholder="Introduce tu dirección"
+                                                   onfocus="geolocate()" type="text"></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                  <div class="column">
+                        <div class="container" type="hidden">
+
+
+                            <table id="address">
+                                <tr>
+                                    <td class="label">Dirección</td>
+                                    <td class="slimField">
+                                        <input class="field" id="street_number" name="street_number"
+                                               disabled="true"></input></td>
+                                    <td class="wideField" colspan="2">
+                                        <input class="field" id="route" name="route"
+                                               disabled="true"></input></td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Ciudad</td>
+                                    <td class="wideField" colspan="3">
+                                        <input class="field" id="locality" name="locality"
+                                               disabled="true"></input></td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Estado</td>
+                                    <td class="slimField">
+                                        <input class="field"
+                                               id="administrative_area_level_1" disabled="true"></input></td>
+                                    <td class="label">Codigo Postal</td>
+                                    <td class="wideField">
+                                        <input class="field" id="postal_code"
+                                               disabled="true"></input></td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Pais</td>
+                                    <td class="wideField" colspan="3">
+                                        <input class="field"
+                                               id="country" disabled="true"></input></td>
+                                </tr>
+                            </table>
+                             <div class="field_box">
+                                <div class="fieldwrapper">
+
+                                    <input id="hidLat" name="hidLat"  ></input>
+                                    <input id="hidLong" name="hidLong"  ></input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">email</i>
+                                        <h:inputText id="email"  class="validate" value="#{userCtrl.user.email}"/>
+                                        <label for="email">Email</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">phone</i>
+                                        <h:inputText id="phone"  class="validate" value="#{userCtrl.user.phone}"/>
+                                        <label for="phone">Teléfono</label>
+                                    </div>
+                                </div>
+
+
+                                <!-- Switch -->
+                                <div class="row" >
+                                    <div class="input-field col s12" style="text-align:center">
+                                        <h:selectBooleanCheckbox id="particular" value="#{userCtrl.user.esParticular}" />
+                                        <h:outputLabel value="es Particular" for="particular" />
+                                        <h:selectBooleanCheckbox id="restaurante" value="#{userCtrl.user.esRestaurante}" />
+                                        <h:outputLabel value="es Restaurante" for="restaurante" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12 selectPayment" >
+                                        <i class="material-icons prefix">credit_card</i>
+                                        <h:selectOneMenu  label="Inserta medio de pago" value="#{userCtrl.user.payment}">
+                                            <f:selectItem itemValue="1" itemLabel="Pago mediante Pay-Pal" class="left circle"/>
+                                            <f:selectItem itemValue="2" itemLabel="Pago en efectivo" class="left circle"/>	   							
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <h:commandButton id="findbutton" onclick="Materialize.toast('Registro completado', 26000)" class="btn btn-skin btn-scroll"  value="Enviar" action="#{userCtrl.addNewUser()}"/>
+                            </div>
+                        </h:form>
+                 
+                
+           
+      
+    </ui:define>
+
+</ui:composition>

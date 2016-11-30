@@ -1,0 +1,123 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 07-may-2016, 18:08:14
+    Author     : juanramon
+*/
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    font-family: Roboto,Arial,sans-serif;
+}
+
+main {
+    flex: 1 0 auto;
+}
+.row select-wrapper input.select-dropdown{
+
+    aling-items: center;
+    justify-content: center
+}
+
+.ui-autocomplete {
+    background-color: white;
+    width: 300px;
+    border: 1px solid #cfcfcf;
+    list-style-type: none;
+    padding-left: 0px; font-family:Arial, Helvetica, sans-serif; cursor:pointer; font-size:12px;
+}
+.ui-menu-item {padding:3px 0;}
+#locationField, #controls {
+    position: relative;
+    width: 480px;
+}
+
+#autocomplete {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 99%;
+}
+
+.label {
+    text-align: right;
+    font-weight: bold;
+    width: 100px;
+    color: #303030;
+}
+
+#address {
+    border: 1px solid #000090;
+    background-color: #f0f0ff;
+    width: 480px;
+    padding-right: 2px;
+}
+
+#address td {
+    font-size: 10pt;
+}
+
+.field {
+    width: 99%;
+}
+
+.slimField {
+    width: 80px;
+}
+
+.wideField {
+    width: 200px;
+}
+
+#locationField {
+    height: 20px;
+    margin-bottom: 2px;
+}
+.pac-container {
+    z-index: 10000 !important;
+}
+
+table{
+
+    margin-top:  80px;
+}
+.waves-effect.waves-brown .waves-ripple {
+    /* The alpha value allows the text and background color
+    of the button to still show through. */
+    background-color: #8bc34a;
+}
+.iframe-rwd  {
+    position: relative;
+    padding-bottom: 65.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+}
+.iframe-rwd iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.card {
+    width:400px;
+}
+.center-rating
+{
+    width: 96px;
+    margin: 0 auto;
+}
+
+.ui-widget {
+    font-family: Roboto,Arial,sans-serif;
+    font-size: 1.1em;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+   
+    
+}

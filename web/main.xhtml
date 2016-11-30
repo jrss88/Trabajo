@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+
+        <div class="container">
+            <h1 class="centered">Pantalla Principal</h1>
+        </div>
+
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col s7 push-s5"><span class="flow-text">This div is 7-columns wide on pushed to the right by 5-columns.</span></div>
+                <div class="col s5 pull-s7"><span class="flow-text">5-columns wide pulled to the left by 7-columns.</span></div>
+            </div>
+
+
+
+            <!--<div class="field_box">
+                <div class="fieldwrapper">
+                    <div class="row">
+                        <input id="location" class="field" placeholder="Pueblo,Ciudad o Codigo Postal" name="Postcode" type="text" value="">
+                            <input type="submit" id="findbutton" value="Find" /></input>
+                    </div>
+                    <div class="iframe-rwd">
+                        <div id="geomap" style="width:1000px; height:1500px;">
+                        </div>
+                        <p>Loading Please Wait...</p>
+                    </div>
+                    <input id="hidLat" name="hidLat" type="hidden" value=""></input>
+                    <input id="hidLong" name="hidLong" type="hidden" value=""></input>
+
+
+
+
+                </div>
+            </div>-->
+        </div>
+        <div class="card-panel grey lighten-5 z-depth-1">
+            <a href="faces/listUsers.xhtml" class="waves-effect waves-yellow">Buscar ofertantes particulares</a>
+        </div>
+        <div class="card-panel grey lighten-5 z-depth-1">
+            <a href="faces/listUsers.xhtml" class="waves-effect waves-yellow">Buscar Restaurantes</a>
+        </div>
+
+
+    </ui:define>
+</ui:composition>
