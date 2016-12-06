@@ -5,10 +5,12 @@
  */
 package com.food.frontend.dao;
 
+import com.food.frontend.interfaces.IUProduct;
 import com.food.model.Product;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.enterprise.context.Dependent;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
@@ -22,23 +24,23 @@ import javax.ws.rs.core.Response;
  * Jersey REST client generated for REST resource:ProductREST [products]<br>
  * USAGE:
  * <pre>
- *        DAOProductREST client = new DAOProductREST();
- *        Object response = client.XXX(...);
- *        // do whatever with response
- *        client.close();
- * </pre>
+        DAOProduct client = new DAOProduct();
+        Object response = client.XXX(...);
+        // do whatever with response
+        client.close();
+ </pre>
  *
  * @author juanramon
  */
-@Stateless
+@Dependent
 @Path("products")
-public class DAOProductREST {
+public class DAOProduct implements IUProduct{
 
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://localhost:8080/TFGFood/servicesREST";
 
-    public DAOProductREST() {
+    public DAOProduct() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(BASE_URI).path("products");
     }

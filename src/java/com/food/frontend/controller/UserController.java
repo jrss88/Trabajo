@@ -5,7 +5,7 @@
  */
 package com.food.frontend.controller;
 
-import com.food.frontend.dao.DAOUserREST;
+import com.food.frontend.dao.DAOUser;
 import com.food.model.User;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import org.primefaces.model.map.Marker;
 public class UserController implements Serializable {
 
     @Inject
-    private DAOUserREST daoUserRest;
+    private DAOUser daoUserRest;
     private User user = new User();
     
     private FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -69,14 +69,14 @@ public class UserController implements Serializable {
     /**
      * @return the daoUserRest
      */
-    public DAOUserREST getDaoUserRest() {
+    public DAOUser getDaoUserRest() {
         return daoUserRest;
     }
 
     /**
      * @param daoUserRest the daoUserRest to set
      */
-    public void setDaoUserRest(DAOUserREST daoUserRest) {
+    public void setDaoUserRest(DAOUser daoUserRest) {
         this.daoUserRest = daoUserRest;
     }
 

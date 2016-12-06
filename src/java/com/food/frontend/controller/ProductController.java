@@ -5,8 +5,8 @@
  */
 package com.food.frontend.controller;
 
-import com.food.frontend.dao.DAOProductREST;
-import com.food.frontend.dao.DAOUserREST;
+import com.food.frontend.dao.DAOProduct;
+import com.food.frontend.dao.DAOUser;
 import com.food.model.Product;
 import java.io.IOException;
 import java.io.Serializable;
@@ -33,9 +33,9 @@ import org.primefaces.model.UploadedFile;
 public class ProductController implements Serializable {
 
     @Inject
-    private DAOProductREST daoProductREST;
+    private DAOProduct daoProductREST;
     @Inject
-    private DAOUserREST daoUserREST;
+    private DAOUser daoUserREST;
     private Product product=new Product();;
 
     @PostConstruct
@@ -83,14 +83,14 @@ public class ProductController implements Serializable {
     /**
      * @return the daoProductREST
      */
-    public DAOProductREST getProductREST() {
+    public DAOProduct getProductREST() {
         return daoProductREST;
     }
 
     /**
      * @param productREST the daoProductREST to set
      */
-    public void setProductREST(DAOProductREST productREST) {
+    public void setProductREST(DAOProduct productREST) {
         this.daoProductREST = productREST;
     }
 

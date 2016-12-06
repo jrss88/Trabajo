@@ -5,11 +5,14 @@
  */
 package com.food.frontend.dao;
 
+import com.food.frontend.interfaces.IUUsers;
 import com.food.model.User;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.enterprise.context.Dependent;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -26,30 +29,28 @@ import javax.ws.rs.core.Response;
  * Jersey REST client generated for REST resource:UserREST [users]<br>
  * USAGE:
  * <pre>
- * DAOUserREST client = new DAOUserREST();
- * Object response = client.XXX(...);
- * // do whatever with response
- * client.close();
- * </pre>
+ DAOUser client = new DAOUser();
+ Object response = client.XXX(...);
+ // do whatever with response
+ client.close();
+ </pre>
  *
  * @author juanramon
  */
-@Stateless
+
+@Dependent
 @Path("users")
-public class DAOUserREST {
+public class DAOUser implements IUUsers{
 
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://localhost:8080/TFGFood/servicesREST";
 
-    public DAOUserREST() {
+    public DAOUser() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(BASE_URI).path("users");
     }
 
-    public Response create_XML(Object requestEntity) throws ClientErrorException {
-        return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
-    }
 
     public Response create_JSON(Object requestEntity) throws ClientErrorException {
         return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
