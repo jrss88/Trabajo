@@ -18,8 +18,8 @@ import javax.ws.rs.core.Response;
 @WebService
 public interface IUUsers {
     
-    public Response create_JSON(Object requestEntity) throws ClientErrorException;
-    public Response edit_JSON(Object requestEntity, Long id) throws ClientErrorException;
+    public Response createUser(Object requestEntity) throws ClientErrorException;
+    public Response editUser(Object requestEntity, Long id) throws ClientErrorException;
     public List<User> getUsers();
     public User getUser(Long id);
 }

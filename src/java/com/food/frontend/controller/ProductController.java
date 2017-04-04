@@ -66,7 +66,7 @@ public class ProductController implements Serializable {
         System.out.println(this.product.getImagen());
         System.out.println("-----------------------------------------------------------------------------------------------------------------");
         try{
-        getProductREST().create_JSON_Product(this.product);
+        getProductREST().createProduct(this.product);
         FacesContext.getCurrentInstance().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "El registro del producto se ha realizado correctamente."));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage("registroInCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "InCorrecto", "El registro del producto no se ha realizado correctamente."));

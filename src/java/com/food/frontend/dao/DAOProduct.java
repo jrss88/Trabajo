@@ -11,6 +11,8 @@ import com.food.model.Product;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
@@ -38,14 +40,16 @@ public class DAOProduct implements IUProduct{
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/TFGFood/servicesREST";
+    private ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+    private String baseuri= getServletContext().getInitParameter("BaseUri");
+    
 
     public DAOProduct() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("products");
+        webTarget = client.target(getBaseuri()).path("products");
     }
 
-    public Response create_JSON_Product(Object requestEntity) throws ClientErrorException {
+    public Response createProduct(Object requestEntity) throws ClientErrorException {
         return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
     }
 
@@ -62,6 +66,34 @@ public class DAOProduct implements IUProduct{
 
     public void close() {
         client.close();
+    }
+
+    /**
+     * @return the servletContext
+     */
+    public ServletContext getServletContext() {
+        return servletContext;
+    }
+
+    /**
+     * @param servletContext the servletContext to set
+     */
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
+
+    /**
+     * @return the baseuri
+     */
+    public String getBaseuri() {
+        return baseuri;
+    }
+
+    /**
+     * @param baseuri the baseuri to set
+     */
+    public void setBaseuri(String baseuri) {
+        this.baseuri = baseuri;
     }
 
 }

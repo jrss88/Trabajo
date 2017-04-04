@@ -6,6 +6,10 @@
 package com.food.model;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +17,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,9 +30,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table
 @XmlRootElement
+@Named(value = "userbean")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private static Logger log = Logger.getLogger(User.class.getName());
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -224,6 +233,22 @@ public class User implements Serializable {
      */
     public void setPayment(int payment) {
         this.payment = payment;
+    }
+    
+    public String logout() {
+        String result = "/index?faces-redirect=true";
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+
+        try {
+            request.logout();
+        } catch (ServletException e) {
+            log.log(Level.SEVERE, "Failed to logout user!", e);
+            result = "/errorlogin?faces-redirect=true";
+        }
+
+        return result;
     }
     
 }

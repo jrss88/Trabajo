@@ -38,7 +38,7 @@ import org.primefaces.model.map.Marker;
 public class UserController implements Serializable {
 
     @Inject
-    private DAOUser daoUserRest;
+    private DAOUser daoUser;
     private User user = new User();
     
     private FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -52,7 +52,7 @@ public class UserController implements Serializable {
     @PostConstruct
     public void init() {
 
-        List<User> list = this.getDaoUserRest().getUsers();
+        List<User> list = this.getDaoUser().getUsers();
         for (User u : list) {
             System.out.print(u);
             //Introduzco los puntos de los usuarios registrados por latitud y longitud.
@@ -67,17 +67,17 @@ public class UserController implements Serializable {
     }
 
     /**
-     * @return the daoUserRest
+     * @return the daoUser
      */
-    public DAOUser getDaoUserRest() {
-        return daoUserRest;
+    public DAOUser getDaoUser() {
+        return daoUser;
     }
 
     /**
-     * @param daoUserRest the daoUserRest to set
+     * @param daoUserRest the daoUser to set
      */
-    public void setDaoUserRest(DAOUser daoUserRest) {
-        this.daoUserRest = daoUserRest;
+    public void setDaoUser(DAOUser daoUserRest) {
+        this.daoUser = daoUserRest;
     }
 
     /**
@@ -154,7 +154,7 @@ public class UserController implements Serializable {
     
         try {
 
-            getDaoUserRest().create_JSON(getUser());
+            getDaoUser().createUser(getUser());
             getFacesContext().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo usuario añadido correctamente", getUser().toString()));
 
         } catch (Exception ex) {
@@ -169,7 +169,7 @@ public class UserController implements Serializable {
     
         try {
 
-            getDaoUserRest().edit_JSON(this.getUser(),this.getUser().getId());
+            getDaoUser().editUser(this.getUser(),this.getUser().getId());
             getFacesContext().addMessage("edicionCorrecta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo usuario editado correctamente", getUser().toString()));
 
         } catch (Exception ex) {
@@ -180,13 +180,13 @@ public class UserController implements Serializable {
     }
     public List<User> getUsers() {
 
-        List<User> users = this.getDaoUserRest().getUsers();
+        List<User> users = this.getDaoUser().getUsers();
         
         return users;
     }
     public User getUser(Long id) {
 
-        User u = this.getDaoUserRest().getUser(id);
+        User u = this.getDaoUser().getUser(id);
         
         return u;
     }

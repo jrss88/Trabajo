@@ -13,6 +13,8 @@ import java.util.logging.Level;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -44,19 +46,20 @@ public class DAOUser implements IUUsers{
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/TFGFood/servicesREST";
+    private ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+    private String baseuri= getServletContext().getInitParameter("BaseUri");
 
     public DAOUser() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("users");
+        webTarget = client.target(getBaseuri()).path("users");
     }
 
 
-    public Response create_JSON(Object requestEntity) throws ClientErrorException {
+    public Response createUser(Object requestEntity) throws ClientErrorException {
         return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
     }
 
-    public Response edit_JSON(Object requestEntity, Long id) throws ClientErrorException {
+    public Response editUser(Object requestEntity, Long id) throws ClientErrorException {
         return webTarget.path("{id}").resolveTemplate("id", id).request(javax.ws.rs.core.MediaType.APPLICATION_JSON).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
     }
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -82,6 +85,34 @@ public class DAOUser implements IUUsers{
 
     public void close() {
         client.close();
+    }
+
+    /**
+     * @return the servletContext
+     */
+    public ServletContext getServletContext() {
+        return servletContext;
+    }
+
+    /**
+     * @param servletContext the servletContext to set
+     */
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
+
+    /**
+     * @return the baseuri
+     */
+    public String getBaseuri() {
+        return baseuri;
+    }
+
+    /**
+     * @param baseuri the baseuri to set
+     */
+    public void setBaseuri(String baseuri) {
+        this.baseuri = baseuri;
     }
 
 }

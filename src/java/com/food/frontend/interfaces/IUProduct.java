@@ -18,6 +18,6 @@ import javax.ws.rs.core.Response;
 @WebService
 public interface IUProduct {
     
-    public Response create_JSON_Product(Object requestEntity) throws ClientErrorException;
+    public Response createProduct(Object requestEntity) throws ClientErrorException;
     public List<Product> getProducts();
 }
