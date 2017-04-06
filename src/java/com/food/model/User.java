@@ -30,7 +30,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table
 @XmlRootElement
-@Named(value = "userbean")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -235,20 +234,6 @@ public class User implements Serializable {
         this.payment = payment;
     }
     
-    public String logout() {
-        String result = "/index?faces-redirect=true";
-
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-
-        try {
-            request.logout();
-        } catch (ServletException e) {
-            log.log(Level.SEVERE, "Failed to logout user!", e);
-            result = "/errorlogin?faces-redirect=true";
-        }
-
-        return result;
-    }
+    
     
 }

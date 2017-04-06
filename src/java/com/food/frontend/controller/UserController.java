@@ -10,6 +10,8 @@ import com.food.model.User;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -19,6 +21,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.PathParam;
 import org.primefaces.event.map.GeocodeEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
@@ -37,6 +41,8 @@ import org.primefaces.model.map.Marker;
 @RequestScoped
 public class UserController implements Serializable {
 
+    private static Logger log = Logger.getLogger(User.class.getName());
+    
     @Inject
     private DAOUser daoUser;
     private User user = new User();
@@ -131,7 +137,21 @@ public class UserController implements Serializable {
     public void setFacesContext(FacesContext facesContext) {
         this.facesContext = facesContext;
     }
+    public String logout() {
+        String result = "/index?faces-redirect=true";
 
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+
+        try {
+            request.logout();
+        } catch (ServletException e) {
+            log.log(Level.SEVERE, "Failed to logout user!", e);
+            result = "/errorlogin?faces-redirect=true";
+        }
+
+        return result;
+    }
     public void addNewUser() {
 
         double latitud = 0;
