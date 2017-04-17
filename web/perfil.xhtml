@@ -22,21 +22,21 @@
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">account_circle</i>
-                                        <h:inputText id="name"  class="validate" value="#{userCtrl.getUser(1).name}"/>
+                                        <h:inputText id="name"  class="validate" value="#{userCtrl.getUserByName(request.getUserPrincipal()).name}"/>
                                         <label for="name">Nombre Usuario</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">lock_outline</i>
-                                        <h:inputSecret id="pass"  class="validate" value="#{userCtrl.getUser(1).pass}"/>
+                                        <h:inputSecret id="pass"  class="validate" value="#{userCtrl.getUserByName(request.getUserPrincipal()).pass}"/>
                                         <label for="pass">Password</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">my_location</i>
-                                        <h:inputText id="address"  class="validate" value="#{userCtrl.getUser(1).address}"/>
+                                        <h:inputText id="address"  class="validate" value="#{userCtrl.getUserByName(request.getUserPrincipal()).address}"/>
                                         <label for="address">Dirección</label>
                                     </div>
                                 </div>
@@ -45,14 +45,14 @@
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">email</i>
-                                        <h:inputText id="email"  class="validate" value="#{userCtrl.getUser(1).email}"/>
+                                        <h:inputText id="email"  class="validate" value="#{userCtrl.getUserByName(request.getUserPrincipal()).email}"/>
                                         <label for="email">Email</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">phone</i>
-                                        <h:inputText id="phone"  class="validate" value="#{userCtrl.getUser(1).phone}"/>
+                                        <h:inputText id="phone"  class="validate" value="#{userCtrl.getUserByName(request.getUserPrincipal()).phone}"/>
                                         <label for="phone">Teléfono</label>
                                     </div>
                                 </div>
@@ -61,16 +61,16 @@
                                 <!-- Switch -->
                                 <div class="row" >
                                     <div class="input-field col s12" style="text-align:center">
-                                        <h:selectBooleanCheckbox id="particular" value="#{userCtrl.getUser(1).esParticular}" />
+                                        <h:selectBooleanCheckbox id="particular" value="#{userCtrl.getUserByName(request.getUserPrincipal()).isParticular}" />
                                         <h:outputLabel value="Particular" for="particular" />
-                                        <h:selectBooleanCheckbox id="restaurante" value="#{userCtrl.getUser(1).esRestaurante}" />
+                                        <h:selectBooleanCheckbox id="restaurante" value="#{userCtrl.getUserByName(request.getUserPrincipal()).isProffesional}" />
                                         <h:outputLabel value="Restaurante" for="restaurante" />
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12 selectPayment" >
                                         <i class="material-icons prefix">credit_card</i>
-                                        <h:selectOneMenu  label="Inserta medio de pago" value="#{userCtrl.getUser(1).payment}">
+                                        <h:selectOneMenu  label="Inserta medio de pago" value="#{userCtrl.getUserByName(request.getUserPrincipal()).payment}">
                                             <f:selectItem itemValue="1" itemLabel="Pago mediante Pay-Pal" class="left circle"/>
                                             <f:selectItem itemValue="2" itemLabel="Pago en efectivo" class="left circle"/>	   							
                                         </h:selectOneMenu>

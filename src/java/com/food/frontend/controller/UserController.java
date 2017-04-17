@@ -8,29 +8,19 @@ package com.food.frontend.controller;
 import com.food.frontend.dao.DAOUser;
 import com.food.model.User;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.PathParam;
-import org.primefaces.event.map.GeocodeEvent;
-import org.primefaces.event.map.OverlaySelectEvent;
-import org.primefaces.model.map.DefaultMapModel;
-import org.primefaces.model.map.GeocodeResult;
-import org.primefaces.model.map.LatLng;
-import org.primefaces.model.map.MapModel;
-import org.primefaces.model.map.Marker;
+
 
 /**
  *
@@ -42,34 +32,26 @@ import org.primefaces.model.map.Marker;
 public class UserController implements Serializable {
 
     private static Logger log = Logger.getLogger(User.class.getName());
-    
+
     @Inject
     private DAOUser daoUser;
     private User user = new User();
-    
+
     private FacesContext facesContext = FacesContext.getCurrentInstance();
+
     
-    private final MapModel advancedModel = new DefaultMapModel();
-    private String centerGeoMap = "41.850033, -87.6500523";
     private Boolean showtable;
-    private float ratio;
-    private Marker marker;
+    
 
     @PostConstruct
     public void init() {
 
-        List<User> list = this.getDaoUser().getUsers();
-        for (User u : list) {
-            System.out.print(u);
-            //Introduzco los puntos de los usuarios registrados por latitud y longitud.
-            LatLng coord = new LatLng(u.getLatitud(), u.getLongitud());
-            getAdvancedModel().addOverlay(new Marker(coord, "Nombre del ofertante"));
-
-        }
+   
     }
 
     public UserController() {
-
+   
+        
     }
 
     /**
@@ -92,7 +74,7 @@ public class UserController implements Serializable {
     public User getUser() {
         return user;
     }
-    
+
     /**
      * @param user the user to set
      */
@@ -100,30 +82,8 @@ public class UserController implements Serializable {
         this.user = user;
     }
 
-  //utils for addMarkets to google Maps
-    public MapModel getAdvancedModel() {
-        return advancedModel;
-    }
+ 
 
-    public void onMarkerSelect(OverlaySelectEvent event) {
-        setMarker((Marker) event.getOverlay());
-        this.setShowtable(getShowtable());
-        setShowtable((Boolean) true);
-    }
-
-    public void onGeocode(GeocodeEvent event) {
-        List<GeocodeResult> results = event.getResults();
-
-        if (results != null && !results.isEmpty()) {
-            LatLng center = results.get(0).getLatLng();
-            setCenterGeoMap(center.getLat() + "," + center.getLng());
-
-            for (int i = 0; i < results.size(); i++) {
-                GeocodeResult result = results.get(i);
-                getAdvancedModel().addOverlay(new Marker(result.getLatLng(), result.getAddress()));
-            }
-        }
-    }
     /**
      * @return the facesContext
      */
@@ -137,6 +97,7 @@ public class UserController implements Serializable {
     public void setFacesContext(FacesContext facesContext) {
         this.facesContext = facesContext;
     }
+
     public String logout() {
         String result = "/index?faces-redirect=true";
 
@@ -152,6 +113,14 @@ public class UserController implements Serializable {
 
         return result;
     }
+
+    public Long getIdUser(String name) {
+
+        User u = this.getDaoUser().getUserByName(name);
+        return u.getId();
+
+    }
+
     public void addNewUser() {
 
         double latitud = 0;
@@ -171,7 +140,7 @@ public class UserController implements Serializable {
         this.getUser().setAddress(address);
         this.getUser().setLatitud(latitud);
         this.getUser().setLongitud(longitud);
-    
+
         try {
 
             getDaoUser().createUser(getUser());
@@ -183,14 +152,13 @@ public class UserController implements Serializable {
         }
 
     }
+
     public void editPerfil() {
 
-     
-    
         try {
 
-            getDaoUser().editUser(this.getUser(),this.getUser().getId());
-            getFacesContext().addMessage("edicionCorrecta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo usuario editado correctamente", getUser().toString()));
+            getDaoUser().editUser(this.getUser(), this.getUser().getId());
+            getFacesContext().addMessage("edicionCorrecta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario editado correctamente", getUser().toString()));
 
         } catch (Exception ex) {
             getFacesContext().addMessage("edicionIncorrecta", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no editado correctamente", ex.getMessage()));
@@ -198,31 +166,28 @@ public class UserController implements Serializable {
         }
 
     }
+
     public List<User> getUsers() {
 
         List<User> users = this.getDaoUser().getUsers();
-        
+
         return users;
     }
+
     public User getUser(Long id) {
 
         User u = this.getDaoUser().getUser(id);
-        
+
         return u;
     }
-    /**
-     * @return the centerGeoMap
-     */
-    public String getCenterGeoMap() {
-        return centerGeoMap;
+
+    public User getUserByName(String name) {
+
+        User u = this.getDaoUser().getUserByName(name);
+        return u;
+
     }
 
-    /**
-     * @param centerGeoMap the centerGeoMap to set
-     */
-    public void setCenterGeoMap(String centerGeoMap) {
-        this.centerGeoMap = centerGeoMap;
-    }
 
     /**
      * @return the showtable
@@ -242,31 +207,5 @@ public class UserController implements Serializable {
         showtable = true;
         return "";
     }
-    /**
-     * @return the ratio
-     */
-    public float getRatio() {
-        return ratio;
-    }
 
-    /**
-     * @param ratio the ratio to set
-     */
-    public void setRatio(float ratio) {
-        this.ratio = ratio;
-    }
-
-    /**
-     * @return the marker
-     */
-    public Marker getMarker() {
-        return marker;
-    }
-
-    /**
-     * @param marker the marker to set
-     */
-    public void setMarker(Marker marker) {
-        this.marker = marker;
-    }
 }

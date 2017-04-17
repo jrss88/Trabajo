@@ -5,7 +5,8 @@
  */
 package com.food.backend.service;
 
-import com.food.model.User;
+import com.food.model.OnlineOrder;
+import com.food.model.Product;
 import java.net.URI;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -13,7 +14,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -32,25 +32,27 @@ import javax.ws.rs.core.UriInfo;
  * @author juanramon
  */
 @Stateless
-@Path("users")
+@Path("orders")
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-public class UserREST {
-
+public class OnlineOrderREST {
+    
     @PersistenceContext(unitName = "TFGFoodPU")
     private EntityManager em;
     @Context
     private UriInfo uriInfo;
 
+   
+    
     @GET
     public JsonObject ShowMessageMain() {
 
-        return Json.createObjectBuilder().add("EAT NEAR HERE", "Web Service RestFuLL Users").build();
+        return Json.createObjectBuilder().add("EAT NEAR HERE", "Web Service RestFuLL Orders").build();
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response create(User entity) {
+    public Response create(OnlineOrder entity) {
         getEntityManager().persist(entity);
         URI uri = uriInfo.getAbsolutePathBuilder().path(entity.getId().toString()).build();
         return Response.created(uri).build();
@@ -59,36 +61,48 @@ public class UserREST {
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, User entity) {
+    public void edit(@PathParam("id") Long id, OnlineOrder entity) {
         getEntityManager().merge(entity);
     }
     
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> findAll() {
+    public List<OnlineOrder> findAll() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(User.class));
+        cq.select(cq.from(OnlineOrder.class));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User find(@PathParam("id") Long id) {
-        User u = getEntityManager().find(User.class, id);
-        return u;
+    public OnlineOrder find(@PathParam("id") Long id) {
+        OnlineOrder o = getEntityManager().find(OnlineOrder.class, id);
+        return o;
     }
     
     @GET
-    @Path("findByName/{name}")
+    @Path("orders/user/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User findByName(@PathParam("name") String name) {
-        User u = em.createQuery("SELECT u FROM User u WHERE u.name=?1", User.class).setParameter(1,name).getSingleResult();
-        return u;
+    public List<OnlineOrder> showOrderUser(@PathParam("id")Long id) {
+
+        
+        List<OnlineOrder> lo = em.createQuery("SELECT o FROM OnlineOrder o WHERE o.u.id=?1", OnlineOrder.class)
+                 .setParameter(1,id).getResultList();
+        return lo;
     }
 
+    @GET
+    @Path("products/orders/user/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Product> getProductsOrderUser(@PathParam("id")Long id) {
 
+        
+        List<Product> lo = em.createQuery("SELECT * FROM OnlineOrder o.products WHERE o.u.id=?1", Product.class)
+                 .setParameter(1,id).getResultList();
+        return lo;
+    }
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
@@ -98,5 +112,5 @@ public class UserREST {
     protected EntityManager getEntityManager() {
         return em;
     }
-
+    
 }

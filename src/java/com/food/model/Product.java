@@ -6,12 +6,14 @@
 package com.food.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -35,10 +37,12 @@ public class Product implements Serializable {
     private double precio;
     @Column(name = "descripcion")
     private String descripcion;
-    @Column(name = "valoracion")
-    private int valoracion;
+    @Column(name = "ratingAverage")
+    private int ratingAverage;
+    
     @ManyToOne
-    private User u;
+    private User uPublish;
+    
     @Column
     @Pattern(regexp = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)", message = "Tipo de imágen inválido")
     private String imagen;
@@ -119,19 +123,6 @@ public class Product implements Serializable {
         this.descripcion = descripcion;
     }
 
-    /**
-     * @return the valoracion
-     */
-    public int getValoracion() {
-        return valoracion;
-    }
-
-    /**
-     * @param valoracion the valoracion to set
-     */
-    public void setValoracion(int valoracion) {
-        this.valoracion = valoracion;
-    }
 
 
     /**
@@ -149,17 +140,33 @@ public class Product implements Serializable {
     }
 
     /**
-     * @return the u
+     * @return the uPublish
      */
     public User getU() {
-        return u;
+        return uPublish;
     }
 
     /**
-     * @param u the u to set
+     * @param u the uPublish to set
      */
     public void setU(User u) {
-        this.u = u;
+        this.uPublish = u;
     }
+
+    /**
+     * @return the ratingAverage
+     */
+    public int getRatingAverage() {
+        return ratingAverage;
+    }
+
+    /**
+     * @param ratingAverage the ratingAverage to set
+     */
+    public void setRatingAverage(int ratingAverage) {
+        this.ratingAverage = ratingAverage;
+    }
+
+ 
     
 }

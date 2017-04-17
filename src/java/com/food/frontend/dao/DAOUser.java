@@ -82,6 +82,15 @@ public class DAOUser implements IUUsers{
                 .get(User.class);
         return u;
     }
+    @Consumes(MediaType.APPLICATION_JSON)
+    public User getUserByName(String name) {
+        User u
+                = webTarget
+                .path("findByName/{name}").resolveTemplate("name", name)
+                .request(MediaType.APPLICATION_JSON)
+                .get(User.class);
+        return u;
+    }
 
     public void close() {
         client.close();

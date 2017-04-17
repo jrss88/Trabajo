@@ -5,11 +5,11 @@
  */
 package com.food.frontend.dao;
 
-import com.food.frontend.interfaces.IUProduct;
+import com.food.frontend.interfaces.IUOrders;
+import com.food.model.OnlineOrder;
 import com.food.model.Product;
 
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -23,63 +23,62 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Jersey REST client generated for REST resource:ProductREST [products]<br>
+ * Jersey REST client generated for REST resource:OnlineOrderREST [orders]<br>
  * USAGE:
  * <pre>
-        DAOProduct client = new DAOProduct();
-        Object response = client.XXX(...);
-        // do whatever with response
-        client.close();
- </pre>
+ *        DAOOrder client = new DAOOrder();
+ *        Object response = client.XXX(...);
+ *        // do whatever with response
+ *        client.close();
+ * </pre>
  *
  * @author juanramon
  */
+
 @Dependent
-@Path("products")
-public class DAOProduct implements IUProduct{
+@Path("orders")
+public class DAOOrder implements IUOrders{
 
     private WebTarget webTarget;
     private Client client;
     private ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
     private String baseuri= getServletContext().getInitParameter("BaseUri");
-    
 
-    public DAOProduct() {
+    public DAOOrder() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(getBaseuri()).path("products");
+        webTarget = client.target(getBaseuri()).path("orders");
     }
 
-    public Response createProduct(Object requestEntity) throws ClientErrorException {
+
+    public Response createOrder(Object requestEntity) throws ClientErrorException {
         return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
     }
 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Product> getProducts(Long id) {
+    public List<OnlineOrder> getOrdersU(Long id) {
+        List<OnlineOrder> orders
+                = webTarget
+                .path("orders/user/{id}").resolveTemplate("id", id)
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<OnlineOrder>>() {
+                });
+        return orders;
+    }
+
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Product> getProductsOfOrderU(Long id) {
         List<Product> products
                 = webTarget
-                .path("products/user/{id}").resolveTemplate("id", id)
+                .path("products/order/user/{id}").resolveTemplate("id", id)
                 .request(MediaType.APPLICATION_JSON)
                 .get(new GenericType<List<Product>>() {
                 });
         return products;
     }
 
+
     public void close() {
         client.close();
-    }
-
-    /**
-     * @return the servletContext
-     */
-    public ServletContext getServletContext() {
-        return servletContext;
-    }
-
-    /**
-     * @param servletContext the servletContext to set
-     */
-    public void setServletContext(ServletContext servletContext) {
-        this.servletContext = servletContext;
     }
 
     /**
@@ -96,4 +95,18 @@ public class DAOProduct implements IUProduct{
         this.baseuri = baseuri;
     }
 
+    /**
+     * @return the servletContext
+     */
+    public ServletContext getServletContext() {
+        return servletContext;
+    }
+
+    /**
+     * @param servletContext the servletContext to set
+     */
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
+    
 }

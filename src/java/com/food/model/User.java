@@ -6,22 +6,27 @@
 package com.food.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -54,12 +59,19 @@ public class User implements Serializable {
     private String email;
     @Column(name = "phone")
     private String phone;
-    @Column(name = "esParticular")
-    private boolean esParticular;
-    @Column(name = "esRestaurante")
-    private boolean esRestaurante;
+    @Column(name = "isParticular")
+    private boolean isParticular;
+    @Column(name = "isProffesional")
+    private boolean isProffesional;
     @Column(name = "payment")
     private int payment;
+    @OneToMany(fetch=FetchType.EAGER) 
+    private List<PrivateMessage> receivedMessages;
+    @OneToMany(fetch=FetchType.EAGER) 
+    private List<PrivateMessage> sentMessages;
+    @OneToMany(fetch=FetchType.EAGER) 
+    private List<OnlineOrder> ordersPlaced;
+    
 
     public Long getId() {
         return id;
@@ -192,33 +204,7 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    /**
-     * @return the esParticular
-     */
-    public boolean isEsParticular() {
-        return esParticular;
-    }
-
-    /**
-     * @param esParticular the esParticular to set
-     */
-    public void setEsParticular(boolean esParticular) {
-        this.esParticular = esParticular;
-    }
-
-    /**
-     * @return the esRestaurante
-     */
-    public boolean isEsRestaurante() {
-        return esRestaurante;
-    }
-
-    /**
-     * @param esRestaurante the esRestaurante to set
-     */
-    public void setEsRestaurante(boolean esRestaurante) {
-        this.esRestaurante = esRestaurante;
-    }
+  
 
     /**
      * @return the payment
@@ -233,6 +219,81 @@ public class User implements Serializable {
     public void setPayment(int payment) {
         this.payment = payment;
     }
+
+    /**
+     * @return the receivedMessages
+     */
+    @XmlTransient
+    public List<PrivateMessage> getReceivedMessages() {
+        return receivedMessages;
+    }
+
+    /**
+     * @param receivedMessages the receivedMessages to set
+     */
+    public void setReceivedMessages(List<PrivateMessage> receivedMessages) {
+        this.receivedMessages = receivedMessages;
+    }
+
+    /**
+     * @return the sentMessages
+     */
+    @XmlTransient
+    public List<PrivateMessage> getSentMessages() {
+        return sentMessages;
+    }
+
+    /**
+     * @param sentMessages the sentMessages to set
+     */
+    public void setSentMessages(List<PrivateMessage> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
+
+    /**
+     * @return the isParticular
+     */
+    public boolean getIsParticular() {
+        return isParticular;
+    }
+
+    /**
+     * @param isParticular the isParticular to set
+     */
+    public void setIsParticular(boolean isParticular) {
+        this.isParticular = isParticular;
+    }
+
+    /**
+     * @return the isProffesional
+     */
+    public boolean getIsProffesional() {
+        return isProffesional;
+    }
+
+    /**
+     * @param isProffesional the isProffesional to set
+     */
+    public void setIsProffesional(boolean isProffesional) {
+        this.isProffesional = isProffesional;
+    }
+
+    /**
+     * @return the ordersPlaced
+     */
+    @XmlTransient
+    public List<OnlineOrder> getOrdersPlaced() {
+        return ordersPlaced;
+    }
+
+    /**
+     * @param ordersPlaced the ordersPlaced to set
+     */
+    public void setOrdersPlaced(List<OnlineOrder> ordersPlaced) {
+        this.ordersPlaced = ordersPlaced;
+    }
+
+  
     
     
     

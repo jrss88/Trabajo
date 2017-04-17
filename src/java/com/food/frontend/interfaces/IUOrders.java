@@ -5,6 +5,7 @@
  */
 package com.food.frontend.interfaces;
 
+import com.food.model.OnlineOrder;
 import com.food.model.Product;
 import java.util.List;
 import javax.jws.WebService;
@@ -16,8 +17,10 @@ import javax.ws.rs.core.Response;
  * @author juanramon
  */
 @WebService
-public interface IUProduct {
+public interface IUOrders {
     
-    public Response createProduct(Object requestEntity) throws ClientErrorException;
-    public List<Product> getProducts(Long id);
+    public Response createOrder(Object requestEntity) throws ClientErrorException;
+    public List<OnlineOrder> getOrdersU(Long id);
+    public List<Product> getProductsOfOrderU(Long id);
+    
 }

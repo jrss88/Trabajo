@@ -34,6 +34,8 @@ import javax.ws.rs.core.UriInfo;
  */
 @Stateless
 @Path("products")
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 public class ProductREST {
 
     @PersistenceContext(unitName = "TFGFoodPU")
@@ -90,11 +92,12 @@ public class ProductREST {
     }
 
     @GET
+    @Path("products/user/{id_user}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Product> muestraProductosUser(Long id_user) {
+    public List<Product> muestraProductosUser(@PathParam("id_user")Long id_user) {
 
         
-        List<Product> l = em.createQuery("SELECT p FROM Product p WHERE p.u.id=?1", Product.class)
+        List<Product> l = em.createQuery("SELECT p FROM Product p WHERE p.uPublish.id=?1", Product.class)
                  .setParameter(1,id_user).getResultList();
         return l;
     }

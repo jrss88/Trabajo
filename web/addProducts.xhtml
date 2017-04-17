@@ -68,7 +68,7 @@
                                     </div>
                                     <div class="modal-footer">
                                      
-                                        <input type="hidden" value="#{userCtrl.getUser(1).id}" id="id_user" name="id_user"></input>
+                                        <input type="hidden" value="#{userCtrl.getUserByName(request.getUserPrincipal()).id}" id="id_user" name="id_user"></input>
                                         
                                      
                                         
@@ -84,7 +84,7 @@
                 </div>
 
             </div>
-            <h:dataTable var="Product" value="#{productCtrl.products}" class="table table-bordered centered" border="2">
+            <h:dataTable var="Product" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(request.getUserPrincipal()).id)}" class="table table-bordered centered" border="2">
 
                 <h:column>
 
@@ -103,7 +103,7 @@
                                     <div class="input-field col s12">
                                         <div class="container">
                                             <h:outputText value="Valoración de media de otros compradores:" />
-                                            <p:rating value="#{Product.valoracion}" readonly="true" styleClass="center-rating"/>
+                                            <p:rating value="#{Product.ratingAverage}" readonly="true" styleClass="center-rating"/>
                                         </div>
                                     </div>
                                 </div>

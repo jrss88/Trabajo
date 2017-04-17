@@ -30,40 +30,40 @@
     <h:body>
         <nav>
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo">Logo</a>
+                <a href="#" class="brand-logo">ENH</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
                 <c:choose>
                     <c:when test="${empty request.getRemoteUser()}">
                         <ul class="right hide-on-med-and-down">
 
-                            <a href="faces/perfil.xhtml" class="waves-effect waves-yellow btn-skin">Perfil</a>
+
                             <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
                             <a href="faces/register.xhtml" class="waves-effect waves-yellow btn-skin">Regístrate</a>
                         </ul>
                         <ul class="side-nav" id="mobile-demo">
                             <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
-                            <a data-target="modal1" class="waves-effect waves-yellow modal-trigger">Regístrate</a>
+                            <a href="faces/register.xhtml" class="waves-effect waves-yellow btn-skin">Regístrate</a>
                         </ul>
 
                     </c:when>
                     <c:otherwise>
-                        
-                        
+
+
                         <div class="input-field col s12 right hide-on-med-and-down">
-                            <h:form>
+                      
+                                <h:form>
+                                 
+                                        <p:menuButton value="Bienvenid@ #{request.getUserPrincipal()}" >
+                                            <p:menuitem value="Mi Perfil" url="faces/perfil.xhtml"  icon="ui-icon-disk" styleClass="submenu"/>
+                                            <p:menuitem value="Update" actionListener="#{menuView.update}"  icon="ui-icon-arrowrefresh-1-w"/>
+
+                                            <p:separator />
+                                            <p:menuitem value="Logout" actionListener="#{userCtrl.logout}" ajax="false" icon="ui-icon-close"/>
+                                        </p:menuButton>
+                                    
+                                </h:form>
                             
-                            <p:menuButton value="Bienvenid@ #{request.getUserPrincipal()}">
-                                <p:menuitem value="Save" actionListener="#{menuView.save}"  icon="ui-icon-disk"/>
-                                <p:menuitem value="Update" actionListener="#{menuView.update}"  icon="ui-icon-arrowrefresh-1-w"/>
-                                
-                                <p:separator />
-                                <p:menuitem value="Logout" actionListener="#{userCtrl.logout}" ajax="false" icon="ui-icon-close"/>
-                            </p:menuButton>
-                        </h:form>
-                         
-
-
                         </div>
                     </c:otherwise>
                 </c:choose>

@@ -69,12 +69,15 @@
         </div>
         <!-- Modal Structure Shopping Cart-->
         <div id="modalShoppingCart" class="modal modal-fixed-footer">
+            
+            <input type="hidden" value="#{userCtrl.getUserByName(request.getUserPrincipal()).id}" id="id_user" name="id_user"></input>
+            
             <div class="modal-content">
                 <center>
                     <h4>Tu Carrito de la Compra </h4>
                 </center>
                 <h:form>
-                    <p:dataTable class="table-bordered" reflow="true" value="#{orderCtrl.productOrder}" var="p" >
+                    <p:dataTable class="table-bordered" reflow="true" value="#{orderCtrl.ordersUser}" var="p" >
                         <ul class="collection">
                             <p:column>
 
@@ -109,7 +112,7 @@
                     </p:dataTable>
 
 
-                    <h4>Total: </h4>
+                    <h4>Total: </h4><h:outputText value="#{orderCtrl.order.total}"></h:outputText>
                 </h:form>
             </div>
         </div>

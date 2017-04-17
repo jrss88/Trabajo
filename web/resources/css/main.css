@@ -121,3 +121,7 @@ table{
    
     
 }
+.ui-menu ui-menu-dynamic ui-widget ui-widget-content ui-corner-all ui-helper-clearfix ui-shadow{
+    
+    display:none
+}

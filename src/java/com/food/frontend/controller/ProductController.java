@@ -29,14 +29,13 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean(name = "productCtrl")
 @ViewScoped
-@RequestScoped
 public class ProductController implements Serializable {
 
     @Inject
-    private DAOProduct daoProductREST;
+    private DAOProduct daoProduct;
     @Inject
-    private DAOUser daoUserREST;
-    private Product product=new Product();;
+    private DAOUser daoUser;
+    private Product product=new Product();
 
     @PostConstruct
     public void init() {
@@ -55,18 +54,16 @@ public class ProductController implements Serializable {
         String id_userr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id_user");
         Long id_user = new Long(Long.parseLong(id_userr));
         
-        this.product.setU(daoUserREST.getUser(id_user));
+        this.product.setU(daoUser.getUser(id_user));
         this.product.setImagen("defecto.png");
         this.product.setName(this.product.getName());
         this.product.setPrecio(this.product.getPrecio());
         this.product.setDescripcion(this.product.getDescripcion());
-        this.product.setValoracion(valoracion);
+        this.product.setRatingAverage(valoracion);
         
-        System.out.println(this.product.getDescripcion());
-        System.out.println(this.product.getImagen());
-        System.out.println("-----------------------------------------------------------------------------------------------------------------");
+       
         try{
-        getProductREST().createProduct(this.product);
+        getdaoProduct().createProduct(this.product);
         FacesContext.getCurrentInstance().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "El registro del producto se ha realizado correctamente."));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage("registroInCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "InCorrecto", "El registro del producto no se ha realizado correctamente."));
@@ -75,23 +72,19 @@ public class ProductController implements Serializable {
     }
 
     
-    public List<Product> getProducts() {
-
-        List<Product> list = this.daoProductREST.getProducts();
-        return list;
-    }
+ 
     /**
-     * @return the daoProductREST
+     * @return the daoProduct
      */
-    public DAOProduct getProductREST() {
-        return daoProductREST;
+    public DAOProduct getdaoProduct() {
+        return daoProduct;
     }
 
     /**
-     * @param productREST the daoProductREST to set
+     * @param productREST the daoProduct to set
      */
-    public void setProductREST(DAOProduct productREST) {
-        this.daoProductREST = productREST;
+    public void setdaoProduct(DAOProduct daoProduct) {
+        this.daoProduct = daoProduct;
     }
 
     /**
@@ -108,10 +101,16 @@ public class ProductController implements Serializable {
         this.product = product;
     }
 
-//    public List<Product> ListenerProductosUser(AjaxBehaviorEvent e) {
-//
-//        Long id_user = (Long) e.getComponent().getAttributes().get("id_user");
-//        List<Product> l=daoProductREST.muestraProductosUser(id_user);
-//        return l;
-//    }
+    public List<Product> getProductsUser(Long id_user) {
+
+        
+        List<Product> l=daoProduct.getProducts(id_user);
+        return l;
+    }
+    public List<Product> ListenerProductosUser(AjaxBehaviorEvent e) {
+
+        Long id_user = (Long) e.getComponent().getAttributes().get("id_user");
+        List<Product> l=daoProduct.getProducts(id_user);
+        return l;
+    }
 }
