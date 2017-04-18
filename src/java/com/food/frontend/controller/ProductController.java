@@ -21,7 +21,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.http.Part;
 import org.primefaces.model.UploadedFile;
-
+import utils.FileUpload;
 
 /**
  *
@@ -35,44 +35,60 @@ public class ProductController implements Serializable {
     private DAOProduct daoProduct;
     @Inject
     private DAOUser daoUser;
-    private Product product=new Product();
+    private Product product = new Product();
 
     @PostConstruct
     public void init() {
-      
+
     }
 
     public ProductController() {
 
     }
 
-    public void createProduct(UploadedFile file)  {
+    public void createProduct(Part file) throws IOException {
+
+        String img = file.getName();
+        FileUpload fichero = new FileUpload();
 
         int valoracion = 3;
-        
-       
         String id_userr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id_user");
         Long id_user = new Long(Long.parseLong(id_userr));
-        
+
         this.product.setU(daoUser.getUser(id_user));
-        this.product.setImagen("defecto.png");
+
         this.product.setName(this.product.getName());
         this.product.setPrecio(this.product.getPrecio());
         this.product.setDescripcion(this.product.getDescripcion());
         this.product.setRatingAverage(valoracion);
-        
-       
-        try{
-        getdaoProduct().createProduct(this.product);
-        FacesContext.getCurrentInstance().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "El registro del producto se ha realizado correctamente."));
-        } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage("registroInCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "InCorrecto", "El registro del producto no se ha realizado correctamente."));
+
+        if (fichero.upload(file)) {
+
+            this.product.setImagen(fichero.getNombre());
+
+            try {
+                getdaoProduct().createProduct(this.product);
+                FacesContext.getCurrentInstance().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "El registro del producto se ha realizado correctamente."));
+            } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage("registroInCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "InCorrecto", "El registro del producto no se ha realizado correctamente."));
+
+            }
 
         }
+        if (!fichero.upload(file)) {
+            this.product.setImagen("defecto.png");
+            try {
+                getdaoProduct().createProduct(this.product);
+                FacesContext.getCurrentInstance().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "El registro del producto se ha realizado correctamente."));
+            } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage("registroInCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "InCorrecto", "El registro del producto no se ha realizado correctamente."));
+
+            }
+
+        }
+
     }
 
-    
- 
     /**
      * @return the daoProduct
      */
@@ -103,14 +119,20 @@ public class ProductController implements Serializable {
 
     public List<Product> getProductsUser(Long id_user) {
 
-        
-        List<Product> l=daoProduct.getProducts(id_user);
+        List<Product> l = daoProduct.getProducts(id_user);
         return l;
     }
+    
+    public void deleteProduct(Long id){
+    
+        System.out.println(id);
+        daoProduct.remove(id);
+    }
+
     public List<Product> ListenerProductosUser(AjaxBehaviorEvent e) {
 
         Long id_user = (Long) e.getComponent().getAttributes().get("id_user");
-        List<Product> l=daoProduct.getProducts(id_user);
+        List<Product> l = daoProduct.getProducts(id_user);
         return l;
     }
 }

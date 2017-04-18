@@ -8,6 +8,7 @@
         <param-name>BaseUri</param-name>
         <param-value>http://localhost:8080/TFGFood/servicesREST</param-value>
     </context-param>
+    
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

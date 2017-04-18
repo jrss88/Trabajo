@@ -70,7 +70,7 @@
         <!-- Modal Structure Shopping Cart-->
         <div id="modalShoppingCart" class="modal modal-fixed-footer">
             
-            <input type="hidden" value="#{userCtrl.getUserByName(request.getUserPrincipal()).id}" id="id_user" name="id_user"></input>
+
             
             <div class="modal-content">
                 <center>
@@ -85,21 +85,7 @@
                                     <img class="activator" src="resources/images/croquetas.jpg" width="100%" height="100%"></img>
                                 </div>
                             </p:column>
-                            <p:column headerText="Producto">
-                                <h:outputText value="#{p.name}">
-                                </h:outputText>
-                            </p:column>
-
-                            <p:column headerText="Precio">
-                                <h:outputText value="#{p.precio}"></h:outputText>
-                            </p:column>
-
-                            <p:column headerText="Valoración">
-                                <p:rating value="#{p.valoracion}" class="estrellas" styleClass="center-rating"></p:rating>
-                            </p:column>
-                            <p:column headerText="Del ofertante: ">
-                                <h:outputText value="#{userCtrl.findSeller(p.id_user)}" class="estrellas" styleClass="center-rating"></h:outputText>
-                            </p:column>
+                          
                             <p:column headerText="Eliminar ">
 
                                 <p:commandButton class="btn-skin" value="Eliminar" action="#{orderCtrl.deleteProduct(p)}"  >

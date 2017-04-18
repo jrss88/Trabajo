@@ -11,11 +11,11 @@ import javax.faces.context.FacesContext;
  
 import org.primefaces.model.UploadedFile;
  
-@ManagedBean
-
+@ManagedBean(name="fileUploadView")
 public class FileUploadView {
      
     private UploadedFile file;
+    String filePath="resources/images";
  
     public UploadedFile getFile() {
         return file;
@@ -26,9 +26,21 @@ public class FileUploadView {
     }
      
     public void upload() {
+        
         if(file != null) {
-            FacesMessage message = new FacesMessage("Correcto", file.getFileName() + " ha sido subida");
+            FacesMessage message = new FacesMessage("Correcto", filePath+file.getFileName() + " ha sido subida");
             FacesContext.getCurrentInstance().addMessage(null, message);
+            
+            
         }
+        
+       
+//            if (null!=uploadedPhoto) {
+//                bytes = uploadedPhoto.getContents();
+//                String filename = FilenameUtils.getName(uploadedPhoto.getFileName());
+//                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath+filename)));
+//                stream.write(bytes);
+//                stream.close();
+//            }
     }
 }

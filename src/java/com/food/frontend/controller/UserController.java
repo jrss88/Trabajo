@@ -106,6 +106,7 @@ public class UserController implements Serializable {
 
         try {
             request.logout();
+            result = "/index?faces-redirect=true";
         } catch (ServletException e) {
             log.log(Level.SEVERE, "Failed to logout user!", e);
             result = "/errorlogin?faces-redirect=true";

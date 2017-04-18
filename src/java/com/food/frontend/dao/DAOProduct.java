@@ -57,11 +57,17 @@ public class DAOProduct implements IUProduct{
     public List<Product> getProducts(Long id) {
         List<Product> products
                 = webTarget
-                .path("products/user/{id}").resolveTemplate("id", id)
+                .path("user/{id}").resolveTemplate("id", id)
                 .request(MediaType.APPLICATION_JSON)
                 .get(new GenericType<List<Product>>() {
                 });
         return products;
+    }
+    
+    public void remove(Long id){
+        webTarget.path("{id}").resolveTemplate("id", id)
+                .request(MediaType.APPLICATION_JSON)
+                .delete();
     }
 
     public void close() {

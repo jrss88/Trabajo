@@ -79,7 +79,8 @@ public class ProductREST {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        getEntityManager().remove(id);
+      
+        getEntityManager().remove(getEntityManager().merge(find(id)));
     }
 
     @GET
@@ -92,7 +93,7 @@ public class ProductREST {
     }
 
     @GET
-    @Path("products/user/{id_user}")
+    @Path("user/{id_user}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Product> muestraProductosUser(@PathParam("id_user")Long id_user) {
 

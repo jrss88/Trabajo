@@ -13,88 +13,91 @@
 
             <div class="row">
                 <div class="col s12">
-                    
-                        <h:form  id="form" >
-                            <div class="modal-content">
-                                <center>
-                                    <h4>Añade productos.</h4>
-                                </center>
-                                <div class="col s9">
-                                    <div class="card-panel teal">
-                                        <span class="white-text">Pulse sobre el botón para añadir productos a su perfil 
-                                        </span>
-                                        <div data-target="modalAddProduct" class="modal-trigger btn-floating btn-large waves-effect waves-light blue-grey darken-1">Añadir</div>
-                                    </div>
+
+                    <h:form  id="form" enctype="multipart/form-data">
+                        <div class="modal-content">
+                            <center>
+                                <h4>Añade productos.</h4>
+                            </center>
+                            <div class="col s9">
+                                <div class="card-panel teal">
+                                    <span class="white-text">Pulse sobre el botón para añadir productos a su perfil 
+                                    </span>
+                                    <div data-target="modalAddProduct" class="modal-trigger btn-floating btn-large waves-effect waves-light blue-grey darken-1">Añadir</div>
                                 </div>
-
                             </div>
-                         
-                            <div id="modalAddProduct" class="modal modal-fixed-footer">
 
-                                <h:form class="well " id="formRegist" enctype="multipart/form-data">
-                                    <div class="modal-content">
-                                        <center>
-                                            <h4>Añade el producto </h4>
-                                        </center>
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <i class="material-icons prefix">account_circle</i>
-                                                <h:inputText id="name"  class="validate" value="#{productCtrl.product.name}"/>
-                                                <label for="name">Nombre del Producto</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <i class="material-icons prefix">account_circle</i>
-                                                <h:inputText id="precio"  class="validate" value="#{productCtrl.product.precio}"/>
-                                                <label for="precio">Precio</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <i class="material-icons prefix">subtitles</i>
-                                                <h:inputTextarea id="descripcion"  class="validate" value="#{productCtrl.product.descripcion}" />
-                                                <label for="description">descripcion</label>
-                                            </div>
-                                        </div>
-                                        <h:form enctype="multipart/form-data">
-                                            <p:growl id="messages" showDetail="true" />
+                        </div>
 
-                                            <p:fileUpload value="" mode="simple" skinSimple="false"/>
-                                            <p:commandButton value="Seleccionar imagen" ajax="false" actionListener="#{fileUploadView.upload}" disabled="true" />
-                                        </h:form>
+                        <div id="modalAddProduct" class="modal modal-fixed-footer">
 
-                                        <h:outputText value="#{fileUploadView.file.fileName}"></h:outputText>
+                            <h:form class="well " id="formRegist" enctype="multipart/form-data">
+                                <div class="modal-content">
+                                    <center>
+                                        <h4>Añade el producto </h4>
+                                    </center>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            <h:inputText id="name"  class="validate" value="#{productCtrl.product.name}"/>
+                                            <label for="name">Nombre del Producto</label>
+                                        </div>
                                     </div>
-                                    <div class="modal-footer">
-                                     
-                                        <input type="hidden" value="#{userCtrl.getUserByName(request.getUserPrincipal()).id}" id="id_user" name="id_user"></input>
-                                        
-                                     
-                                        
-                                        <h:commandButton id="enviar"  class="btn btn-skin btn-scroll"  value="Enviar" action="#{productCtrl.createProduct(fileUploadView.getFile())}"/>
-                                       
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            <h:inputText id="precio"  class="validate" value="#{productCtrl.product.precio}"/>
+                                            <label for="precio">Precio</label>
+                                        </div>
                                     </div>
-                                </h:form>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">subtitles</i>
+                                            <h:inputTextarea id="descripcion"  class="validate" value="#{productCtrl.product.descripcion}" />
+                                            <label for="description">descripcion</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">image</i>
 
-                            </div>
-                        </h:form>
+                                            <h:inputFile class="form-control" id="file" value="#{fileUpload.fichero}" />
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="modal-footer">
+
+                                    <input type="hidden" value="#{userCtrl.getUserByName(request.getUserPrincipal()).id}" id="id_user" name="id_user"></input>
+
+
+
+                                    <h:commandButton id="enviar"  class="btn btn-skin btn-scroll"  value="Enviar" action="#{productCtrl.createProduct(fileUpload.fichero)}"/>
+
+                                </div>
+                            </h:form>
+
+                        </div>
+                    </h:form>
 
 
                 </div>
 
             </div>
-            <h:dataTable var="Product" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(request.getUserPrincipal()).id)}" class="table table-bordered centered" border="2">
+            <h:form>
+                <h:dataTable var="Product" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(request.getUserPrincipal()).id)}" class="table table-bordered centered" border="2">
 
-                <h:column>
+                    <h:column>
 
-                    <div class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                            <img class="activator" src="resources/images/croquetas.jpg"></img>
-                        </div>
-                        <div class="card-content">
-                            <h:form>
-                                <span class="card-title activator grey-text text-darken-4"><h:outputText value="#{Product.name}" ></h:outputText><i class="material-icons right">more_vert</i></span>
+                        <div class="card">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <img class="activator" src="resources/images/#{Product.imagen}"></img>
+                            </div>
+                            <div class="card-content">
+
+                                <h:outputText value="#{Product.name}" ></h:outputText>
                                 <div class="row">
                                     <h:outputText value="Precio venta: " ></h:outputText>
                                     <h:outputText value=" #{Product.precio} euros" ></h:outputText>
@@ -107,17 +110,21 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <h:commandButton id="anadir"  class="btn btn-skin btn-scroll"  value="Eliminar del perfil" action="#{productCtrl.deleteProduct(Product.id)}" onclick="Materialize.toast('Producto eliminado del perfil!', 4000, '', function () {})"/>
+                                </div>
 
-                            </h:form>
+
+
+                            </div>
+
                         </div>
+                    </h:column>
 
-                    </div>
-                </h:column>
-
-            </h:dataTable>	
-                 
+                </h:dataTable>	
+            </h:form>
             <h:body>
-                
+
             </h:body>
         </div>
         <ul class="pagination center-align">

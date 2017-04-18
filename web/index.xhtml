@@ -56,7 +56,7 @@
                                  
                                         <p:menuButton value="Bienvenid@ #{request.getUserPrincipal()}" >
                                             <p:menuitem value="Mi Perfil" url="faces/perfil.xhtml"  icon="ui-icon-disk" styleClass="submenu"/>
-                                            <p:menuitem value="Update" actionListener="#{menuView.update}"  icon="ui-icon-arrowrefresh-1-w"/>
+                                            <p:menuitem value="Productos ofrecidos" url="faces/addProducts.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
 
                                             <p:separator />
                                             <p:menuitem value="Logout" actionListener="#{userCtrl.logout}" ajax="false" icon="ui-icon-close"/>
@@ -101,7 +101,7 @@
                         <h5 class="header col s12 light">No tienes tiempo de cocinar o simplemente te apetece probar una receta diferente?<br/>Esta es tu plataforma</h5>
                     </div>
                     <div class="row center">
-                        <a href="faces/principal.xhtml" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Buscar Comida</a>
+                        <a href="faces/listUsers.xhtml" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Buscar Comida</a>
                     </div>
                     <br/><br/>
 
