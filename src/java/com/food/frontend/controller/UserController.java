@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 @ManagedBean(name = "userCtrl")
 @ViewScoped
-@RequestScoped
 public class UserController implements Serializable {
 
     private static Logger log = Logger.getLogger(User.class.getName());
@@ -37,7 +36,6 @@ public class UserController implements Serializable {
     private DAOUser daoUser;
     private User user = new User();
 
-    private FacesContext facesContext = FacesContext.getCurrentInstance();
 
     
     private Boolean showtable;
@@ -84,20 +82,6 @@ public class UserController implements Serializable {
 
  
 
-    /**
-     * @return the facesContext
-     */
-    public FacesContext getFacesContext() {
-        return facesContext;
-    }
-
-    /**
-     * @param facesContext the facesContext to set
-     */
-    public void setFacesContext(FacesContext facesContext) {
-        this.facesContext = facesContext;
-    }
-
     public String logout() {
         String result = "/index?faces-redirect=true";
 
@@ -138,17 +122,17 @@ public class UserController implements Serializable {
         if (longitudS != null) {
             longitud = Double.parseDouble(longitudS);
         }
-        this.getUser().setAddress(address);
-        this.getUser().setLatitud(latitud);
-        this.getUser().setLongitud(longitud);
+        this.user.setAddress(address);
+        this.user.setLatitud(latitud);
+        this.user.setLongitud(longitud);
 
         try {
 
-            getDaoUser().createUser(getUser());
-            getFacesContext().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo usuario añadido correctamente", getUser().toString()));
+            daoUser.createUser(getUser());
+            FacesContext.getCurrentInstance().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se ha registrado correctamente correctamente."));
 
         } catch (Exception ex) {
-            getFacesContext().addMessage("registroIncorrecto", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no añadido correctamente", ex.getMessage()));
+            FacesContext.getCurrentInstance().addMessage("registroIncorrecto", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no añadido correctamente", ex.getMessage()));
 
         }
 
@@ -159,10 +143,10 @@ public class UserController implements Serializable {
         try {
 
             getDaoUser().editUser(this.getUser(), this.getUser().getId());
-            getFacesContext().addMessage("edicionCorrecta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario editado correctamente", getUser().toString()));
+            FacesContext.getCurrentInstance().addMessage("edicionCorrecta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario editado correctamente", getUser().toString()));
 
         } catch (Exception ex) {
-            getFacesContext().addMessage("edicionIncorrecta", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no editado correctamente", ex.getMessage()));
+            FacesContext.getCurrentInstance().addMessage("edicionIncorrecta", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no editado correctamente", ex.getMessage()));
 
         }
 

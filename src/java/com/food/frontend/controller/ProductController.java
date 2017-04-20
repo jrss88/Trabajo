@@ -125,7 +125,7 @@ public class ProductController implements Serializable {
     
     public void deleteProduct(Long id){
     
-        System.out.println(id);
+       
         daoProduct.remove(id);
     }
 

@@ -6,8 +6,10 @@
 package com.food.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,19 +37,25 @@ public class OnlineOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne
-    private User u;
     
+    @Column
     private double total;
-    
+    @Column
     private int state;//0 en curso, 1 enviado, 2 finalizado
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @OneToMany(fetch=FetchType.EAGER)
+    @OneToMany(fetch=FetchType.LAZY)
     private List<Product> products;
     
+    @ManyToOne
+    private User u;
+    
+    public OnlineOrder(){
+    
+     
+    }
     public Long getId() {
         return id;
     }

@@ -15,20 +15,20 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import org.primefaces.model.UploadedFile;
+import javax.inject.Named;
+
 
 /**
  *
  * @author juanramon
  */
-@ManagedBean(name = "orderCtrl")
+@Named("orderCtrl")
 @ViewScoped
-@RequestScoped
-public class OnlineOrderController implements Serializable {
+public class OnlineOrderController implements Serializable{
 
     @Inject
     private DAOOrder daoOrder;
@@ -37,11 +37,13 @@ public class OnlineOrderController implements Serializable {
 
     private OnlineOrder order;
 
-    private FacesContext facesContext = FacesContext.getCurrentInstance();
+   
 
     @PostConstruct
     public void init() {
-        order = new OnlineOrder();
+
+       order=new OnlineOrder();
+
     }
 
     public OnlineOrderController() {
@@ -49,20 +51,25 @@ public class OnlineOrderController implements Serializable {
 
     public void createOrder(double total) {
 
+      
         String id_userr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id_user");
         Long id_user = new Long(Long.parseLong(id_userr));
-
-        this.order.setU(daoUser.getUser(id_user));
+        
+//        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+//        String sessionId = session.getId();
+//        Long id_user= new Long(Long.parseLong(sessionId));
+        
+     
+        order.setTotal(total);
+        order.setU(daoUser.getUser(id_user));
         Date date = new Date();
 
-        this.order.setDate(date);
+        order.setDate(date);
 
-        this.order.setState(this.order.getState());
-
-        this.order.setTotal(total);
+        order.setState(order.getState());
 
         try {
-            getDaoOrder().createOrder(this.order);
+            daoOrder.createOrder(order);
             FacesContext.getCurrentInstance().addMessage("InitOrder", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Has comenzado un pedido."));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage("DontInitOrder", new FacesMessage(FacesMessage.SEVERITY_INFO, "InCorrecto", "No has comenzado el pedido."));
@@ -72,7 +79,7 @@ public class OnlineOrderController implements Serializable {
 
     public void addProduct(Product p) {
 
-        this.order.getProducts().add(p);
+        order.getProducts().add(p);
 
         System.out.println("--------------------\n");
         createOrder(p.getPrecio());
@@ -130,18 +137,5 @@ public class OnlineOrderController implements Serializable {
         this.order = order;
     }
 
-    /**
-     * @return the facesContext
-     */
-    public FacesContext getFacesContext() {
-        return facesContext;
-    }
-
-    /**
-     * @param facesContext the facesContext to set
-     */
-    public void setFacesContext(FacesContext facesContext) {
-        this.facesContext = facesContext;
-    }
 
 }
