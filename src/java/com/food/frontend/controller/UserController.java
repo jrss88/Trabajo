@@ -15,9 +15,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,17 +27,17 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author juanramon
  */
-@ManagedBean(name = "userCtrl")
+@Named("userCtrl")
 @ViewScoped
 public class UserController implements Serializable {
 
     private static Logger log = Logger.getLogger(User.class.getName());
 
-    @Inject
+    @Inject 
     private DAOUser daoUser;
     private User user = new User();
 
-
+    private String receiver;
     
     private Boolean showtable;
     
@@ -44,6 +45,7 @@ public class UserController implements Serializable {
     @PostConstruct
     public void init() {
 
+        
    
     }
 
@@ -191,6 +193,20 @@ public class UserController implements Serializable {
     public String enabletable() {
         showtable = true;
         return "";
+    }
+
+    /**
+     * @return the receiver
+     */
+    public String getReceiver() {
+        return receiver;
+    }
+
+    /**
+     * @param receiver the receiver to set
+     */
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
 }

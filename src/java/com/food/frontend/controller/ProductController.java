@@ -15,10 +15,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.Part;
 import org.primefaces.model.UploadedFile;
 import utils.FileUpload;
@@ -27,7 +28,7 @@ import utils.FileUpload;
  *
  * @author juanramon
  */
-@ManagedBean(name = "productCtrl")
+@Named("productCtrl")
 @ViewScoped
 public class ProductController implements Serializable {
 

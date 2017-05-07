@@ -5,8 +5,10 @@
  */
 package com.food.frontend.dao;
 
+import com.food.frontend.interfaces.IU;
 import com.food.frontend.interfaces.IUProduct;
 import com.food.model.Product;
+import java.io.Serializable;
 
 import java.util.List;
 import javax.ejb.Stateless;
@@ -36,7 +38,8 @@ import javax.ws.rs.core.Response;
  */
 @Dependent
 @Path("products")
-public class DAOProduct implements IUProduct{
+@IU
+public class DAOProduct implements Serializable,IUProduct{
 
     private WebTarget webTarget;
     private Client client;

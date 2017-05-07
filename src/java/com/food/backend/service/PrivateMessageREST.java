@@ -5,11 +5,8 @@
  */
 package com.food.backend.service;
 
-import com.food.model.Product;
-import com.food.model.User;
+import com.food.model.PrivateMessage;
 import java.net.URI;
-
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -33,29 +30,28 @@ import javax.ws.rs.core.UriInfo;
  * @author juanramon
  */
 @Stateless
-@Path("products")
+@Path("privateMessages")
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-public class ProductREST {
-
+public class PrivateMessageREST {
+    
+    
     @PersistenceContext(unitName = "TFGFoodPU")
     private EntityManager em;
     @Context
     private UriInfo uriInfo;
-
-    public ProductREST() {
-
-    }
-
+    
+    public PrivateMessageREST(){}
+    
     @GET
     public JsonObject ShowMessageMain() {
 
-        return Json.createObjectBuilder().add("EAT NEAR HERE", "Web Service RestFuLL Products").build();
+        return Json.createObjectBuilder().add("EAT NEAR HERE", "Web Service RestFuLL PrivateMessages").build();
     }
-
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(Product entity) {
+    public Response create(PrivateMessage entity) {
         getEntityManager().persist(entity);
         URI uri = uriInfo.getAbsolutePathBuilder().path(entity.getId().toString()).build();
         return Response.created(uri).build();
@@ -64,15 +60,15 @@ public class ProductREST {
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void edit(@PathParam("id") Long id, Product entity) {
+    public void edit(@PathParam("id") Long id, PrivateMessage entity) {
         getEntityManager().merge(entity);
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Product find(@PathParam("id") Long id) {
-        Product p = getEntityManager().find(Product.class, id);
+    public PrivateMessage find(@PathParam("id") Long id) {
+        PrivateMessage p = getEntityManager().find(PrivateMessage.class, id);
         return p;
     }
 
@@ -83,28 +79,9 @@ public class ProductREST {
         getEntityManager().remove(getEntityManager().merge(find(id)));
     }
 
-    @GET
-    @Path("all")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Product> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Product.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-
-    @GET
-    @Path("user/{id_user}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Product> showProductsUser(@PathParam("id_user")Long id_user) {
-
-        
-        List<Product> l = em.createQuery("SELECT p FROM Product p WHERE p.uPublish.id=?1", Product.class)
-                 .setParameter(1,id_user).getResultList();
-        return l;
-    }
-    
     protected EntityManager getEntityManager() {
         return em;
     }
 
+    
 }

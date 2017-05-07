@@ -7,6 +7,7 @@ package com.food.frontend.controller;
 
 import com.food.frontend.dao.DAOUser;
 import com.food.model.User;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -27,13 +28,13 @@ import org.primefaces.model.map.Marker;
  */
 @ManagedBean(name = "mapCtrl")
 @ViewScoped
-public class GMap {
+public class GMap implements Serializable{
     
     @Inject
     private DAOUser daoUser;
     
     private final MapModel advancedModel = new DefaultMapModel();
-    private String centerGeoMap = "41.850033, -87.6500523";
+    private String centerGeoMap = "37.1773363,-3.5985570999999936";
     private Boolean showtable;
     private float ratio;
     private Marker marker;
@@ -152,7 +153,7 @@ public class GMap {
 
     public void onGeocode(GeocodeEvent event) {
         List<GeocodeResult> results = event.getResults();
-
+        
         if (results != null && !results.isEmpty()) {
             LatLng center = results.get(0).getLatLng();
             setCenterGeoMap(center.getLat() + "," + center.getLng());

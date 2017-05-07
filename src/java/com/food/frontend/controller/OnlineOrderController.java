@@ -7,53 +7,58 @@ package com.food.frontend.controller;
 
 import com.food.frontend.dao.DAOOrder;
 import com.food.frontend.dao.DAOUser;
+import com.food.frontend.interfaces.IU;
 import com.food.model.OnlineOrder;
 import com.food.model.Product;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 
+
 /**
  *
  * @author juanramon
  */
-@Named("orderCtrl")
+@Named(value="orderCtrl")
 @ViewScoped
 public class OnlineOrderController implements Serializable{
 
-    @Inject
+    private static final long serialVersionUID = 1L;
+   
+    @Inject 
     private DAOOrder daoOrder;
     @Inject
     private DAOUser daoUser;
 
-    private OnlineOrder order;
+    private OnlineOrder order=new OnlineOrder();
 
    
 
     @PostConstruct
     public void init() {
 
-       order=new OnlineOrder();
+      
 
     }
 
     public OnlineOrderController() {
+   
     }
 
     public void createOrder(double total) {
 
       
-        String id_userr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id_user");
-        Long id_user = new Long(Long.parseLong(id_userr));
+        //String id_userr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id_user");
+        Long id_user = new Long(Long.parseLong("1"));
         
 //        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 //        String sessionId = session.getId();
@@ -63,9 +68,7 @@ public class OnlineOrderController implements Serializable{
         order.setTotal(total);
         order.setU(daoUser.getUser(id_user));
         Date date = new Date();
-
         order.setDate(date);
-
         order.setState(order.getState());
 
         try {
@@ -80,9 +83,7 @@ public class OnlineOrderController implements Serializable{
     public void addProduct(Product p) {
 
         order.getProducts().add(p);
-
-        System.out.println("--------------------\n");
-        createOrder(p.getPrecio());
+        createOrder(3.3);
 
     }
 //    public List<Product> getProductsOrderUser() {

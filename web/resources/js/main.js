@@ -73,6 +73,7 @@ $(document).ready(function () {
         }
     }
 
+
 // Bias the autocomplete object to the user's geographical location,
 // as supplied by the browser's 'navigator.geolocation' object.
     function geolocate() {
@@ -93,20 +94,37 @@ $(document).ready(function () {
     //activadores JavaScript para MaterializeCss
     $(".modal-trigger").leanModal({
     });
+  
     $(".button-collapse").sideNav();
     $('select').material_select();
     $(".tooltipped").tooltip({delay: 50});
+    $('.datepicker').pickadate({
+        selectMonths: false, // Creates a dropdown to control month
+        selectYears: 2, // Creates a dropdown of 15 years to control year
+        format: 'dd/mm/yyyy'
 
 
-function geocode() {
-    PF('gmap').geocode(document.getElementById('#address').value);
-}
+    });
+    $(".datepicker").open;
+
+    
 
 //jquery valor valoración para el Rating
-var estrellas
-function verValoracion(event) {
+    var estrellas
+    function verValoracion(event) {
 
-    estrellas = $(this).find('.estrellas').html();
-    $('.mostrarestrellas').html(estrellas);
-}
+        estrellas = $(this).find('.estrellas').html();
+        $('.mostrarestrellas').html(estrellas);
+    }
 });
+
+function dataMessage(event) {
+
+        console.log("asdfasdfasdfasdfasdfsadf sad fsad fasdf asdf asdfasdf asdf asd f");
+        console.log($('.receiver').val());
+        
+        $(".emaildest").val(
+                $('.receiver').val()
+                );
+
+    }

@@ -11,7 +11,7 @@
 
         <div class="row">
             <div class="container-fluid">
-                <h1 class="center-block">Encuentra comida de verdaderos cociner@s!!!!</h1>
+                <h1 class="center-block">¡¡¡¡Encuentra comida de verdaderos cociner@s!!!!</h1>
             </div>
         </div>
         <div class="row">
@@ -20,6 +20,7 @@
                     <span class="white-text">Busca en tus cercanías o moviéndote por el mapa.<br></br>
                         Los puntos <FONT COLOR="yellow">amarillos</FONT> son restaurantes.<br></br>
                         Los puntos <FONT COLOR="blue">azules</FONT> son particulares.<br></br>
+                        Los puntos <FONT COLOR="red">rojos</FONT> son  ciudades buscadas .<br></br>
                     </span>
                 </div>
             </div>
@@ -33,13 +34,13 @@
                         <f:facet name="header">
                             <h:outputText value="Nombre"></h:outputText>
                         </f:facet>
-                        <h:outputText value="#{User.name}" ></h:outputText>
+                        <h:inputText  value="#{User.name}"  class="receiver" style="text-align: center"></h:inputText>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Email "></h:outputText>
                         </f:facet>
-                        <h:outputText value="#{User.email}" ></h:outputText>
+                        <h:outputText value="#{User.email}"  ></h:outputText>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
@@ -62,8 +63,9 @@
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Contactar"></h:outputText>
+
                         </f:facet>
-                        <a data-target="writeMessage" class="btn-floating blue-grey darken-1"><i class="material-icons">format_quote</i></a>
+                        <div  data-target="modalWriteMessage" class="waves-effect modal-trigger" onclick="dataMessage(event);"><i class="material-icons">textsms</i></div>
 
                     </h:column>
                     <h:column>
@@ -74,6 +76,27 @@
                     </h:column>
 
                 </h:dataTable> 
+
+
+            </h:form>
+            <!-- Modal Structure Write Message-->
+            <h:form>
+                <div id="modalWriteMessage" class="modal modal-fixed-footer">
+                    <div class="modal-content">
+                        <center>
+                            <h4>Escribe un mensaje </h4>
+                        </center>
+                        <h:outputLabel  for="emaildestinatario" value="Para :" styleClass="requiredLb1"/>
+                        <h:inputText  id="emaildestinatario" class="form-control emaildest" value="#{userCtrl.receiver}"></h:inputText>
+
+                    </div>
+                </div>
+            </h:form>
+
+
+            <h:form>
+
+                <h:commandButton id="anadir"  class="btn btn-skin btn-scroll"  value="Añadir al carrito" action="#{orderCtrl.createOrder(3.35)}" onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})"/>
             </h:form>
         </div>
         <!-- Modal Structure Shopping Cart-->
@@ -82,23 +105,27 @@
                 <center>
                     <h4>Escribe el mensaje  </h4>
                 </center>
-                <h:form>
 
-
-                </h:form>
             </div>
         </div>
-        <h:form id="mapa">  
+        <script type="text/javascript">
+            function geocode() {
+                PF('gmap').geocode(document.getElementById('address1').value);
+            }
+        </script>
+
+        <h:form id="mapa" prependId="false">  
             <h:panelGrid columns="3"  cellpadding="5">
-                <p:outputLabel for="address" value="Dirección:" />
-                <p:inputText id="address" />
-                <p:commandButton value="Buscar en las cercanias" icon="ui-icon-search" onclick="geocode()" type="button" />
+                <p:outputLabel for="address1" value="Ciudad o pueblo:" />
+                <p:inputText id="address1" class="address1" />
+                <p:commandButton value="Busca en el mapa" icon="ui-icon-search" onclick="geocode()" />
             </h:panelGrid>
             <!--<div class="iframe-rwd">-->
 
-            <p:gmap id="gmap" center="37.1773363,-3.5985570999999936" zoom="13" type="ROADMAP" model="#{mapCtrl.advancedModel}" style="width:100%;height:800px">
-
+            <p:gmap id="gmap" widgetVar="gmap" center="#{mapCtrl.centerGeoMap}" zoom="13" type="ROADMAP" model="#{mapCtrl.advancedModel}" style="width:100%;height:800px">
+                <p:ajax event="geocode" listener="#{mapCtrl.onGeocode}" update="@this" />
                 <p:ajax event="overlaySelect" listener="#{mapCtrl.onMarkerSelect}" />
+
 
                 <p:gmapInfoWindow id="infoWindow">
 
@@ -122,10 +149,10 @@
                             <p:rating value="5" class="estrellas" styleClass="center-rating"></p:rating>
                         </div>
 
-                        <div class="btn" onclick="Materialize.toast('Escribe el mensaje para ese usuario', 4000, '', function () {
 
-                                })">Contactar</div>
-                        <p:commandButton class="btn" value="Ver que ofrece" action="#{userCtrl.enabletable}" update="panel" >
+                        <p:commandButton class="btn-large" value="Ver que ofrece" action="#{userCtrl.enabletable}" update="panel" onclick="Materialize.toast('Bajo el mapa verás lo que ofrece', 4000, '', function () {
+
+                                })">
                         </p:commandButton>
 
                     </p:outputPanel>
@@ -142,51 +169,39 @@
 
 
                 <h:form>
-                    <h:dataTable  var="p" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(mapCtrl.marker.title).id)}" class="table table-bordered centered" border="2" rendered="#{userCtrl.showtable}"  >
-
-
+                    <p:dataTable  var="p" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(mapCtrl.marker.title).id)}" class="table table-bordered centered"  rendered="#{userCtrl.showtable}"  >
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="Imagen"></h:outputText>
-
+                                <h:outputText value="Foto"></h:outputText>
                             </f:facet>
                             <div class="card-image waves-effect waves-block waves-light">
                                 <img class="activator" src="resources/images/#{p.imagen}" width="100%" height="100%"></img>
                             </div>
                         </p:column>
-                        <h:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Nombre"></h:outputText>
                             </f:facet>
                             <h:outputText value="#{p.name}" ></h:outputText>
-                        </h:column>
-                        <h:column>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Precio "></h:outputText>
                             </f:facet>
                             <h:outputText value="#{p.precio}" ></h:outputText>
-                        </h:column>
+                        </p:column>
 
-                        <h:column>
+                        <p:column>
                             <h:form>
-                                <input type="hidden" value="#{userCtrl.getUserByName(request.getUserPrincipal()).id}" id="id_user" name="id_user"></input>
-                                <h:inputText value="#{orderCtrl.order.products.add(p)}" style="display:none"></h:inputText>
-                                <h:commandButton   class="btn btn-skin btn-scroll"  value="Añadir al carrito" action="#{orderCtrl.createOrder(p.precio)}" onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})"/>
+                                <h:commandButton   class="btn btn-skin btn-scroll"  value="Añadir al carrito" action="#{orderCtrl.addProduct(p)}" onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})"/>
                             </h:form>
-                        </h:column>
-
-
-                    </h:dataTable>
+                        </p:column>
+                    </p:dataTable>
                 </h:form>
             </p:outputPanel>
         </h:form>
-        <h:form>
-            <input type="hidden" value="#{userCtrl.getUserByName(request.getUserPrincipal()).id}" id="id_user" name="id_user"></input>
 
 
-            <h:inputText id="name"   value="#{orderCtrl.order.total}"/>
-            <h:commandButton id="anadir"  class="btn btn-skin btn-scroll"  value="Añadir al carrito" action="#{orderCtrl.createOrder(orderCtrl.order.total)}" onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})"/>
-        </h:form>
     </ui:define>
 
 

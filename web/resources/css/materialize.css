@@ -7450,8 +7450,8 @@ input[type=range]:focus::-ms-fill-upper {
     text-align: left;
     line-height: 1.2;
     color: #000000;
-    position: absolute;
-    z-index: 10000;
+    position: relative;
+    z-index: 0;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -7503,7 +7503,7 @@ input[type=range]:focus::-ms-fill-upper {
  * The holder should overlay the entire screen.
  */
 .picker__holder {
-    position: fixed;
+   
     transition: background 0.15s ease-out, top 0s 0.15s;
     -webkit-backface-visibility: hidden;
 }
@@ -7517,10 +7517,9 @@ input[type=range]:focus::-ms-fill-upper {
     min-width: 256px;
     width: 300px;
     max-height: 350px;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    filter: alpha(opacity=0);
+    
     -moz-opacity: 0;
-    opacity: 0;
+    
     transition: all 0.15s ease-out;
 }
 

@@ -5,6 +5,7 @@
  */
 package com.food.backend.service;
 
+import com.food.frontend.interfaces.IU;
 import com.food.model.OnlineOrder;
 import com.food.model.Product;
 import java.net.URI;
@@ -83,7 +84,7 @@ public class OnlineOrderREST {
     }
     
     @GET
-    @Path("orders/user/{id}")
+    @Path("user/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<OnlineOrder> showOrderUser(@PathParam("id")Long id) {
 
@@ -94,7 +95,7 @@ public class OnlineOrderREST {
     }
 
     @GET
-    @Path("products/orders/user/{id}")
+    @Path("products/order/{id_o}/user/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Product> getProductsOrderUser(@PathParam("id")Long id) {
 

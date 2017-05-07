@@ -18,7 +18,6 @@ import javax.ws.rs.core.Response;
  */
 @WebService
 public interface IUOrders {
-    
     public Response createOrder(Object requestEntity) throws ClientErrorException;
     public List<OnlineOrder> getOrdersU(Long id);
     public List<Product> getProductsOfOrderU(Long id);

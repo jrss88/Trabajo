@@ -46,7 +46,7 @@ public class OnlineOrder implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @OneToMany(fetch=FetchType.LAZY)
+    @OneToMany(fetch=FetchType.EAGER)
     private List<Product> products;
     
     @ManyToOne

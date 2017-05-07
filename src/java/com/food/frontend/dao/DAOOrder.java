@@ -5,11 +5,12 @@
  */
 package com.food.frontend.dao;
 
-import com.food.frontend.interfaces.IUOrders;
 import com.food.model.OnlineOrder;
 import com.food.model.Product;
+import java.io.Serializable;
 
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -21,6 +22,11 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import com.food.frontend.interfaces.IU;
+import com.food.frontend.interfaces.IUOrders;
+
+
+
 
 /**
  * Jersey REST client generated for REST resource:OnlineOrderREST [orders]<br>
@@ -37,7 +43,8 @@ import javax.ws.rs.core.Response;
 
 @Dependent
 @Path("orders")
-public class DAOOrder implements IUOrders{
+@IU
+public class DAOOrder implements IUOrders,Serializable{
 
     private WebTarget webTarget;
     private Client client;

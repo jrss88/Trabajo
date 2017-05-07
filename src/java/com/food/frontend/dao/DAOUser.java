@@ -5,6 +5,7 @@
  */
 package com.food.frontend.dao;
 
+import com.food.frontend.interfaces.IU;
 import com.food.frontend.interfaces.IUUsers;
 import com.food.model.User;
 import java.io.Serializable;
@@ -42,7 +43,8 @@ import javax.ws.rs.core.Response;
 
 @Dependent
 @Path("users")
-public class DAOUser implements IUUsers{
+@IU
+public class DAOUser implements Serializable,IUUsers{
 
     private WebTarget webTarget;
     private Client client;
