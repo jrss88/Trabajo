@@ -22,7 +22,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import com.food.frontend.interfaces.IU;
 import com.food.frontend.interfaces.IUOrders;
 
 
@@ -43,7 +42,6 @@ import com.food.frontend.interfaces.IUOrders;
 
 @Dependent
 @Path("orders")
-@IU
 public class DAOOrder implements IUOrders,Serializable{
 
     private WebTarget webTarget;
@@ -83,6 +81,11 @@ public class DAOOrder implements IUOrders,Serializable{
         return products;
     }
 
+    public void removeProducts(Long id){
+        webTarget.path("products/{id}").resolveTemplate("id", id)
+                .request(MediaType.APPLICATION_JSON)
+                .delete();
+    }
 
     public void close() {
         client.close();

@@ -5,7 +5,7 @@
  */
 package com.food.frontend.dao;
 
-import com.food.frontend.interfaces.IU;
+
 import com.food.frontend.interfaces.IUUsers;
 import com.food.model.User;
 import java.io.Serializable;
@@ -21,6 +21,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -32,38 +33,42 @@ import javax.ws.rs.core.Response;
  * Jersey REST client generated for REST resource:UserREST [users]<br>
  * USAGE:
  * <pre>
- DAOUser client = new DAOUser();
- Object response = client.XXX(...);
- // do whatever with response
- client.close();
- </pre>
+ * DAOUser client = new DAOUser();
+ * Object response = client.XXX(...);
+ * // do whatever with response
+ * client.close();
+ * </pre>
  *
  * @author juanramon
  */
-
 @Dependent
 @Path("users")
-@IU
-public class DAOUser implements Serializable,IUUsers{
+public class DAOUser implements Serializable, IUUsers {
 
     private WebTarget webTarget;
     private Client client;
     private ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-    private String baseuri= getServletContext().getInitParameter("BaseUri");
+    private String baseuri = getServletContext().getInitParameter("BaseUri");
 
     public DAOUser() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(getBaseuri()).path("users");
     }
 
-
     public Response createUser(Object requestEntity) throws ClientErrorException {
         return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
     }
 
-    public Response editUser(Object requestEntity, Long id) throws ClientErrorException {
-        return webTarget.path("{id}").resolveTemplate("id", id).request(javax.ws.rs.core.MediaType.APPLICATION_JSON).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response editUser(Object requestEntity,Long id) throws ClientErrorException {
+        return webTarget
+                .path("{id}")
+                .resolveTemplate("id", id)
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .put(javax.ws.rs.client.Entity
+                .entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
     }
+
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<User> getUsers() {
         List<User> users
@@ -84,6 +89,7 @@ public class DAOUser implements Serializable,IUUsers{
                 .get(User.class);
         return u;
     }
+
     @Consumes(MediaType.APPLICATION_JSON)
     public User getUserByName(String name) {
         User u

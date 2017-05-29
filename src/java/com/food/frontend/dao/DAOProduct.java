@@ -5,7 +5,7 @@
  */
 package com.food.frontend.dao;
 
-import com.food.frontend.interfaces.IU;
+
 import com.food.frontend.interfaces.IUProduct;
 import com.food.model.Product;
 import java.io.Serializable;
@@ -38,7 +38,6 @@ import javax.ws.rs.core.Response;
  */
 @Dependent
 @Path("products")
-@IU
 public class DAOProduct implements Serializable,IUProduct{
 
     private WebTarget webTarget;
@@ -57,6 +56,15 @@ public class DAOProduct implements Serializable,IUProduct{
     }
 
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response editProduct(Long id, Object requestEntity) throws ClientErrorException {
+        return webTarget
+                .path("{id}")
+                .resolveTemplate("id", id)
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .put(javax.ws.rs.client.Entity
+                .entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
+    }
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Product> getProducts(Long id) {
         List<Product> products
                 = webTarget
@@ -67,6 +75,15 @@ public class DAOProduct implements Serializable,IUProduct{
         return products;
     }
     
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Product getProduct(Long id) {
+        Product p
+                = webTarget
+                .path("{id}").resolveTemplate("id", id)
+                .request(MediaType.APPLICATION_JSON)
+                .get(Product.class);
+        return p;
+    }
     public void remove(Long id){
         webTarget.path("{id}").resolveTemplate("id", id)
                 .request(MediaType.APPLICATION_JSON)

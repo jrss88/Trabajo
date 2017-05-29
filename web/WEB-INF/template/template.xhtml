@@ -17,13 +17,14 @@
         <h:outputStylesheet library="css" name="main.css"/>
 
         <script src="//maps.googleapis.com/maps/api/js?libraries=places&amp;v=3.exp&amp;sensor=false&amp;key=AIzaSyAMsL7JgY-71I_FXUMYRAQFtmzdvlXii_Q" async="" defer="defer" type="text/javascript"></script>
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript"  src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
 
         <h:outputScript library="js" name="main.js"/>
 
-        <h:outputScript library="js" name="materialize.js"/> 
+        <h:outputScript library="js" name="materialize.js"/>
 
 
 
@@ -31,32 +32,55 @@
     </h:head>
     <h:body>
 
+
         <nav>
-
-            <div class="nav-wrapper" >
-                <a href="index.xhtml" class="brand-logo">Logo</a>
-
+            <div class="nav-wrapper">
+                <a href="index.xhtml" class="brand-logo">ENH</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
-                <ul class="right hide-on-med-and-down">
-                    <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
-                    <a data-target="modal1" class="waves-effect waves-yellow modal-trigger">Regístrate</a>
-                    <a data-target="modalShoppingCart" class="waves-effect waves-yellow modal-trigger"><i class="material-icons prefix">shopping_cart</i></a>
+                <c:choose>
+                    <c:when test="${empty request.getRemoteUser()}">
+                        <ul class="right hide-on-med-and-down">
 
 
+                            <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
+                            <a href="faces/register.xhtml" class="waves-effect waves-yellow btn-skin">Regístrate</a>
+                            <a data-target="modalShoppingCart" class="waves-effect waves-yellow modal-trigger"><i class="material-icons prefix">shopping_cart</i></a>
+                        </ul>
+                        <ul class="side-nav" id="mobile-demo">
+                            <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
+                            <a href="faces/register.xhtml" class="waves-effect waves-yellow btn-skin">Regístrate</a>
+                            <a data-target="modalShoppingCart" class="waves-effect waves-yellow modal-trigger"><i class="material-icons prefix">shopping_cart</i></a>
+                        </ul>
 
-                </ul>
-                <ul class="side-nav" id="mobile-demo">
-                    <a data-target="modalInitSesion" class="waves-effect waves-light modal-trigger">Inicia Sesión</a>
-                    <a data-target="modal1" class="waves-effect waves-light modal-trigger">Regístrate</a>
-                    <a data-target="modal1" class="waves-effect waves-yellow modal-trigger"><i class="material-icons prefix">shopping_cart</i></a>
-                </ul>
+                    </c:when>
+                    <c:otherwise>
+                        <ul class="right hide-on-med-and-down">
+                            <a data-target="modalShoppingCart" class="waves-effect waves-yellow modal-trigger"><i class="material-icons prefix">shopping_cart</i></a>
+                        </ul>
+
+                        <div class="input-field col s12 right hide-on-med-and-down">
+                            <ul>
+                                <h:form>
+
+
+                                    <p:menuButton value="Bienvenid@ #{request.getUserPrincipal()}" >
+                                        <p:menuitem value="Mi Perfil" url="faces/perfil.xhtml"  icon="ui-icon-person" styleClass="submenu"/>
+                                        <p:menuitem value="Productos ofrecidos" url="faces/addProducts.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
+                                        <p:menuitem value="Mis pedidos" url="faces/myOrders.xhtml"  icon="ui-icon-note"/>
+                                        <p:menuitem value="Peticiones " url="faces/requests.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
+                                        <p:separator />
+                                        <p:menuitem value="Logout" actionListener="#{userCtrl.logout}" ajax="false" icon="ui-icon-close"/>
+                                    </p:menuButton>
+                                </h:form>
+
+                            </ul>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+
             </div>
-
         </nav>
-
-
-
 
         <!-- Modal Structure Init Sesion-->
         <div id="modalInitSesion" class="modal modal-fixed-footer">
@@ -80,42 +104,67 @@
         <div id="modalShoppingCart" class="modal modal-fixed-footer">
 
 
+            <c:choose>
+                <c:when test="${empty orderCtrl.order.products}">
+                    <div class="modal-content">
+                        <br/>
+                        <center>
+                            <h4>No tiene productos en su carrito </h4>
+                        </center>
 
-            <div class="modal-content">
-                <center>
-                    <h4>Tu Carrito de la Compra </h4>
-                </center>
-                <h:form>
-                    <p:dataTable class="table-bordered" reflow="true" value="#{orderCtrl.order.products}" var="p" >
-                        <ul class="collection">
-                            <p:column>
+                    </div>
 
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="activator" src="resources/images/croquetas.jpg" width="100%" height="100%"></img>
-                                </div>
-                            </p:column>
+                </c:when>
+                <c:otherwise>
 
-                            <p:column headerText="Eliminar ">
+                    <center>
+                        <br/>
+                        <h4>Tu Carrito de la Compra </h4>
+                    </center>
 
-                                <p:commandButton class="btn-skin" value="Eliminar" action="#{orderCtrl.deleteProduct(p)}"  >
-                                </p:commandButton>
+                    <h:form >
+                        <p:dataTable styleClass="table-bordered" reflow="true" value="#{orderCtrl.order.products}" var="p" >
+                            <ul class="collection">
+                                <p:column>
 
-                            </p:column>
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                        <img class="activator" src="resources/images/#{p.imagen}" width="100%" height="100%"></img>
+                                    </div>
+                                </p:column>
+                                <p:column headerText="Ofrecido por: ">
 
-                        </ul>
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                        <h:outputText value="#{p.u.name}"/>
+                                    </div>
+                                </p:column>
+                                <p:column headerText="Eliminar ">
 
-                    </p:dataTable>
+                                    <h:commandButton styleClass="btn-skin" value="Eliminar" action="#{orderCtrl.deleteProduct(p)}"  >
+                                    </h:commandButton>
+
+                                </p:column>
+
+                            </ul>
+
+                        </p:dataTable>
 
 
-                    <h4>Total: </h4><h:outputText value="#{orderCtrl.order.total}"></h:outputText>
-                </h:form>
-            </div>
+                        <h4>Total: </h4><h:outputText value="#{orderCtrl.order.total}"></h:outputText>
+
+
+                        <h:commandButton id="anadir"  styleClass="btn btn-skin btn-scroll"  value="Confirmar pedidos" action="#{orderCtrl.createOrder()}" onclick="Materialize.toast('Pedido enviado!!', 4000, '', function () {})"/>
+
+                    </h:form>
+
+                </c:otherwise>
+            </c:choose>
+
         </div>
 
 
         <div class="row">
             <div class="col s9">
-                
+
                 <ui:insert name="content"></ui:insert>
 
             </div>
@@ -125,38 +174,80 @@
                 <br/>
                 <br/>
                 <center>
-                <div class="container-fluid">
-                    <div class="card-panel grey lighten-5 z-depth-1">
-                        <h6>Etiquetas</h6>
-                        <div class="chip">
-                            Albondigas en salsa
-                            <i class="material-icons">close</i>
-                        </div><div class="chip">
-                            Pollo al Ajillo
-                            <i class="material-icons">close</i>
-                        </div><div class="chip">
-                            Croquetas
-                            <i class="material-icons">close</i>
-                        </div><div class="chip">
-                            Tortilla de Patatas
-                            <i class="material-icons">close</i>
-                        </div><div class="chip">
-                            Carne con Tomate
-                            <i class="material-icons">close</i>
+                    <div class="container-fluid">
+                        <div class="card-panel grey lighten-5 z-depth-1">
+                            <h6>Etiquetas</h6>
+                            <div class="chip">
+                                Albondigas en salsa
+                                <i class="material-icons">close</i>
+                            </div><div class="chip">
+                                Pollo al Ajillo
+                                <i class="material-icons">close</i>
+                            </div><div class="chip">
+                                Croquetas
+                                <i class="material-icons">close</i>
+                            </div><div class="chip">
+                                Tortilla de Patatas
+                                <i class="material-icons">close</i>
+                            </div><div class="chip">
+                                Carne con Tomate
+                                <i class="material-icons">close</i>
+                            </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="container-fluid ">
+                            <div class="card-panel grey lighten-5 z-depth-1">
+                                <c:choose>
+                                    <c:when test="${empty orderCtrl.order.products}">
+                                        <div class="modal-content">
+                                            <br/>
+                                            <center>
+                                                <h4>No tiene productos en su carrito </h4>
+                                            </center>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <center>
+                                            <br/>
+                                            <h4>Tu Carrito de la Compra </h4>
+                                        </center>
+                                        <h:form>
+                                            <p:dataTable styleClass="table-bordered" reflow="true" value="#{orderCtrl.order.products}" var="p" >
+                                                <ul class="collection">
+                                                    <p:column>
+                                                        <div class="card-image waves-effect waves-block waves-light">
+                                                            <img class="activator" src="resources/images/#{p.imagen}" width="100%" height="100%"></img>
+                                                        </div>
+                                                    </p:column>
+                                                    <p:column headerText="Ofrecido por: ">
+                                                        <div class="card-image waves-effect waves-block waves-light">
+                                                            <h:outputText value="#{p.u.name}"/>
+                                                        </div>
+                                                    </p:column>
+                                                    <p:column headerText="Eliminar ">
+                                                        <h:commandButton styleClass="btn-skin" value="Eliminar" action="#{orderCtrl.deleteProduct(p)}"  >
+                                                        </h:commandButton>
+                                                    </p:column>
+                                                </ul>
+                                            </p:dataTable>
 
-                </div>
-                <div class="container-fluid">
-                    <input type="date" class="datepicker picker__input--target picker__input--active"></input>
-                </div>
+
+                                            <h4>Total: </h4><h:outputText value="#{orderCtrl.order.total}"></h:outputText>
+                                            <br/>
+                                            <h:commandButton id="anadir"  styleClass="btn btn-skin btn-scroll"  value="Confirmar pedidos" action="#{orderCtrl.createOrder()}" onclick="Materialize.toast('Pedido enviado!!', 4000, '', function () {})"/>
+                                        </h:form>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <input type="date" class="datepicker picker__input--target picker__input--active"></input>
+                    </div>
                 </center>
             </div>
         </div>
-
-
-
-
 
         <!--Footer-->
 

@@ -6,85 +6,98 @@
 package com.food.frontend.controller;
 
 import com.food.frontend.dao.DAOOrder;
+import com.food.frontend.dao.DAOProduct;
 import com.food.frontend.dao.DAOUser;
-import com.food.frontend.interfaces.IU;
 import com.food.model.OnlineOrder;
 import com.food.model.Product;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-
 
 /**
  *
  * @author juanramon
  */
-@Named(value="orderCtrl")
+@Named(value = "orderCtrl")
 @ViewScoped
-public class OnlineOrderController implements Serializable{
+public class OnlineOrderController implements Serializable {
 
     private static final long serialVersionUID = 1L;
-   
-    @Inject 
+
+    @Inject
     private DAOOrder daoOrder;
     @Inject
     private DAOUser daoUser;
+    
+    @Inject
+    private DAOProduct daoProduct;
 
-    private OnlineOrder order=new OnlineOrder();
-
-   
+    private OnlineOrder order;
 
     @PostConstruct
     public void init() {
 
-      
+        order = new OnlineOrder(); //init order on entering view
 
     }
 
     public OnlineOrderController() {
-   
+
+        order = new OnlineOrder();
     }
 
-    public void createOrder(double total) {
+    public void createOrder() {
 
-      
         //String id_userr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id_user");
         Long id_user = new Long(Long.parseLong("1"));
-        
+
 //        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 //        String sessionId = session.getId();
 //        Long id_user= new Long(Long.parseLong(sessionId));
         
-     
-        order.setTotal(total);
         order.setU(daoUser.getUser(id_user));
-        Date date = new Date();
-        order.setDate(date);
-        order.setState(order.getState());
 
         try {
             daoOrder.createOrder(order);
             FacesContext.getCurrentInstance().addMessage("InitOrder", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Has comenzado un pedido."));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage("DontInitOrder", new FacesMessage(FacesMessage.SEVERITY_INFO, "InCorrecto", "No has comenzado el pedido."));
-
         }
+        order.getProducts().clear();
     }
 
-    public void addProduct(Product p) {
+    public void addProduct(ActionEvent event) {
 
-        order.getProducts().add(p);
-        createOrder(3.3);
+        
+        System.out.print("asdasdasdasda sasdasdasd as dasdasdasdasd asd as dasd ");
+        //Long idproduct = (Long) e.getComponent().getAttributes().get("idProduct");
+        Long idProduct = (Long) event.getComponent().getAttributes().get("idProduct");
+        
+        Product p = daoProduct.getProduct(idProduct);
+        order.getProducts().add(p); //aquí lp devolvía null y fallaba add
+        
+        if (order == null) {
+            createOrder();
+        }
+        else{
+            setPriceToTotal(p.getPrecio());
+        }
 
+    }
+    public void setPriceToTotal(double price){
+    
+        order.setTotal(order.getTotal()+price);
+    
     }
 //    public List<Product> getProductsOrderUser() {
 //
@@ -107,6 +120,9 @@ public class OnlineOrderController implements Serializable{
     public void deleteProduct(Product p) {
 
         order.getProducts().remove(p);
+        Double newTotal = order.getTotal() - p.getPrecio();
+        order.setTotal(newTotal);
+        
 
     }
 
@@ -138,5 +154,18 @@ public class OnlineOrderController implements Serializable{
         this.order = order;
     }
 
+    /**
+     * @return the daoProduct
+     */
+    public DAOProduct getDaoProduct() {
+        return daoProduct;
+    }
+
+    /**
+     * @param daoProduct the daoProduct to set
+     */
+    public void setDaoProduct(DAOProduct daoProduct) {
+        this.daoProduct = daoProduct;
+    }
 
 }

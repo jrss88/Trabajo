@@ -39,10 +39,8 @@ public class Product implements Serializable {
     private String descripcion;
     @Column(name = "ratingAverage")
     private int ratingAverage;
-    
     @ManyToOne
     private User uPublish;
-    
     @Column
     @Pattern(regexp = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)", message = "Tipo de imágen inválido")
     private String imagen;

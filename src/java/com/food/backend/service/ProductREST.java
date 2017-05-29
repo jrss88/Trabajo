@@ -6,7 +6,6 @@
 package com.food.backend.service;
 
 import com.food.model.Product;
-import com.food.model.User;
 import java.net.URI;
 
 import java.util.List;
@@ -56,7 +55,7 @@ public class ProductREST {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Product entity) {
-        getEntityManager().persist(entity);
+        em.persist(entity);
         URI uri = uriInfo.getAbsolutePathBuilder().path(entity.getId().toString()).build();
         return Response.created(uri).build();
     }
@@ -65,14 +64,15 @@ public class ProductREST {
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public void edit(@PathParam("id") Long id, Product entity) {
-        getEntityManager().merge(entity);
+        em.merge(entity);
+        em.flush();
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Product find(@PathParam("id") Long id) {
-        Product p = getEntityManager().find(Product.class, id);
+        Product p = em.find(Product.class, id);
         return p;
     }
 
@@ -80,16 +80,16 @@ public class ProductREST {
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
       
-        getEntityManager().remove(getEntityManager().merge(find(id)));
+        em.remove(em.merge(find(id)));
     }
 
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Product> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(Product.class));
-        return getEntityManager().createQuery(cq).getResultList();
+        return em.createQuery(cq).getResultList();
     }
 
     @GET
@@ -103,8 +103,6 @@ public class ProductREST {
         return l;
     }
     
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+   
 
 }

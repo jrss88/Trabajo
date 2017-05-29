@@ -52,7 +52,7 @@ public class PrivateMessageREST {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(PrivateMessage entity) {
-        getEntityManager().persist(entity);
+        em.persist(entity);
         URI uri = uriInfo.getAbsolutePathBuilder().path(entity.getId().toString()).build();
         return Response.created(uri).build();
     }
@@ -61,14 +61,15 @@ public class PrivateMessageREST {
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public void edit(@PathParam("id") Long id, PrivateMessage entity) {
-        getEntityManager().merge(entity);
+        em.merge(entity);
+        em.flush();
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public PrivateMessage find(@PathParam("id") Long id) {
-        PrivateMessage p = getEntityManager().find(PrivateMessage.class, id);
+        PrivateMessage p = em.find(PrivateMessage.class, id);
         return p;
     }
 
@@ -76,7 +77,7 @@ public class PrivateMessageREST {
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
       
-        getEntityManager().remove(getEntityManager().merge(find(id)));
+        em.remove(em.merge(find(id)));
     }
 
     protected EntityManager getEntityManager() {

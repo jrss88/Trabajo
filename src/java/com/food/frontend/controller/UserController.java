@@ -35,7 +35,7 @@ public class UserController implements Serializable {
 
     @Inject 
     private DAOUser daoUser;
-    private User user = new User();
+    private User user;
 
     private String receiver;
     
@@ -45,7 +45,8 @@ public class UserController implements Serializable {
     @PostConstruct
     public void init() {
 
-        
+        user = new User();
+        receiver="";
    
     }
 
@@ -85,14 +86,14 @@ public class UserController implements Serializable {
  
 
     public String logout() {
-        String result = "/index?faces-redirect=true";
+        String result = "./index?faces-redirect=true";
 
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 
         try {
             request.logout();
-            result = "/index?faces-redirect=true";
+            result = "../index?faces-redirect=true";
         } catch (ServletException e) {
             log.log(Level.SEVERE, "Failed to logout user!", e);
             result = "/errorlogin?faces-redirect=true";
@@ -140,12 +141,17 @@ public class UserController implements Serializable {
 
     }
 
-    public void editPerfil() {
+    public void editPerfil(User u,Long id) {
 
+        System.out.println(u.getAddress());
+        this.user.setName(u.getName());
+        this.user.setPass(u.getPass());
+        this.user.setEmail(u.getEmail());
+     
         try {
 
-            getDaoUser().editUser(this.getUser(), this.getUser().getId());
-            FacesContext.getCurrentInstance().addMessage("edicionCorrecta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario editado correctamente", getUser().toString()));
+            getDaoUser().editUser(u,u.getId());
+            FacesContext.getCurrentInstance().addMessage("edicionCorrecta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario editado correctamente", this.user.toString()));
 
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage("edicionIncorrecta", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no editado correctamente", ex.getMessage()));
@@ -170,7 +176,7 @@ public class UserController implements Serializable {
 
     public User getUserByName(String name) {
 
-        User u = this.getDaoUser().getUserByName(name);
+        User u = daoUser.getUserByName(name);
         return u;
 
     }

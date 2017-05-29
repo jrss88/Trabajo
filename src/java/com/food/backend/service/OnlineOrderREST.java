@@ -5,7 +5,7 @@
  */
 package com.food.backend.service;
 
-import com.food.frontend.interfaces.IU;
+
 import com.food.model.OnlineOrder;
 import com.food.model.Product;
 import java.net.URI;
@@ -54,7 +54,7 @@ public class OnlineOrderREST {
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response create(OnlineOrder entity) {
-        getEntityManager().persist(entity);
+        em.persist(entity);
         URI uri = uriInfo.getAbsolutePathBuilder().path(entity.getId().toString()).build();
         return Response.created(uri).build();
     }
@@ -63,7 +63,8 @@ public class OnlineOrderREST {
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(@PathParam("id") Long id, OnlineOrder entity) {
-        getEntityManager().merge(entity);
+        em.merge(entity);
+        em.flush();
     }
     
     @GET
@@ -79,7 +80,7 @@ public class OnlineOrderREST {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public OnlineOrder find(@PathParam("id") Long id) {
-        OnlineOrder o = getEntityManager().find(OnlineOrder.class, id);
+        OnlineOrder o = em.find(OnlineOrder.class, id);
         return o;
     }
     
@@ -107,7 +108,7 @@ public class OnlineOrderREST {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        getEntityManager().remove(id);
+        em.remove(id);
     }
 
     protected EntityManager getEntityManager() {

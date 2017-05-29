@@ -36,8 +36,6 @@ public class OnlineOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    
     @Column
     private double total;
     @Column
@@ -47,6 +45,7 @@ public class OnlineOrder implements Serializable {
     private Date date;
 
     @OneToMany(fetch=FetchType.EAGER)
+    @XmlTransient
     private List<Product> products;
     
     @ManyToOne
@@ -54,7 +53,12 @@ public class OnlineOrder implements Serializable {
     
     public OnlineOrder(){
     
-     
+         products= new ArrayList<>();
+         date= new Date();
+         state=0;
+         total=0.0;
+         
+        
     }
     public Long getId() {
         return id;
@@ -141,7 +145,7 @@ public class OnlineOrder implements Serializable {
 
     public void addProduct(Product p){
     
-        this.products.add(p);
+        products.add(p);
     }
     /**
      * @param products the products to set

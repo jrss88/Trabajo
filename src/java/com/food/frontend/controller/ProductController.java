@@ -36,11 +36,12 @@ public class ProductController implements Serializable {
     private DAOProduct daoProduct;
     @Inject
     private DAOUser daoUser;
-    private Product product = new Product();
+    private Product product;
 
     @PostConstruct
     public void init() {
 
+        product = new Product();
     }
 
     public ProductController() {
@@ -90,6 +91,54 @@ public class ProductController implements Serializable {
 
     }
 
+    public void editProduct(Part file, Long id) throws IOException {
+
+        String img = file.getName();
+        FileUpload fichero = new FileUpload();
+
+        int valoracion = 3;
+        String id_userr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id_user");
+        Long id_user = new Long(Long.parseLong(id_userr));
+
+        this.product.setU(daoUser.getUser(id_user));
+
+        this.product.setName(this.product.getName());
+        this.product.setPrecio(this.product.getPrecio());
+        this.product.setDescripcion(this.product.getDescripcion());
+        this.product.setRatingAverage(valoracion);
+
+        if (fichero.upload(file)) {
+
+            this.product.setImagen(fichero.getNombre());
+
+            try {
+                daoProduct.editProduct(this.product.getId(), this.product);
+                FacesContext.getCurrentInstance().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "La edición del producto se ha realizado correctamente."));
+            } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage("registroInCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "InCorrecto", "La edición del producto no se ha realizado correctamente."));
+
+            }
+
+        }
+        if (!fichero.upload(file)) {
+            this.product.setImagen("defecto.png");
+            try {
+                daoProduct.editProduct(this.product.getId(),this.product) ;
+                FacesContext.getCurrentInstance().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "La edición del producto se ha realizado correctamente."));
+            } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage("registroInCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "InCorrecto", "La edición del producto no se ha realizado correctamente."));
+
+            }
+
+        }
+
+    }
+
+    public Product getProduct(Long id) {
+
+        Product p = daoProduct.getProduct(id);
+        return p;
+    }
     /**
      * @return the daoProduct
      */
@@ -123,10 +172,9 @@ public class ProductController implements Serializable {
         List<Product> l = daoProduct.getProducts(id_user);
         return l;
     }
-    
-    public void deleteProduct(Long id){
-    
-       
+
+    public void deleteProduct(Long id) {
+
         daoProduct.remove(id);
     }
 

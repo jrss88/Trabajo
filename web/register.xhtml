@@ -15,7 +15,7 @@
           
               
                 
-                        <h:form class="well " id="formulario">
+                        <h:form styleClass="well " id="formulario">
                             <div class="modal-content">
                                 <center>
                                     <h5>Introduzca sus datos Personales </h5>
@@ -23,14 +23,14 @@
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">account_circle</i>
-                                        <h:inputText id="name"  class="validate" value="#{userCtrl.user.name}"/>
+                                        <h:inputText id="name"  styleClass="validate" value="#{userCtrl.user.name}"/>
                                         <label for="name">Nombre Usuario</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">lock_outline</i>
-                                        <h:inputSecret id="pass"  class="validate" value="#{userCtrl.user.pass}"/>
+                                        <h:inputSecret id="pass"  styleClass="validate" value="#{userCtrl.user.pass}"/>
                                         <label for="pass">Password</label>
                                     </div>
                                 </div>
@@ -43,8 +43,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <br/>
+                                <br/>
                                   <div class="column">
-                        <div class="container" type="hidden">
+                        <div class="container" style="display:none">
 
 
                             <table id="address">
@@ -92,14 +94,14 @@
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">email</i>
-                                        <h:inputText id="email"  class="validate" value="#{userCtrl.user.email}"/>
+                                        <h:inputText id="email"  styleClass="validate" value="#{userCtrl.user.email}"/>
                                         <label for="email">Email</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">phone</i>
-                                        <h:inputText id="phone"  class="validate" value="#{userCtrl.user.phone}"/>
+                                        <h:inputText id="phone"  styleClass="validate" value="#{userCtrl.user.phone}"/>
                                         <label for="phone">Teléfono</label>
                                     </div>
                                 </div>
@@ -118,14 +120,14 @@
                                     <div class="input-field col s12 selectPayment" >
                                         <i class="material-icons prefix">credit_card</i>
                                         <h:selectOneMenu  label="Inserta medio de pago" value="#{userCtrl.user.payment}">
-                                            <f:selectItem itemValue="1" itemLabel="Pago mediante Pay-Pal" class="left circle"/>
-                                            <f:selectItem itemValue="2" itemLabel="Pago en efectivo" class="left circle"/>	   							
+                                            <f:selectItem itemValue="1" itemLabel="Pago mediante Pay-Pal" />
+                                            <f:selectItem itemValue="2" itemLabel="Pago en efectivo" />	   							
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <h:commandButton id="findbutton" onclick="Materialize.toast('Registro completado', 26000)" class="btn btn-skin btn-scroll"  value="Enviar" action="#{userCtrl.addNewUser()}"/>
+                                <h:commandButton id="findbutton" onclick="Materialize.toast('Registro completado', 26000)" styleClass="btn btn-skin btn-scroll"  value="Enviar" action="#{userCtrl.addNewUser()}"/>
                             </div>
                         </h:form>
                  

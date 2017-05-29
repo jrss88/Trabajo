@@ -35,6 +35,15 @@ public class PrivateMessage implements Serializable {
     private String message;
     private Date fecha;
 
+    public PrivateMessage() {
+
+        uEmisor = new User();
+        uReceptor = new User();
+        message = "";
+        fecha = new Date();
+
+    }
+
     public Long getId() {
         return id;
     }
@@ -123,5 +132,5 @@ public class PrivateMessage implements Serializable {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    
+
 }

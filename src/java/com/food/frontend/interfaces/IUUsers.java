@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 public interface IUUsers {
     
     public Response createUser(Object requestEntity) throws ClientErrorException;
-    public Response editUser(Object requestEntity, Long id) throws ClientErrorException;
+    public Response editUser(Object requestEntity,Long id) throws ClientErrorException;
     public List<User> getUsers();
     public User getUser(Long id);
 }

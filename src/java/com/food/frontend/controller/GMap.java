@@ -10,10 +10,10 @@ import com.food.model.User;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import org.primefaces.event.map.GeocodeEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
@@ -26,7 +26,7 @@ import org.primefaces.model.map.Marker;
  *
  * @author juanramon
  */
-@ManagedBean(name = "mapCtrl")
+@Named(value="mapCtrl")
 @ViewScoped
 public class GMap implements Serializable{
     
@@ -43,6 +43,7 @@ public class GMap implements Serializable{
     @PostConstruct
     public void init() {
 
+        marker= new Marker(null);
         List<User> list = this.getDaoUser().getUsers();
       
         for (User u : list) {
@@ -62,6 +63,8 @@ public class GMap implements Serializable{
 
         }
     }
+    
+ 
     
     public GMap(){}
 

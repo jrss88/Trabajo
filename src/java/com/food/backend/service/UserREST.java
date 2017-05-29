@@ -13,7 +13,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -51,14 +50,14 @@ public class UserREST {
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response create(User entity) {
-        getEntityManager().persist(entity);
+        em.persist(entity);
         URI uri = uriInfo.getAbsolutePathBuilder().path(entity.getId().toString()).build();
         return Response.created(uri).build();
     }
 
-    @PUT
+     @PUT
     @Path("{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes( MediaType.APPLICATION_JSON)
     public void edit(@PathParam("id") Long id, User entity) {
         getEntityManager().merge(entity);
     }
@@ -76,7 +75,7 @@ public class UserREST {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public User find(@PathParam("id") Long id) {
-        User u = getEntityManager().find(User.class, id);
+        User u = em.find(User.class, id);
         return u;
     }
     
@@ -92,7 +91,7 @@ public class UserREST {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        getEntityManager().remove(id);
+        em.remove(em.merge(find(id)));
     }
 
     protected EntityManager getEntityManager() {

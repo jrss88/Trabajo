@@ -10,7 +10,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />  
-        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>  
+        
 
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
         <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"></link>
@@ -57,6 +57,8 @@
                                         <p:menuButton value="Bienvenid@ #{request.getUserPrincipal()}" >
                                             <p:menuitem value="Mi Perfil" url="faces/perfil.xhtml"  icon="ui-icon-disk" styleClass="submenu"/>
                                             <p:menuitem value="Productos ofrecidos" url="faces/addProducts.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
+                                            <p:menuitem value="Mis pedidos" url="faces/myOrders.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
+                                            <p:menuitem value="Peticiones " url="faces/requests.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
 
                                             <p:separator />
                                             <p:menuitem value="Logout" actionListener="#{userCtrl.logout}" ajax="false" icon="ui-icon-close"/>
@@ -92,7 +94,7 @@
             </div>
         </div>
 
-        <div id="index-banner" class="parallax-container">
+        <section id="index-banner" class="parallax-container">
             <div class="section no-pad-bot">
                 <div class="container">
                     <br/><br/>
@@ -111,7 +113,7 @@
 
                 <h:graphicImage url="resources/images/olla.jpg" rendered="true"></h:graphicImage>
             </div>
-        </div> 
+        </section> 
 
 
 

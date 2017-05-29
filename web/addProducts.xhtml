@@ -18,13 +18,13 @@
                         <div class="modal-content">
                             <center>
                                 <h4>Que ofreces!!!</h4>
-                               
-                                    <div class="card-panel teal">
-                                        <span class="white-text">Pulse sobre el botón para añadir productos a su perfil 
-                                        </span>
-                                        <div data-target="modalAddProduct" class="modal-trigger btn-floating btn-large waves-effect waves-light blue-grey darken-1">Añadir</div>
-                                    </div>
-                               
+
+                                <div class="card-panel teal">
+                                    <span class="white-text">Pulse sobre el botón para añadir productos a su perfil 
+                                    </span>
+                                    <div data-target="modalAddProduct" class="modal-trigger btn-floating btn-large waves-effect waves-light blue-grey darken-1">Añadir</div>
+                                </div>
+
                             </center>
 
 
@@ -97,8 +97,8 @@
                                 <img class="activator" src="resources/images/#{Product.imagen}"></img>
                             </div>
                             <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4 center-align">#{Product.name}<i class="material-icons right">mode_edit</i></span>
 
-                                <h:outputText value="#{Product.name}" ></h:outputText>
                                 <div class="row">
                                     <h:outputText value="Precio venta: " ></h:outputText>
                                     <h:outputText value=" #{Product.precio} euros" ></h:outputText>
@@ -112,14 +112,56 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <h:commandButton id="anadir"  class="btn btn-skin btn-scroll"  value="Eliminar del perfil" action="#{productCtrl.deleteProduct(Product.id)}" onclick="Materialize.toast('Producto eliminado del perfil!', 4000, '', function () {})"/>
+                                    <h:form class="well " enctype="multipart/form-data">
+                                    <h:commandButton id="delete"  class="btn btn-skin btn-scroll"  value="Eliminar del perfil" action="#{productCtrl.deleteProduct(Product.id)}" onclick="Materialize.toast('Producto eliminado del perfil!', 4000, '', function () {})"/>
+                                    </h:form>
                                 </div>
 
 
 
                             </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">Edita el producto<i class="material-icons right">close</i></span>
+                                <h:form class="well " id="formeditProduct" enctype="multipart/form-data">
+
+
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            <h:inputText id="name"  class="validate" value="#{Product.name}"/>
+                                            <label for="name">Nombre del Producto</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            <h:inputText id="precio"  class="validate" value="#{Product.precio}"/>
+                                            <label for="precio">Precio</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">subtitles</i>
+                                            <h:inputTextarea id="descripcion"  class="validate" value="#{Product.descripcion}" />
+                                            <label for="description">descripcion</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">image</i>
+
+                                            <h:inputFile class="form-control" id="file" value="#{fileUpload.fichero}" />
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" value="#{userCtrl.getUserByName(request.getUserPrincipal()).id}" id="id_user" name="id_user"></input>
+                                    <h:commandButton id="enviar"  class="btn btn-skin btn-scroll"  value="Editar" action="#{productCtrl.editProduct(fileUpload.fichero,Product.id)}"/>
+
+                                </h:form>
+                            </div>
 
                         </div>
+
                     </h:column>
 
                 </h:dataTable>	
