@@ -63,7 +63,7 @@ public class DAOOrder implements IUOrders,Serializable{
     public List<OnlineOrder> getOrdersU(Long id) {
         List<OnlineOrder> orders
                 = webTarget
-                .path("orders/user/{id}").resolveTemplate("id", id)
+                .path("user/{id}").resolveTemplate("id", id)
                 .request(MediaType.APPLICATION_JSON)
                 .get(new GenericType<List<OnlineOrder>>() {
                 });

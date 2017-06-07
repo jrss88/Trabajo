@@ -10,7 +10,9 @@ import com.food.frontend.dao.DAOProduct;
 import com.food.frontend.dao.DAOUser;
 import com.food.model.OnlineOrder;
 import com.food.model.Product;
+import com.food.model.User;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +40,7 @@ public class OnlineOrderController implements Serializable {
     private DAOOrder daoOrder;
     @Inject
     private DAOUser daoUser;
-    
+
     @Inject
     private DAOProduct daoProduct;
 
@@ -58,13 +60,13 @@ public class OnlineOrderController implements Serializable {
 
     public void createOrder() {
 
-        //String id_userr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id_user");
-        Long id_user = new Long(Long.parseLong("1"));
+        String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        User u = daoUser.getUserByName(remoteUser);
+        Long id_user = u.getId();
 
 //        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 //        String sessionId = session.getId();
 //        Long id_user= new Long(Long.parseLong(sessionId));
-        
         order.setU(daoUser.getUser(id_user));
 
         try {
@@ -76,44 +78,38 @@ public class OnlineOrderController implements Serializable {
         order.getProducts().clear();
     }
 
+    //add product to cartShopping and add price to total
     public void addProduct(ActionEvent event) {
 
-        
-        System.out.print("asdasdasdasda sasdasdasd as dasdasdasdasd asd as dasd ");
-        //Long idproduct = (Long) e.getComponent().getAttributes().get("idProduct");
         Long idProduct = (Long) event.getComponent().getAttributes().get("idProduct");
-        
+
         Product p = daoProduct.getProduct(idProduct);
         order.getProducts().add(p); //aquí lp devolvía null y fallaba add
-        
+
         if (order == null) {
             createOrder();
-        }
-        else{
+        } else {
             setPriceToTotal(p.getPrecio());
         }
 
     }
-    public void setPriceToTotal(double price){
-    
-        order.setTotal(order.getTotal()+price);
-    
+
+    public void setPriceToTotal(double price) {
+
+        order.setTotal(order.getTotal() + price);
+
     }
-//    public List<Product> getProductsOrderUser() {
-//
-//        String id_userr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id_user");
-//        Long id_user = new Long(Long.parseLong(id_userr));
-//        
-//        List<Product> l=daoOrder.getProductsOfOrderU(id_user);
-//        return l;
-//    }
 
     public List<OnlineOrder> getOrdersUser() {
 
-        String id_userr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id_user");
-        Long id_user = new Long(Long.parseLong("1"));
+        String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        User u = daoUser.getUserByName(remoteUser);
+        Long id_user = u.getId();
+        System.out.print("asdfasdf asdfasdf sda");
+        System.out.print(id_user);
 
-        List<OnlineOrder> l = daoOrder.getOrdersU(id_user);
+        List<OnlineOrder> l = new ArrayList<OnlineOrder>();
+        l = daoOrder.getOrdersU(id_user);
         return l;
     }
 
@@ -122,7 +118,6 @@ public class OnlineOrderController implements Serializable {
         order.getProducts().remove(p);
         Double newTotal = order.getTotal() - p.getPrecio();
         order.setTotal(newTotal);
-        
 
     }
 

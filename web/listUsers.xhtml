@@ -11,7 +11,7 @@
 
         <div class="row">
             <div class="container-fluid">
-                <h1 class="center-block">¡¡¡¡Encuentra comida de verdaderos cociner@s!!!!</h1>
+                <h1 class="center-block">DASHBOARD</h1>
             </div>
         </div>
         <div class="row">
@@ -20,7 +20,8 @@
                     <span class="white-text">Busca en tus cercanías o moviéndote por el mapa.<br></br>
                         Los puntos <FONT COLOR="yellow">amarillos</FONT> son restaurantes.<br></br>
                         Los puntos <FONT COLOR="blue">azules</FONT> son particulares.<br></br>
-                        Los puntos <FONT COLOR="red">rojos</FONT> son  ciudades buscadas .<br></br>
+                        Los puntos <FONT COLOR="red">rojos</FONT> son  ciudades buscadas.<br></br>
+                        Cada usuario será responsable de concretar con una empresa de transporte para la entrega.<br></br>
                     </span>
                 </div>
             </div>
@@ -65,12 +66,12 @@
                             <h:outputText value="Contactar"></h:outputText>
 
                         </f:facet>
-
-                        <h:commandButton  actionListener="#{privateMessageCtrl.dataPM}" styleClass="btn-skin btn-scroll"  onclick="PF('pm').show();">
-                            <f:ajax event="select" execute="@this"/>
-                            <f:attribute name="nameUser" value="#{User.name}" />  
-                        </h:commandButton>
-
+                        <h:form id="addPrM">
+                            <h:commandButton   actionListener="#{privateMessageCtrl.dataPM}" styleClass="btn-skin btn-scroll"  onclick="PF('pm').show();">
+                                <f:ajax render=":formM:sendM" execute="@form" />
+                                <f:attribute name="nameUser" value="#{User.name}" />  
+                            </h:commandButton>
+                        </h:form>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
@@ -80,50 +81,29 @@
                     </h:column>
 
                 </h:dataTable> 
-    
+            </h:form>
+            <h:form id="formM">
                 <p:dialog header="Mensaje Privado" widgetVar="pm" minHeight="100">
-               
-                    <h:inputText readonly="true"  value="Para #{privateMessageCtrl.destiny}" />
-                    <p:inputTextarea rows="5" cols="30" counter="display" maxlength="120" counterTemplate="{0} caracteres restantes." autoResize="true" />
-                    <h:outputText id="display" />
-                    <br/>
-                    
-                   
+
+                    <h:panelGroup id="sendM">
+                        <h:inputText readonly="true" id="dest" value="Para #{privateMessageCtrl.destination}" />
+                        <p:inputTextarea value="#{privateMessageCtrl.pmsg.message}"  rows="5" cols="30" counter="display" maxlength="120" counterTemplate="{0} caracteres restantes." autoResize="true" />
+                        <h:outputText id="display" />
+                        <br/>
+                        <br/>
+
                         <h:commandButton  actionListener ="#{privateMessageCtrl.sendPrivateMessage}" styleClass="btn btn-skin btn-scroll"  value="Enviar"  onclick="PF('pm').hide(); Materialize.toast('Mensaje enviado!', 4000, '', function () {})">
-                                <f:ajax  execute="@this" />
-                                <f:attribute name="destinatario" value="#{User.name}" />  
-                            </h:commandButton>
-                       
-                  
+                            <f:ajax  execute="@form" />
+                            <f:attribute name="emisor" value="#{request.remoteUser}" /> 
+                            <f:attribute name="destinatario" value="#{User.name}" />  
+                        </h:commandButton>
+
+                    </h:panelGroup>
                 </p:dialog>
-
-            </h:form>
-            <!-- Modal Structure Write Message-->
-            <h:form>
-                <div id="modalWriteMessage" class="modal modal-fixed-footer">
-                    <div class="modal-content">
-                        <center>
-                            <h4>Escribe un mensaje </h4>
-                        </center>
-                        <h:outputLabel  for="emaildestinatario" value="Para :" styleClass="requiredLb1"/>
-                        <h:inputText  id="emaildestinatario" styleClass="form-control emaildest" value="#{userCtrl.receiver}"></h:inputText>
-
-                    </div>
-                </div>
             </h:form>
 
-
-
         </div>
-        <!-- Modal Structure Shopping Cart-->
-        <div id="writeMessage" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <center>
-                    <h4>Escribe el mensaje  </h4>
-                </center>
-
-            </div>
-        </div>
+        
         <script type="text/javascript">
             function geocode() {
                 PF('gmap').geocode(document.getElementById('address1').value);
@@ -189,9 +169,9 @@
                     </p:column>
 
                     <p:column>
-                        <h:form > 
+                        <h:form id="addP"> 
                             <h:commandButton  actionListener ="#{orderCtrl.addProduct}" styleClass="btn btn-skin btn-scroll"  value="Añadir al carrito"   onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})">
-                                <f:ajax  execute="@this" />
+                                <f:ajax render=":pr:cartshopping" execute="@form" />
                                 <f:attribute name="idProduct" value="#{p.id}" />  
                             </h:commandButton>
                         </h:form>

@@ -9,6 +9,8 @@ import com.food.frontend.dao.DAOPrivateMessage;
 import com.food.model.PrivateMessage;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -27,7 +29,7 @@ public class PrivateMessageController implements Serializable{
     private DAOPrivateMessage daoPrivateMessage;
    
     private PrivateMessage pmsg;
-    private String destiny;
+    private String destination;
 
     @PostConstruct
     public void init() {
@@ -44,15 +46,23 @@ public class PrivateMessageController implements Serializable{
     }
     
     public void dataPM(ActionEvent event){
-    
-        
-        this.destiny =(String) event.getComponent().getAttributes().get("nameUser");
-        System.out.print(destiny);
-    
+        this.destination =(String) event.getComponent().getAttributes().get("nameUser");
     }
     public void sendPrivateMessage(ActionEvent event){
     
-        
+        String dest = (String) event.getComponent().getAttributes().get("destinatario");
+        String emisor = (String) event.getComponent().getAttributes().get("emisor");
+
+        try {
+
+            daoPrivateMessage.create(getPmsg());
+            pmsg.setMessage("");
+            FacesContext.getCurrentInstance().addMessage("envioCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se ha registrado correctamente correctamente."));
+
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage("envioIncorrecto", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no añadido correctamente", ex.getMessage()));
+
+        }
         
     
     }
@@ -60,15 +70,15 @@ public class PrivateMessageController implements Serializable{
     /**
      * @return the destiny
      */
-    public String getDestiny() {
-        return destiny;
+    public String getDestination() {
+        return destination;
     }
 
     /**
      * @param destiny the destiny to set
      */
-    public void setDestiny(String destiny) {
-        this.destiny = destiny;
+    public void setDestination(String destiny) {
+        this.destination = destiny;
     }
 
     /**

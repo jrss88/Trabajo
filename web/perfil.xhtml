@@ -14,7 +14,7 @@
             <div styleClass="row">
 
 
-                <h:form styleClass="well " id="formEdit" >
+                <h:form styleClass="well" id="formEdit" >
                     <div styleClass="modal-content">
                         <center>
                             <h4>Edita tus datos Personales </h4>
@@ -22,21 +22,21 @@
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">account_circle</i>
-                                <h:inputText id="name"  styleClass="validate" value="#{userCtrl.getUserByName(request.remoteUser).name}"/>
+                                <h:inputText id="name"  styleClass="validate" value="#{userCtrl.user.name}"/>
                                 <label for="name">Nombre Usuario</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">lock_outline</i>
-                                <h:inputSecret id="pass"  styleClass="validate" value="#{userCtrl.getUserByName(request.remoteUser).pass}"/>
+                                <h:inputSecret id="pass"  styleClass="validate" value="#{userCtrl.user.pass}"/>
                                 <label for="pass">Password</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">my_location</i>
-                                <h:inputText id="address"  styleClass="validate" value="#{userCtrl.getUserByName(request.remoteUser).address}"/>
+                                <h:inputText id="address"  styleClass="validate" value="#{userCtrl.user.address}"/>
                                 <label for="address">Dirección</label>
                             </div>
                         </div>
@@ -45,14 +45,14 @@
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">email</i>
-                                <h:inputText id="email"  styleClass="validate" value="#{userCtrl.getUserByName(request.remoteUser).email}"/>
+                                <h:inputText id="email"  styleClass="validate" value="#{userCtrl.user.email}"/>
                                 <label for="email">Email</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">phone</i>
-                                <h:inputText id="phone"  styleClass="validate" value="#{userCtrl.getUserByName(request.remoteUser).phone}"/>
+                                <h:inputText id="phone"  styleClass="validate" value="#{userCtrl.user.phone}"/>
                                 <label for="phone">Teléfono</label>
                             </div>
                         </div>
@@ -61,16 +61,16 @@
                         <!-- Switch -->
                         <div class="row" >
                             <div class="input-field col s12" style="text-align:center">
-                                <h:selectBooleanCheckbox id="particular" value="#{userCtrl.getUserByName(request.remoteUser).isParticular}" />
+                                <h:selectBooleanCheckbox id="particular" value="#{userCtrl.user.isParticular}" />
                                 <h:outputLabel value="Particular" for="particular" />
-                                <h:selectBooleanCheckbox id="restaurante" value="#{userCtrl.getUserByName(request.remoteUser).isProffesional}" />
+                                <h:selectBooleanCheckbox id="restaurante" value="#{userCtrl.user.isProffesional}" />
                                 <h:outputLabel value="Restaurante" for="restaurante" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12 selectPayment" >
                                 <i class="material-icons prefix">credit_card</i>
-                                <h:selectOneMenu  label="Inserta medio de pago" value="#{userCtrl.getUserByName(request.remoteUser).payment}">
+                                <h:selectOneMenu  label="Inserta medio de pago" value="#{userCtrl.user.payment}">
                                     <f:selectItem itemValue="1" itemLabel="Pago mediante Pay-Pal" />
                                     <f:selectItem itemValue="2" itemLabel="Pago en efectivo" />	   							
                                 </h:selectOneMenu>
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <h:commandButton id="guardar"  styleClass="btn btn-skin btn-scroll"  value="Guardar" action="#{userCtrl.editPerfil(userCtrl.getUserByName(request.remoteUser),userCtrl.getUserByName(request.remoteUser).id)}"/>
+                        <h:commandButton id="guardar"  styleClass="btn btn-skin btn-scroll"  value="Guardar" action="#{userCtrl.editPerfil(userCtrl.user,userCtrl.user.id)}"/>
                     </div>
                 </h:form>
 

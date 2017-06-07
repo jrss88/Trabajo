@@ -65,14 +65,16 @@ public class User implements Serializable {
     private boolean isProffesional;
     @Column(name = "payment")
     private int payment;
-    @OneToMany(fetch=FetchType.EAGER) 
+    @OneToMany
     private List<PrivateMessage> receivedMessages;
-    @OneToMany(fetch=FetchType.EAGER) 
+    @OneToMany
     private List<PrivateMessage> sentMessages;
-    @OneToMany(fetch=FetchType.EAGER) 
+    @OneToMany 
     private List<OnlineOrder> ordersPlaced;
     
 
+    public User(){}
+    
     public Long getId() {
         return id;
     }

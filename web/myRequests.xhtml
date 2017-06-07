@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+
+        <div id="container-fluid">
+
+            <div styleClass="row">
+
+
+                <h:form >
+                    <div styleClass="modal-content">
+                        <center>
+                            <h4>Peticiones de productos</h4>
+                        </center>
+
+                        <h:form id="requests"> 
+
+                            <h:dataTable var="Request" value="#{orderCtrl.ordersUser}" styleClass="table table-bordered centered" border="2"  >
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Fecha "></h:outputText>
+                                    </f:facet>
+                                    <h:outputText value="#{Request.date}"  ></h:outputText>
+                                </h:column>
+                            </h:dataTable> 
+                        </h:form>
+                    </div>
+                </h:form>
+
+
+            </div>
+        </div>
+        <ul class="pagination center-align">
+            <li class="disabled"><a href="/.."><i class="material-icons">chevron_left</i></a></li>
+            <li class="active"><a href="faces/perfil.xhtml">1</a></li>
+            <li class="waves-effect"><a href="faces/addProducts.xhtml">2</a></li>
+            <li class="waves-effect"><a href="faces/myRequests.xhtml">3</a></li>
+            <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+
+
+
+    </ui:define>
+
+
+
+</ui:composition>

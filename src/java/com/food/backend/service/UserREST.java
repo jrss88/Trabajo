@@ -55,13 +55,14 @@ public class UserREST {
         return Response.created(uri).build();
     }
 
-     @PUT
+    @PUT
     @Path("{id}")
-    @Consumes( MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public void edit(@PathParam("id") Long id, User entity) {
-        getEntityManager().merge(entity);
+        em.merge(entity);
+        em.flush();
     }
-    
+
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
@@ -78,15 +79,14 @@ public class UserREST {
         User u = em.find(User.class, id);
         return u;
     }
-    
+
     @GET
     @Path("findByName/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public User findByName(@PathParam("name") String name) {
-        User u = em.createQuery("SELECT u FROM User u WHERE u.name=?1", User.class).setParameter(1,name).getSingleResult();
+        User u = em.createQuery("SELECT u FROM User u WHERE u.name=?1", User.class).setParameter(1, name).getSingleResult();
         return u;
     }
-
 
     @DELETE
     @Path("{id}")

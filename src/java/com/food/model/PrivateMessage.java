@@ -37,8 +37,7 @@ public class PrivateMessage implements Serializable {
 
     public PrivateMessage() {
 
-        uEmisor = new User();
-        uReceptor = new User();
+        
         message = "";
         fecha = new Date();
 

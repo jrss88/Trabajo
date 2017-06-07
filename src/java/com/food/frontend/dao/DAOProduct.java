@@ -64,6 +64,9 @@ public class DAOProduct implements Serializable,IUProduct{
                 .put(javax.ws.rs.client.Entity
                 .entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
     }
+    
+
+    
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Product> getProducts(Long id) {
         List<Product> products

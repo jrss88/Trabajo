@@ -45,7 +45,9 @@ public class UserController implements Serializable {
     @PostConstruct
     public void init() {
 
-        user = new User();
+        String remoteUser= FacesContext.getCurrentInstance().getExternalContext().getRemoteUser(); 
+        user = daoUser.getUserByName(remoteUser);
+        
         receiver="";
    
     }
@@ -93,10 +95,10 @@ public class UserController implements Serializable {
 
         try {
             request.logout();
-            result = "../index?faces-redirect=true";
+            result = "index?faces-redirect=true";
         } catch (ServletException e) {
             log.log(Level.SEVERE, "Failed to logout user!", e);
-            result = "/errorlogin?faces-redirect=true";
+            result = "errorlogin?faces-redirect=true";
         }
 
         return result;
@@ -143,10 +145,6 @@ public class UserController implements Serializable {
 
     public void editPerfil(User u,Long id) {
 
-        System.out.println(u.getAddress());
-        this.user.setName(u.getName());
-        this.user.setPass(u.getPass());
-        this.user.setEmail(u.getEmail());
      
         try {
 

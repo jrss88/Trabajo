@@ -45,7 +45,14 @@ public class Product implements Serializable {
     @Pattern(regexp = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)", message = "Tipo de imágen inválido")
     private String imagen;
 
+    public Product(){
     
+        name="";
+        precio=0.0;
+        descripcion="";
+        ratingAverage=0;
+    
+    }
     public Long getId() {
         return id;
     }

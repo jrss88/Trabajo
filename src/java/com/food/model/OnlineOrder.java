@@ -44,8 +44,7 @@ public class OnlineOrder implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @OneToMany(fetch=FetchType.EAGER)
-    @XmlTransient
+    @OneToMany
     private List<Product> products;
     
     @ManyToOne
@@ -138,6 +137,7 @@ public class OnlineOrder implements Serializable {
     /**
      * @return the products
      */
+    
     @XmlTransient
     public List<Product> getProducts() {
         return products;

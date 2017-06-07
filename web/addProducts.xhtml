@@ -71,10 +71,6 @@
                                 </div>
                                 <div class="modal-footer">
 
-                                    <input type="hidden" value="#{userCtrl.getUserByName(request.getUserPrincipal()).id}" id="id_user" name="id_user"></input>
-
-
-
                                     <h:commandButton id="enviar"  class="btn btn-skin btn-scroll"  value="Enviar" action="#{productCtrl.createProduct(fileUpload.fichero)}"/>
 
                                 </div>
@@ -88,7 +84,7 @@
 
             </div>
             <h:form>
-                <h:dataTable var="Product" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(request.getUserPrincipal()).id)}" class="table table-bordered centered" border="2">
+                <h:dataTable var="Product" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(request.remoteUser).id)}" class="table table-bordered centered" border="2">
 
                     <h:column>
 
@@ -112,14 +108,15 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <h:form class="well " enctype="multipart/form-data">
+                                    
                                     <h:commandButton id="delete"  class="btn btn-skin btn-scroll"  value="Eliminar del perfil" action="#{productCtrl.deleteProduct(Product.id)}" onclick="Materialize.toast('Producto eliminado del perfil!', 4000, '', function () {})"/>
-                                    </h:form>
+                                    
                                 </div>
 
 
 
                             </div>
+                            
                             <div class="card-reveal">
                                 <span class="card-title grey-text text-darken-4">Edita el producto<i class="material-icons right">close</i></span>
                                 <h:form class="well " id="formeditProduct" enctype="multipart/form-data">
@@ -128,7 +125,7 @@
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <i class="material-icons prefix">account_circle</i>
-                                            <h:inputText id="name"  class="validate" value="#{Product.name}"/>
+                                            <h:inputText id="name"  class="validate" value="#{productCtrl.product.name}"/>
                                             <label for="name">Nombre del Producto</label>
                                         </div>
                                     </div>
@@ -148,22 +145,17 @@
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <i class="material-icons prefix">image</i>
-
+                                            <i class="material-icons prefix">image</i> 
                                             <h:inputFile class="form-control" id="file" value="#{fileUpload.fichero}" />
                                         </div>
                                     </div>
-
-                                    <input type="hidden" value="#{userCtrl.getUserByName(request.getUserPrincipal()).id}" id="id_user" name="id_user"></input>
-                                    <h:commandButton id="enviar"  class="btn btn-skin btn-scroll"  value="Editar" action="#{productCtrl.editProduct(fileUpload.fichero,Product.id)}"/>
-
+                                    <h:form enctype="multipart/form-data">
+                                    <h:commandButton id="enviar"  class="btn btn-skin btn-scroll"  value="Editar" action="#{productCtrl.editProduct(fileUpload.fichero,Product)}"/>
+                                    </h:form>
                                 </h:form>
                             </div>
-
                         </div>
-
                     </h:column>
-
                 </h:dataTable>	
             </h:form>
             <h:body>

@@ -8,6 +8,7 @@ package com.food.frontend.controller;
 import com.food.frontend.dao.DAOProduct;
 import com.food.frontend.dao.DAOUser;
 import com.food.model.Product;
+import com.food.model.User;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -42,6 +43,7 @@ public class ProductController implements Serializable {
     public void init() {
 
         product = new Product();
+        
     }
 
     public ProductController() {
@@ -54,9 +56,9 @@ public class ProductController implements Serializable {
         FileUpload fichero = new FileUpload();
 
         int valoracion = 3;
-        String id_userr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id_user");
-        Long id_user = new Long(Long.parseLong(id_userr));
-
+        String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        User u = daoUser.getUserByName(remoteUser);
+        Long id_user = u.getId();
         this.product.setU(daoUser.getUser(id_user));
 
         this.product.setName(this.product.getName());
@@ -91,28 +93,35 @@ public class ProductController implements Serializable {
 
     }
 
-    public void editProduct(Part file, Long id) throws IOException {
+    public void editProduct(Part file, Product p) throws IOException {
 
         String img = file.getName();
         FileUpload fichero = new FileUpload();
-
+        
+        
         int valoracion = 3;
-        String id_userr = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id_user");
-        Long id_user = new Long(Long.parseLong(id_userr));
+        
+        
 
-        this.product.setU(daoUser.getUser(id_user));
+        System.out.print("asdasd asdasdasd");
+        System.out.print(p.getId());
+        
+        String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        User u = daoUser.getUserByName(remoteUser);
+        Long id_user = u.getId();
+        product= daoProduct.getProduct(p.getId());
+        product.setU(daoUser.getUser(id_user));
+        
+        this.product.setDescripcion(p.getDescripcion());
+        product.setPrecio(p.getPrecio());
 
-        this.product.setName(this.product.getName());
-        this.product.setPrecio(this.product.getPrecio());
-        this.product.setDescripcion(this.product.getDescripcion());
-        this.product.setRatingAverage(valoracion);
-
+        
         if (fichero.upload(file)) {
 
-            this.product.setImagen(fichero.getNombre());
+            product.setImagen(fichero.getNombre());
 
             try {
-                daoProduct.editProduct(this.product.getId(), this.product);
+                daoProduct.editProduct(this.product.getId(),this.product);
                 FacesContext.getCurrentInstance().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "La edición del producto se ha realizado correctamente."));
             } catch (Exception ex) {
                 FacesContext.getCurrentInstance().addMessage("registroInCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "InCorrecto", "La edición del producto no se ha realizado correctamente."));
@@ -123,7 +132,7 @@ public class ProductController implements Serializable {
         if (!fichero.upload(file)) {
             this.product.setImagen("defecto.png");
             try {
-                daoProduct.editProduct(this.product.getId(),this.product) ;
+                daoProduct.editProduct(product.getId(),product) ;
                 FacesContext.getCurrentInstance().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "La edición del producto se ha realizado correctamente."));
             } catch (Exception ex) {
                 FacesContext.getCurrentInstance().addMessage("registroInCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "InCorrecto", "La edición del producto no se ha realizado correctamente."));
