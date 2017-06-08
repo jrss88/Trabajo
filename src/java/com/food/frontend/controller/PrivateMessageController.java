@@ -6,7 +6,9 @@
 package com.food.frontend.controller;
 
 import com.food.frontend.dao.DAOPrivateMessage;
+import com.food.frontend.dao.DAOUser;
 import com.food.model.PrivateMessage;
+import com.food.model.User;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -27,6 +29,9 @@ public class PrivateMessageController implements Serializable{
     
     @Inject
     private DAOPrivateMessage daoPrivateMessage;
+    
+    @Inject
+    private DAOUser daoUser;
    
     private PrivateMessage pmsg;
     private String destination;
@@ -39,20 +44,24 @@ public class PrivateMessageController implements Serializable{
 
     }
 
-    public PrivateMessageController() {
-
-        
-        
-    }
+    public PrivateMessageController() {}
     
     public void dataPM(ActionEvent event){
         this.destination =(String) event.getComponent().getAttributes().get("nameUser");
     }
     public void sendPrivateMessage(ActionEvent event){
     
-        String dest = (String) event.getComponent().getAttributes().get("destinatario");
+        
         String emisor = (String) event.getComponent().getAttributes().get("emisor");
-
+        User uEmisor = daoUser.getUserByName(emisor);
+        Long id_emisor = uEmisor.getId();
+        pmsg.setuEmisor(daoUser.getUser(id_emisor));
+        
+        String dest = (String) event.getComponent().getAttributes().get("destinatario");
+        User uDest = daoUser.getUserByName(dest);
+        Long id_dest = uDest.getId();
+        pmsg.setuReceptor(daoUser.getUser(id_dest));
+        
         try {
 
             daoPrivateMessage.create(getPmsg());
@@ -93,6 +102,20 @@ public class PrivateMessageController implements Serializable{
      */
     public void setPmsg(PrivateMessage pmsg) {
         this.pmsg = pmsg;
+    }
+
+    /**
+     * @return the daoUser
+     */
+    public DAOUser getDaoUser() {
+        return daoUser;
+    }
+
+    /**
+     * @param daoUser the daoUser to set
+     */
+    public void setDaoUser(DAOUser daoUser) {
+        this.daoUser = daoUser;
     }
 
 }

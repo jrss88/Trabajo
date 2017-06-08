@@ -45,7 +45,8 @@ public class UserController implements Serializable {
     @PostConstruct
     public void init() {
 
-        String remoteUser= FacesContext.getCurrentInstance().getExternalContext().getRemoteUser(); 
+        String remoteUser= FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        //user= new User();
         user = daoUser.getUserByName(remoteUser);
         
         receiver="";

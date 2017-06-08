@@ -59,7 +59,7 @@ public class DAOOrder implements IUOrders,Serializable{
         return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
     }
 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes(MediaType.APPLICATION_JSON)
     public List<OnlineOrder> getOrdersU(Long id) {
         List<OnlineOrder> orders
                 = webTarget

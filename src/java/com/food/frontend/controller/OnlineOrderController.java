@@ -46,10 +46,13 @@ public class OnlineOrderController implements Serializable {
 
     private OnlineOrder order;
 
+    private String saler;
+    
     @PostConstruct
     public void init() {
 
         order = new OnlineOrder(); //init order on entering view
+        
 
     }
 
@@ -58,16 +61,24 @@ public class OnlineOrderController implements Serializable {
         order = new OnlineOrder();
     }
 
-    public void createOrder() {
+    public void createOrder(ActionEvent ae) {
 
         String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         User u = daoUser.getUserByName(remoteUser);
         Long id_user = u.getId();
-
+        order.setU(daoUser.getUser(id_user));
+        
+        saler = (String) ae.getComponent().getAttributes().get("saler");
+        User us=daoUser.getUserByName(saler);
+        Long id_saler = us.getId();
+        order.setU_saler(daoUser.getUser(id_saler));
+                  
+        
 //        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 //        String sessionId = session.getId();
 //        Long id_user= new Long(Long.parseLong(sessionId));
-        order.setU(daoUser.getUser(id_user));
+          
+            
 
         try {
             daoOrder.createOrder(order);
@@ -76,24 +87,25 @@ public class OnlineOrderController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("DontInitOrder", new FacesMessage(FacesMessage.SEVERITY_INFO, "InCorrecto", "No has comenzado el pedido."));
         }
         order.getProducts().clear();
+        order.setTotal(0.0);
+        
     }
 
     //add product to cartShopping and add price to total
     public void addProduct(ActionEvent event) {
 
         Long idProduct = (Long) event.getComponent().getAttributes().get("idProduct");
-
         Product p = daoProduct.getProduct(idProduct);
         order.getProducts().add(p); //aquí lp devolvía null y fallaba add
-
-        if (order == null) {
-            createOrder();
-        } else {
-            setPriceToTotal(p.getPrecio());
-        }
+        
+        setPriceToTotal(p.getPrecio());
+        
 
     }
-
+    public void setSaler(ActionEvent ae){
+    
+        
+    }
     public void setPriceToTotal(double price) {
 
         order.setTotal(order.getTotal() + price);
@@ -105,8 +117,7 @@ public class OnlineOrderController implements Serializable {
         String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         User u = daoUser.getUserByName(remoteUser);
         Long id_user = u.getId();
-        System.out.print("asdfasdf asdfasdf sda");
-        System.out.print(id_user);
+        
 
         List<OnlineOrder> l = new ArrayList<OnlineOrder>();
         l = daoOrder.getOrdersU(id_user);
@@ -161,6 +172,20 @@ public class OnlineOrderController implements Serializable {
      */
     public void setDaoProduct(DAOProduct daoProduct) {
         this.daoProduct = daoProduct;
+    }
+
+    /**
+     * @return the saler
+     */
+    public String getSaler() {
+        return saler;
+    }
+
+    /**
+     * @param saler the saler to set
+     */
+    public void setSaler(String saler) {
+        this.saler = saler;
     }
 
 }

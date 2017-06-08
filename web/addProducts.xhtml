@@ -84,7 +84,7 @@
 
             </div>
             <h:form>
-                <h:dataTable var="Product" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(request.remoteUser).id)}" class="table table-bordered centered" border="2">
+                <h:dataTable  var="Product" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(request.remoteUser).id)}" class="table table-bordered centered" border="2">
 
                     <h:column>
 
@@ -108,15 +108,14 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    
+                                    <h:form class="well " enctype="multipart/form-data">
                                     <h:commandButton id="delete"  class="btn btn-skin btn-scroll"  value="Eliminar del perfil" action="#{productCtrl.deleteProduct(Product.id)}" onclick="Materialize.toast('Producto eliminado del perfil!', 4000, '', function () {})"/>
-                                    
+                                    </h:form>
                                 </div>
 
 
 
                             </div>
-                            
                             <div class="card-reveal">
                                 <span class="card-title grey-text text-darken-4">Edita el producto<i class="material-icons right">close</i></span>
                                 <h:form class="well " id="formeditProduct" enctype="multipart/form-data">
@@ -145,7 +144,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <i class="material-icons prefix">image</i> 
+                                            <i class="material-icons prefix">image</i>
+
                                             <h:inputFile class="form-control" id="file" value="#{fileUpload.fichero}" />
                                         </div>
                                     </div>
@@ -154,8 +154,11 @@
                                     </h:form>
                                 </h:form>
                             </div>
+
                         </div>
+
                     </h:column>
+
                 </h:dataTable>	
             </h:form>
             <h:body>
@@ -166,7 +169,7 @@
             <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
             <li class="waves-effect"><a href="faces/perfil.xhtml">1</a></li>
             <li class="active"><a href="faces/anhadirProductos.xhtml">2</a></li>
-            <li class="waves-effect"><a href="#!">3</a></li>
+            <li class="waves-effect"><a href="faces/myRequests.xhtml">3</a></li>
             <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
 

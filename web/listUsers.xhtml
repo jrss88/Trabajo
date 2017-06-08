@@ -95,7 +95,7 @@
                         <h:commandButton  actionListener ="#{privateMessageCtrl.sendPrivateMessage}" styleClass="btn btn-skin btn-scroll"  value="Enviar"  onclick="PF('pm').hide(); Materialize.toast('Mensaje enviado!', 4000, '', function () {})">
                             <f:ajax  execute="@form" />
                             <f:attribute name="emisor" value="#{request.remoteUser}" /> 
-                            <f:attribute name="destinatario" value="#{User.name}" />  
+                            <f:attribute name="destinatario" value="#{privateMessageCtrl.destination}" />  
                         </h:commandButton>
 
                     </h:panelGroup>

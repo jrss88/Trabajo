@@ -33,6 +33,8 @@ import javax.ws.rs.core.UriInfo;
  */
 @Stateless
 @Path("orders")
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 public class OnlineOrderREST {
 
     @PersistenceContext(unitName = "TFGFoodPU")
@@ -44,6 +46,7 @@ public class OnlineOrderREST {
     public OnlineOrderREST() {
         
     }
+    
     @GET
     public JsonObject ShowMessageMain() {
 
@@ -80,7 +83,7 @@ public class OnlineOrderREST {
     }
 
     @GET
-    @Produces( MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("all")
     public List<OnlineOrder> findAll() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -97,6 +100,8 @@ public class OnlineOrderREST {
                  .setParameter(1,id).getResultList();
         return lo;
     }
+    
+    
 
     @GET
     @Path("products/order/{id_o}/user/{id}")
@@ -104,10 +109,13 @@ public class OnlineOrderREST {
     public List<Product> getProductsOrderUser(@PathParam("id")Long id) {
 
         
-        List<Product> lo = em.createQuery("SELECT * FROM OnlineOrder o.products WHERE o.u.id=?1", Product.class)
+        List<Product> lo = em.createQuery("SELECT p FROM OnlineOrder o.products p WHERE o.u.id=?1", Product.class)
                  .setParameter(1,id).getResultList();
         return lo;
     }
+
+    
+
 
     protected EntityManager getEntityManager() {
         return em;

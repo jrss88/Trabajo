@@ -107,6 +107,7 @@ $(document).ready(function () {
     });
     $(".datepicker").open;
 
+
     
 
 //jquery valor valoración para el Rating

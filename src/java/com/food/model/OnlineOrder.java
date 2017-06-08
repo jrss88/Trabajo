@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,12 +44,14 @@ public class OnlineOrder implements Serializable {
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-
-    @OneToMany
+ 
+    @OneToMany (fetch = FetchType.EAGER)
     private List<Product> products;
     
-    @ManyToOne
+    @OneToOne
     private User u;
+    @OneToOne
+    private User u_saler;
     
     public OnlineOrder(){
     
@@ -138,7 +141,7 @@ public class OnlineOrder implements Serializable {
      * @return the products
      */
     
-    @XmlTransient
+  
     public List<Product> getProducts() {
         return products;
     }
@@ -166,6 +169,20 @@ public class OnlineOrder implements Serializable {
      */
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    /**
+     * @return the u_saler
+     */
+    public User getU_saler() {
+        return u_saler;
+    }
+
+    /**
+     * @param u_saler the u_saler to set
+     */
+    public void setU_saler(User u_saler) {
+        this.u_saler = u_saler;
     }
 
     

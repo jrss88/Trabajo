@@ -39,7 +39,7 @@
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
                 <c:choose>
-                    <c:when test="${empty request.getRemoteUser()}">
+                    <c:when test="${empty request.remoteUser}">
                         <ul class="right hide-on-med-and-down">
 
 
@@ -64,7 +64,7 @@
                                 <h:form>
 
 
-                                    <p:menuButton value="Bienvenid@ #{request.getUserPrincipal()}" >
+                                    <p:menuButton value="Bienvenid@ #{request.remoteUser}" >
                                         <p:menuitem value="Mi Perfil" url="faces/perfil.xhtml"  icon="ui-icon-person" styleClass="submenu"/>
                                         <p:menuitem value="Productos ofrecidos" url="faces/addProducts.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
                                         <p:menuitem value="Mis pedidos" url="faces/myRequests.xhtml"  icon="ui-icon-note"/>
@@ -102,42 +102,46 @@
         </div>
         <h:form >
             <!-- Modal Structure Shopping Cart-->
-            
-                <div id="modalShoppingCart" class="modal modal-fixed-footer">
 
-                    <center>
-                        <br/>
-                        <h4>Tu Carrito de la Compra </h4>
-                    </center>
+            <div id="modalShoppingCart" class="modal modal-fixed-footer">
+
+                <center>
+                    <br/>
+                    <h4>Tu Carrito de la Compra </h4>
+                </center>
 
 
-                    <p:dataTable styleClass="table-bordered" reflow="true" value="#{orderCtrl.order.products}" var="p" >
-                        <ul class="collection">
-                            <p:column>
+                <p:dataTable styleClass="table-bordered" reflow="true" value="#{orderCtrl.order.products}" var="p" >
+                    <ul class="collection">
+                        <p:column>
 
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="activator" src="resources/images/#{p.imagen}" width="100%" height="100%"></img>
-                                </div>
-                            </p:column>
-                            <p:column headerText="Ofrecido por: ">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <img class="activator" src="resources/images/#{p.imagen}" width="100%" height="100%"></img>
+                            </div>
+                        </p:column>
+                        <p:column headerText="Ofrecido por: ">
 
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <h:outputText value="#{p.u.name}"/>
-                                </div>
-                            </p:column>
-                            <p:column headerText="Eliminar ">
-                                <h:commandButton styleClass="btn-skin"  action="#{orderCtrl.deleteProduct(p)}"  >
-                                    <i class="material-icons prefix">delete</i>
-                                </h:commandButton>
-                            </p:column>
-                        </ul>
-                    </p:dataTable>
-                    
-                    <h4>Total: </h4><h:outputText value="#{orderCtrl.order.total}"></h:outputText>
-                    <h:commandButton id="anadir"  styleClass="btn btn-skin btn-scroll"  value="Confirmar pedidos" action="#{orderCtrl.createOrder()}" onclick="Materialize.toast('Pedido enviado!!', 4000, '', function () {})">
-                    
-                    </h:commandButton>
-                </div>
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <h:outputText   value="#{p.u.name}">
+
+                                </h:outputText>
+
+                            </div>
+                        </p:column>
+                        <p:column headerText="Eliminar ">
+                            <h:commandButton styleClass="btn-skin"  action="#{orderCtrl.deleteProduct(p)}"  >
+                                <i class="material-icons prefix">delete</i>
+                            </h:commandButton>
+                        </p:column>
+                    </ul>
+                </p:dataTable>
+
+                <h4>Total: </h4><h:outputText value="#{orderCtrl.order.total}"></h:outputText>
+                <h:commandButton id="confirm"  styleClass="btn btn-skin btn-scroll"  value="Confirmar pedido" actionListener="#{orderCtrl.createOrder}" onclick="Materialize.toast('Pedido enviado!!', 4000, '', function () {})">
+                    <f:ajax execute="@form"/>
+                    <f:attribute name = "saler" value = "JSF 2.0 User" /> 
+                </h:commandButton>
+            </div>
         </h:form>
         <div class="row">
             <div class="col s9">
@@ -182,34 +186,35 @@
                                             <br/>
                                             <h4>Tu Carrito de la Compra </h4>
                                         </center>
-                                      
-                                            <p:dataTable styleClass="table-bordered" reflow="true" value="#{orderCtrl.order.products}" var="p" >
-                                                <ul class="collection">
-                                                    <p:column>
-                                                        <div class="card-image waves-effect waves-block waves-light">
-                                                            <img class="activator" src="resources/images/#{p.imagen}" width="100%" height="100%"></img>
-                                                        </div>
-                                                    </p:column>
-                                                    <p:column headerText="Pedir a: ">
-                                                        <div class="card-image waves-effect waves-block waves-light">
-                                                            <h:outputText value="#{p.u.name}"/>
-                                                        </div>
-                                                    </p:column>
-                                                    <p:column headerText="Eliminar ">
-                                                        <h:commandButton styleClass="btn-skin" value="Eliminar" action="#{orderCtrl.deleteProduct(p)}"  >
-                                                        </h:commandButton>
-                                                    </p:column>
-                                                </ul>
-                                            </p:dataTable>
 
+                                        <p:dataTable styleClass="table-bordered" reflow="true" value="#{orderCtrl.order.products}" var="p" >
+                                            <ul class="collection">
+                                                <p:column>
+                                                    <div class="card-image waves-effect waves-block waves-light">
+                                                        <img class="activator" src="resources/images/#{p.imagen}" width="100%" height="100%"></img>
+                                                    </div>
+                                                </p:column>
+                                                <p:column headerText="Pedir a: ">
+                                                    <div class="card-image waves-effect waves-block waves-light">
+                                                        <h:outputText value="#{p.u.name}">
+                                                        
+                                                        </h:outputText>
+                                                        
+                                                    </div>
+                                                </p:column>
+                                                <p:column headerText="Eliminar ">
+                                                    <h:commandButton styleClass="btn-skin" value="Eliminar" action="#{orderCtrl.deleteProduct(p)}"  >
+                                                    </h:commandButton>
+                                                </p:column>
+                                            </ul>
+                                        </p:dataTable>
+                                        <h4>Total: </h4><h:outputText value="#{orderCtrl.order.total}"></h:outputText>
+                                        <br/>
+                                        <h:commandButton id="anadir"  styleClass="btn btn-skin btn-scroll"  value="Confirmar pedido" actionListener="#{orderCtrl.createOrder}" onclick="Materialize.toast('Pedido enviado!!', 4000, '', function () {})">
+                                            <f:ajax render=":pr:cartshopping " execute="@form"/>
+                                            <f:attribute name = "saler" value = "carmen" /> 
+                                        </h:commandButton>
 
-                                            <h4>Total: </h4><h:outputText value="#{orderCtrl.order.total}"></h:outputText>
-                                            <br/>
-                                            <h:commandButton styleClass="btn btn-skin btn-scroll"  value="Confirmar pedidos" action="#{orderCtrl.createOrder()}" onclick="Materialize.toast('Pedido enviado!!', 4000, '', function () {})">
-                                                
-                                                
-                                            </h:commandButton>
-                                        
 
                                     </h:panelGroup>
                                 </h:form>
