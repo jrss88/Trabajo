@@ -33,13 +33,13 @@ public class PrivateMessage implements Serializable {
     @OneToOne
     private User uReceptor;
     private String message;
-    private Date fecha;
+    private Date date;
 
     public PrivateMessage() {
 
         
         message = "";
-        fecha = new Date();
+        date = new Date();
 
     }
 
@@ -121,15 +121,15 @@ public class PrivateMessage implements Serializable {
     /**
      * @return the fecha
      */
-    public Date getFecha() {
-        return fecha;
+    public Date getDate() {
+        return date;
     }
 
     /**
      * @param fecha the fecha to set
      */
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
 }

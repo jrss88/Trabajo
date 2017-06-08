@@ -65,12 +65,7 @@ public class User implements Serializable {
     private boolean isProffesional;
     @Column(name = "payment")
     private int payment;
-    @OneToMany
-    private List<PrivateMessage> receivedMessages;
-    @OneToMany
-    private List<PrivateMessage> sentMessages;
-    @OneToMany 
-    private List<OnlineOrder> ordersPlaced;
+    
     
 
     public User(){}
@@ -222,35 +217,6 @@ public class User implements Serializable {
         this.payment = payment;
     }
 
-    /**
-     * @return the receivedMessages
-     */
-    @XmlTransient
-    public List<PrivateMessage> getReceivedMessages() {
-        return receivedMessages;
-    }
-
-    /**
-     * @param receivedMessages the receivedMessages to set
-     */
-    public void setReceivedMessages(List<PrivateMessage> receivedMessages) {
-        this.receivedMessages = receivedMessages;
-    }
-
-    /**
-     * @return the sentMessages
-     */
-    @XmlTransient
-    public List<PrivateMessage> getSentMessages() {
-        return sentMessages;
-    }
-
-    /**
-     * @param sentMessages the sentMessages to set
-     */
-    public void setSentMessages(List<PrivateMessage> sentMessages) {
-        this.sentMessages = sentMessages;
-    }
 
     /**
      * @return the isParticular
@@ -280,20 +246,6 @@ public class User implements Serializable {
         this.isProffesional = isProffesional;
     }
 
-    /**
-     * @return the ordersPlaced
-     */
-    @XmlTransient
-    public List<OnlineOrder> getOrdersPlaced() {
-        return ordersPlaced;
-    }
-
-    /**
-     * @param ordersPlaced the ordersPlaced to set
-     */
-    public void setOrdersPlaced(List<OnlineOrder> ordersPlaced) {
-        this.ordersPlaced = ordersPlaced;
-    }
 
   
     

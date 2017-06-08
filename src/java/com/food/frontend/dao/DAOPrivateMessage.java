@@ -8,6 +8,7 @@ package com.food.frontend.dao;
 import com.food.frontend.interfaces.IUPrivateMessage;
 import com.food.model.PrivateMessage;
 import java.io.Serializable;
+import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -16,6 +17,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -64,6 +66,27 @@ public class DAOPrivateMessage implements Serializable,IUPrivateMessage{
         return pm;
     }
 
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<PrivateMessage> getPrivateMessagesSends(Long id) {
+        List<PrivateMessage> privateMessagesSends
+                = webTarget
+                .path("sends/{id}").resolveTemplate("id", id)
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<PrivateMessage>>() {
+                });
+        return privateMessagesSends;
+    }
+    
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<PrivateMessage> getPrivateMessagesReceived(Long id) {
+        List<PrivateMessage> privateMessagesReceived
+                = webTarget
+                .path("received/{id}").resolveTemplate("id", id)
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<PrivateMessage>>() {
+                });
+        return privateMessagesReceived;
+    }
     
 
     public void remove(String id) throws ClientErrorException {

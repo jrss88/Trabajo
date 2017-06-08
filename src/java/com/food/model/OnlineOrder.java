@@ -40,7 +40,7 @@ public class OnlineOrder implements Serializable {
     @Column
     private double total;
     @Column
-    private int state;//0 en curso, 1 enviado, 2 finalizado
+    private int state;//0 pendiente, 1 aceptado, 2 entregado
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;

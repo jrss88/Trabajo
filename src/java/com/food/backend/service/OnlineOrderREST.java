@@ -62,7 +62,7 @@ public class OnlineOrderREST {
 
     @PUT
     @Path("{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes(MediaType.APPLICATION_JSON)
     public void edit(@PathParam("id") Long id, OnlineOrder entity) {
         em.merge(entity);
         em.flush();
@@ -104,7 +104,7 @@ public class OnlineOrderREST {
     
 
     @GET
-    @Path("products/order/{id_o}/user/{id}")
+    @Path("products/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Product> getProductsOrderUser(@PathParam("id")Long id) {
 
@@ -115,7 +115,15 @@ public class OnlineOrderREST {
     }
 
     
+    @GET
+    @Path("received/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<OnlineOrder> showOrderExternalUser(@PathParam("id")Long id) {
 
+        List<OnlineOrder> lo = em.createQuery("SELECT o FROM OnlineOrder o WHERE o.u_saler.id=?1", OnlineOrder.class)
+                 .setParameter(1,id).getResultList();
+        return lo;
+    }
 
     protected EntityManager getEntityManager() {
         return em;

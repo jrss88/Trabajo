@@ -47,12 +47,13 @@ public class OnlineOrderController implements Serializable {
     private OnlineOrder order;
 
     private String saler;
-    
+    private String stateOrder;
+
     @PostConstruct
     public void init() {
 
-        order = new OnlineOrder(); //init order on entering view
         
+        order = new OnlineOrder(); //init order on entering view
 
     }
 
@@ -67,19 +68,15 @@ public class OnlineOrderController implements Serializable {
         User u = daoUser.getUserByName(remoteUser);
         Long id_user = u.getId();
         order.setU(daoUser.getUser(id_user));
-        
+
         saler = (String) ae.getComponent().getAttributes().get("saler");
-        User us=daoUser.getUserByName(saler);
+        User us = daoUser.getUserByName(saler);
         Long id_saler = us.getId();
         order.setU_saler(daoUser.getUser(id_saler));
-                  
-        
+
 //        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 //        String sessionId = session.getId();
 //        Long id_user= new Long(Long.parseLong(sessionId));
-          
-            
-
         try {
             daoOrder.createOrder(order);
             FacesContext.getCurrentInstance().addMessage("InitOrder", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Has comenzado un pedido."));
@@ -88,7 +85,7 @@ public class OnlineOrderController implements Serializable {
         }
         order.getProducts().clear();
         order.setTotal(0.0);
-        
+
     }
 
     //add product to cartShopping and add price to total
@@ -97,15 +94,15 @@ public class OnlineOrderController implements Serializable {
         Long idProduct = (Long) event.getComponent().getAttributes().get("idProduct");
         Product p = daoProduct.getProduct(idProduct);
         order.getProducts().add(p); //aquí lp devolvía null y fallaba add
-        
+
         setPriceToTotal(p.getPrecio());
-        
 
     }
-    public void setSaler(ActionEvent ae){
-    
-        
+
+    public void setSaler(ActionEvent ae) {
+
     }
+
     public void setPriceToTotal(double price) {
 
         order.setTotal(order.getTotal() + price);
@@ -117,10 +114,25 @@ public class OnlineOrderController implements Serializable {
         String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         User u = daoUser.getUserByName(remoteUser);
         Long id_user = u.getId();
-        
 
         List<OnlineOrder> l = new ArrayList<OnlineOrder>();
         l = daoOrder.getOrdersU(id_user);
+        return l;
+    }
+
+    public void editOrder(OnlineOrder o, Long id) {
+
+        daoOrder.editOrder(o, id);
+    }
+
+    public List<OnlineOrder> getOrdersUserReceived() {
+
+        String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        User u = daoUser.getUserByName(remoteUser);
+        Long id_user = u.getId();
+
+        List<OnlineOrder> l = new ArrayList<OnlineOrder>();
+        l = daoOrder.getOrdersReceived(id_user);
         return l;
     }
 
@@ -131,6 +143,15 @@ public class OnlineOrderController implements Serializable {
         order.setTotal(newTotal);
 
     }
+
+    public void setStateOfOrder(ActionEvent ae) {
+
+        order = (OnlineOrder) ae.getComponent().getAttributes().get("order");
+        order.setState(1);
+        editOrder(order, order.getId());
+
+    }
+
 
     /**
      * @return the daoOrder
@@ -186,6 +207,20 @@ public class OnlineOrderController implements Serializable {
      */
     public void setSaler(String saler) {
         this.saler = saler;
+    }
+
+    /**
+     * @return the stateOrder
+     */
+    public String getStateOrder() {
+        return stateOrder;
+    }
+
+    /**
+     * @param stateOrder the stateOrder to set
+     */
+    public void setStateOrder(String stateOrder) {
+        this.stateOrder = stateOrder;
     }
 
 }

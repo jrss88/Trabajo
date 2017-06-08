@@ -60,6 +60,15 @@ public class DAOOrder implements IUOrders,Serializable{
     }
 
     @Consumes(MediaType.APPLICATION_JSON)
+    public Response editOrder(Object requestEntity,Long id) throws ClientErrorException {
+        return webTarget
+                .path("{id}")
+                .resolveTemplate("id", id)
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .put(javax.ws.rs.client.Entity
+                .entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
+    }
+    @Consumes(MediaType.APPLICATION_JSON)
     public List<OnlineOrder> getOrdersU(Long id) {
         List<OnlineOrder> orders
                 = webTarget
@@ -70,11 +79,22 @@ public class DAOOrder implements IUOrders,Serializable{
         return orders;
     }
 
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<OnlineOrder> getOrdersReceived(Long id) {
+        List<OnlineOrder> orders
+                = webTarget
+                .path("received/{id}").resolveTemplate("id", id)
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<OnlineOrder>>() {
+                });
+        return orders;
+    }
+    
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Product> getProductsOfOrderU(Long id) {
         List<Product> products
                 = webTarget
-                .path("products/order/user/{id}").resolveTemplate("id", id)
+                .path("products/{id}").resolveTemplate("id", id)
                 .request(MediaType.APPLICATION_JSON)
                 .get(new GenericType<List<Product>>() {
                 });

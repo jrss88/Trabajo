@@ -13,33 +13,35 @@
 
             <div styleClass="row">
 
-                <div styleClass="modal-content">
-                    <center>
-                        <h4>Mis Peticiones de productos</h4>
-                    </center>
 
-                    <h:form id="myrequests"> 
-                        <h:panelGroup id="myR">
-                            <h:dataTable var="MyOrder" value="#{orderCtrl.ordersUser}" styleClass="table table-bordered centered" border="2"  >
+                <h:form >
+                    <div styleClass="modal-content">
+                        <center>
+                            <h4>Mira lo que te han pedido</h4>
+                        </center>
+
+                        <h:form id="requestsExternal"> 
+
+                            <h:dataTable var="Order" value="#{orderCtrl.ordersUserReceived}" styleClass="table table-bordered centered" border="2"  >
 
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Fecha "></h:outputText>
                                     </f:facet>
-                                    <h:outputText value="#{MyOrder.date}"  ></h:outputText>
+                                    <h:outputText value="#{Order.date}"  ></h:outputText>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">
-                                        <h:outputText value="Pedido a: "></h:outputText>
+                                        <h:outputText value="Te lo pide: "></h:outputText>
                                     </f:facet>
 
-                                    <h:outputText style="color:green" value="#{MyOrder.u_saler.name}"  ></h:outputText>
+                                    <h:outputText style="color:green" value="#{Order.u.name}"  ></h:outputText>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header" >
                                         <h:outputText value="Productos"/>
                                     </f:facet>    
-                                    <h:dataTable value="#{MyOrder.products}" var="p" >
+                                    <h:dataTable value="#{Order.products}" var="p" >
                                         <h:column>
 
                                             <div class="card" style="width: 40%;height: 40%">
@@ -65,27 +67,23 @@
                                                 </div>
                                             </div>
                                         </h:column>
+                                        <p:column>
+                                            <h:form id="aceptOrder"> 
+                                                <h:commandButton  actionListener ="#{orderCtrl.setStateOfOrder}" styleClass="btn btn-skin btn-scroll"  value="Aceptar"   onclick="Materialize.toast('Has aceptado!!Tu cliente se encuentra a la espera', 4000, '', function () {})">
+                                                    <f:ajax  execute="@form" />
+                                                    <f:attribute name="order" value="#{Order}"/>
+                                                </h:commandButton>
+                                            </h:form>
+                                        </p:column>
                                     </h:dataTable>
                                 </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Total "></h:outputText>
-                                    </f:facet>
-                                    <h:outputText value="#{MyOrder.total}"  ></h:outputText>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Estado "></h:outputText>
-                                    </f:facet>
-                                <h:outputLabel style="color:red;" value="Pendiente" rendered="#{MyOrder.state==0}" /> 
-                                <h:outputLabel style="color:red;" value="Aceptado" rendered="#{MyOrder.state==1}" /> 
-                                <h:outputLabel style="color:red;" value="Entregado" rendered="#{MyOrder.state==2}" />
-                                </h:column>
-                            </h:dataTable>
-                        </h:panelGroup>
-                    </h:form>
-                </div>
 
+
+                            </h:dataTable> 
+
+                        </h:form>
+                    </div>
+                </h:form>
 
 
             </div>
@@ -95,8 +93,8 @@
             <li class="waves-effect"><a href="faces/perfil.xhtml">1</a></li>
             <li class="waves-effect"><a href="faces/addProducts.xhtml">2</a></li>
             <li class="waves-effect"><a href="faces/privateMessages.xhtml">3</a></li>
-            <li class="active"><a href="faces/myRequests.xhtml">4</a></li>
-            <li class="waves-effect"><a href="faces/requests.xhtml">5</a></li>
+            <li class="waves-effect"><a href="faces/myRequests.xhtml">4</a></li>
+            <li class="active"><a href="faces/requests.xhtml">5</a></li>
             <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
 
