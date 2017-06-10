@@ -22,7 +22,6 @@ import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * @author juanramon
@@ -33,29 +32,23 @@ public class UserController implements Serializable {
 
     private static Logger log = Logger.getLogger(User.class.getName());
 
-    @Inject 
+    @Inject
     private DAOUser daoUser;
     private User user;
 
-    private String receiver;
-    
     private Boolean showtable;
-    
 
     @PostConstruct
     public void init() {
 
-        String remoteUser= FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         //user= new User();
         user = daoUser.getUserByName(remoteUser);
-        
-        receiver="";
-   
+
     }
 
     public UserController() {
-   
-        
+
     }
 
     /**
@@ -86,20 +79,18 @@ public class UserController implements Serializable {
         this.user = user;
     }
 
- 
-
     public String logout() {
-        String result = "./index?faces-redirect=true";
+        String result = "index.xhtml?faces-redirect=true";
 
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 
         try {
             request.logout();
-            result = "index?faces-redirect=true";
+            result = "index.xhtml?faces-redirect=true";
         } catch (ServletException e) {
             log.log(Level.SEVERE, "Failed to logout user!", e);
-            result = "errorlogin?faces-redirect=true";
+            result = "errorlogin.xhtml?faces-redirect=true";
         }
 
         return result;
@@ -144,12 +135,11 @@ public class UserController implements Serializable {
 
     }
 
-    public void editPerfil(User u,Long id) {
+    public void editPerfil(User u, Long id) {
 
-     
         try {
 
-            getDaoUser().editUser(u,u.getId());
+            getDaoUser().editUser(u, u.getId());
             FacesContext.getCurrentInstance().addMessage("edicionCorrecta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario editado correctamente", this.user.toString()));
 
         } catch (Exception ex) {
@@ -180,7 +170,6 @@ public class UserController implements Serializable {
 
     }
 
-
     /**
      * @return the showtable
      */
@@ -198,20 +187,6 @@ public class UserController implements Serializable {
     public String enabletable() {
         showtable = true;
         return "";
-    }
-
-    /**
-     * @return the receiver
-     */
-    public String getReceiver() {
-        return receiver;
-    }
-
-    /**
-     * @param receiver the receiver to set
-     */
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
     }
 
 }

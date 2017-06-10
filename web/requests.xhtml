@@ -14,14 +14,14 @@
             <div styleClass="row">
 
 
-                <h:form >
-                    <div styleClass="modal-content">
-                        <center>
-                            <h4>Mira lo que te han pedido</h4>
-                        </center>
 
-                        <h:form id="requestsExternal"> 
+                <div styleClass="modal-content">
+                    <center>
+                        <h4>Mira lo que te han pedido</h4>
+                    </center>
 
+                    <h:form id="requestsExternal"> 
+                        <h:panelGroup id="request">
                             <h:dataTable var="Order" value="#{orderCtrl.ordersUserReceived}" styleClass="table table-bordered centered" border="2"  >
 
                                 <h:column>
@@ -69,10 +69,11 @@
                                         </h:column>
                                         <p:column>
                                             <h:form id="aceptOrder"> 
-                                                <h:commandButton  actionListener ="#{orderCtrl.setStateOfOrder}" styleClass="btn btn-skin btn-scroll"  value="Aceptar"   onclick="Materialize.toast('Has aceptado!!Tu cliente se encuentra a la espera', 4000, '', function () {})">
-                                                    <f:ajax  execute="@form" />
+                                                <h:commandButton rendered="#{Order.state==0}" actionListener ="#{orderCtrl.setStateOfOrderToAcepted}" styleClass="btn btn-skin btn-scroll"  value="Aceptar"   onclick="Materialize.toast('Has aceptado!!Tu cliente se encuentra a la espera', 4000, '', function () {})">
+                                                    <f:ajax render=":requestsExternal:request" execute="@form" />
                                                     <f:attribute name="order" value="#{Order}"/>
                                                 </h:commandButton>
+                                                <h:outputLabel style="color:green;" value="Ya has aceptado esta petición" rendered="#{Order.state==1}" />
                                             </h:form>
                                         </p:column>
                                     </h:dataTable>
@@ -80,10 +81,10 @@
 
 
                             </h:dataTable> 
+                        </h:panelGroup>
+                    </h:form>
+                </div>
 
-                        </h:form>
-                    </div>
-                </h:form>
 
 
             </div>

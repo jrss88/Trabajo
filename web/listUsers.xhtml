@@ -11,7 +11,7 @@
 
         <div class="row">
             <div class="container-fluid">
-                <h1 class="center-block">DASHBOARD</h1>
+                <h1 class="center">DASHBOARD</h1>
             </div>
         </div>
         <div class="row">
@@ -20,22 +20,23 @@
                     <span class="white-text">Busca en tus cercanías o moviéndote por el mapa.<br></br>
                         Los puntos <FONT COLOR="yellow">amarillos</FONT> son restaurantes.<br></br>
                         Los puntos <FONT COLOR="blue">azules</FONT> son particulares.<br></br>
-                        Los puntos <FONT COLOR="red">rojos</FONT> son  ciudades buscadas.<br></br>
+                        Los puntos <FONT COLOR="red">rojos</FONT> son la ubicaciones buscadas.<br></br>
                         Cada usuario será responsable de concretar con una empresa de transporte para la entrega.<br></br>
+                        Los productos deberán ser empaquetados en envases adecuados para comida y entregarse en buen estado.<br></br>
+                        El incumplimiento de las normas supondrá la eliminación instantanea en la aplicación.<br></br>
+
                     </span>
                 </div>
             </div>
         </div>
         <div class="container-fluid">
             <h:form id="listUsers"> 
-
-
                 <h:dataTable   var="User" value="#{userCtrl.users}" styleClass="table table-bordered centered" border="2"  >
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Nombre"></h:outputText>
                         </f:facet>
-                        <h:inputText id="name" value="#{User.name}"  styleClass="receiver" style="text-align: center"></h:inputText>
+                        <h:outputText value="#{User.name}"  ></h:outputText>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
@@ -64,7 +65,6 @@
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Contactar"></h:outputText>
-
                         </f:facet>
                         <h:form id="addPrM">
                             <h:commandButton   actionListener="#{privateMessageCtrl.dataPM}" styleClass="btn-skin btn-scroll"  onclick="PF('pm').show();">
@@ -84,26 +84,22 @@
             </h:form>
             <h:form id="formM">
                 <p:dialog header="Mensaje Privado" widgetVar="pm" minHeight="100">
-
                     <h:panelGroup id="sendM">
                         <h:inputText readonly="true" id="dest" value="Para #{privateMessageCtrl.destination}" />
                         <p:inputTextarea value="#{privateMessageCtrl.pmsg.message}"  rows="5" cols="30" counter="display" maxlength="120" counterTemplate="{0} caracteres restantes." autoResize="true" />
                         <h:outputText id="display" />
                         <br/>
                         <br/>
-
                         <h:commandButton  actionListener ="#{privateMessageCtrl.sendPrivateMessage}" styleClass="btn btn-skin btn-scroll"  value="Enviar"  onclick="PF('pm').hide(); Materialize.toast('Mensaje enviado!', 4000, '', function () {})">
                             <f:ajax  execute="@form" />
                             <f:attribute name="emisor" value="#{request.remoteUser}" /> 
                             <f:attribute name="destinatario" value="#{privateMessageCtrl.destination}" />  
                         </h:commandButton>
-
                     </h:panelGroup>
                 </p:dialog>
             </h:form>
-
         </div>
-        
+
         <script type="text/javascript">
             function geocode() {
                 PF('gmap').geocode(document.getElementById('address1').value);
@@ -128,7 +124,7 @@
 
                     <p:outputPanel style="text-align: center;">
 
-                        <h:graphicImage library="images" name="defecto.png" />
+
 
                         <div class="row">
                             <h:outputText style="font-size: larger" value="#{mapCtrl.marker.shadow}" />
@@ -163,29 +159,32 @@
                     </p:column>
                     <p:column>
                         <f:facet name="header">
+                            <h:outputText value="Descripción"></h:outputText>
+                        </f:facet>
+                        <h:outputText value="#{p.descripcion}" ></h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
                             <h:outputText value="Precio "></h:outputText>
                         </f:facet>
-                        <h:outputText value="#{p.precio}" ></h:outputText>
+                        <h:outputText value="#{p.precio} Euros" ></h:outputText>
                     </p:column>
-
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Rating "></h:outputText>
+                        </f:facet>
+                        <p:rating value="5"  styleClass="center-rating estrellas"></p:rating>
+                    </p:column>
                     <p:column>
                         <h:form id="addP"> 
-                            <h:commandButton  actionListener ="#{orderCtrl.addProduct}" styleClass="btn btn-skin btn-scroll"  value="Añadir al carrito"   onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})">
+                            <h:commandButton  actionListener ="#{orderCtrl.addProduct}" styleClass="btn btn-skin "  value="Añadir al carrito"   onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})">
                                 <f:ajax render=":pr:cartshopping" execute="@form" />
                                 <f:attribute name="idProduct" value="#{p.id}" />  
                             </h:commandButton>
                         </h:form>
                     </p:column>
                 </p:dataTable>
-
             </p:outputPanel>
-
         </h:form>
-
-
-
     </ui:define>
-
-
-
 </ui:composition>

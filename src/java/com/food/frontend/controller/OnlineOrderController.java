@@ -99,9 +99,7 @@ public class OnlineOrderController implements Serializable {
 
     }
 
-    public void setSaler(ActionEvent ae) {
-
-    }
+    
 
     public void setPriceToTotal(double price) {
 
@@ -136,22 +134,30 @@ public class OnlineOrderController implements Serializable {
         return l;
     }
 
-    public void deleteProduct(Product p) {
+    public void deleteProduct(ActionEvent ae) {
 
+        Product p = (Product) ae.getComponent().getAttributes().get("product");
+        
         order.getProducts().remove(p);
         Double newTotal = order.getTotal() - p.getPrecio();
         order.setTotal(newTotal);
 
     }
 
-    public void setStateOfOrder(ActionEvent ae) {
+    public void setStateOfOrderToAcepted(ActionEvent ae) {
 
         order = (OnlineOrder) ae.getComponent().getAttributes().get("order");
         order.setState(1);
         editOrder(order, order.getId());
 
     }
+    public void setStateOfOrderToDelivered(ActionEvent ae) {
 
+        order = (OnlineOrder) ae.getComponent().getAttributes().get("order");
+        order.setState(2);
+        editOrder(order, order.getId());
+
+    }
 
     /**
      * @return the daoOrder
