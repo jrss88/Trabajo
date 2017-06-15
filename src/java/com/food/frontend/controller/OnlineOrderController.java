@@ -52,7 +52,6 @@ public class OnlineOrderController implements Serializable {
     @PostConstruct
     public void init() {
 
-        
         order = new OnlineOrder(); //init order on entering view
 
     }
@@ -69,14 +68,11 @@ public class OnlineOrderController implements Serializable {
         Long id_user = u.getId();
         order.setU(daoUser.getUser(id_user));
 
-        saler = (String) ae.getComponent().getAttributes().get("saler");
-        User us = daoUser.getUserByName(saler);
-        Long id_saler = us.getId();
-        order.setU_saler(daoUser.getUser(id_saler));
-
 //        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 //        String sessionId = session.getId();
 //        Long id_user= new Long(Long.parseLong(sessionId));
+
+
         try {
             daoOrder.createOrder(order);
             FacesContext.getCurrentInstance().addMessage("InitOrder", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Has comenzado un pedido."));
@@ -91,15 +87,27 @@ public class OnlineOrderController implements Serializable {
     //add product to cartShopping and add price to total
     public void addProduct(ActionEvent event) {
 
+        //set Saler
         Long idProduct = (Long) event.getComponent().getAttributes().get("idProduct");
+        String NSaler = (String) event.getComponent().getAttributes().get("nameSaler");
+        User us = daoUser.getUserByName(NSaler);
+        Long id_saler = us.getId();
+        order.setU_saler(daoUser.getUser(id_saler));
+        
         Product p = daoProduct.getProduct(idProduct);
-        order.getProducts().add(p); //aquí lp devolvía null y fallaba add
-
+        order.getProducts().add(p);
         setPriceToTotal(p.getPrecio());
 
     }
 
-    
+    public boolean searchProduct(Product p) {
+
+        if (order.getProducts().contains(p)) {
+            return true;
+        }
+        return false;
+
+    }
 
     public void setPriceToTotal(double price) {
 
@@ -137,7 +145,7 @@ public class OnlineOrderController implements Serializable {
     public void deleteProduct(ActionEvent ae) {
 
         Product p = (Product) ae.getComponent().getAttributes().get("product");
-        
+
         order.getProducts().remove(p);
         Double newTotal = order.getTotal() - p.getPrecio();
         order.setTotal(newTotal);
@@ -151,6 +159,7 @@ public class OnlineOrderController implements Serializable {
         editOrder(order, order.getId());
 
     }
+
     public void setStateOfOrderToDelivered(ActionEvent ae) {
 
         order = (OnlineOrder) ae.getComponent().getAttributes().get("order");

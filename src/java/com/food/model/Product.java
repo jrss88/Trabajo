@@ -44,6 +44,8 @@ public class Product implements Serializable {
     @Column
     @Pattern(regexp = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)", message = "Tipo de imágen inválido")
     private String imagen;
+    
+    
 
     public Product(){
     

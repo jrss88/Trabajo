@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -34,8 +36,15 @@ public class Comment implements Serializable {
     @ManyToOne
     private Product p;
     private String comment;
-    private Date fecha;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
+    public Comment(){
+    
+        date= new Date();
+    
+    }
+    
     public Long getId() {
         return id;
     }
@@ -114,15 +123,15 @@ public class Comment implements Serializable {
     /**
      * @return the fecha
      */
-    public Date getFecha() {
-        return fecha;
+    public Date getDate() {
+        return date;
     }
 
     /**
      * @param fecha the fecha to set
      */
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setDate(Date date) {
+        this.date = date;
     }
     
 }

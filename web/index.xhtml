@@ -10,7 +10,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />  
-        
+
 
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
         <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"></link>
@@ -33,44 +33,36 @@
                 <a href="#" class="brand-logo">TFC</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
-                <c:choose>
-                    <c:when test="${empty request.remoteUser}">
-                        <ul class="right hide-on-med-and-down">
+                <ui:fragment rendered="#{empty request.remoteUser}">
+                    <ul class="right hide-on-med-and-down">
+                        <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
+                        <a href="faces/register.xhtml" class="waves-effect waves-yellow btn-skin">Regístrate</a>
 
-
-                            <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
-                            <a href="faces/register.xhtml" class="waves-effect waves-yellow btn-skin">Regístrate</a>
+                    </ul>
+                    <ul class="side-nav" id="mobile-demo">
+                        <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
+                        <a href="faces/register.xhtml" class="waves-effect waves-yellow btn-skin">Regístrate</a>
+                       
+                    </ul>
+                </ui:fragment>
+                <ui:fragment rendered="#{not empty request.remoteUser}">
+                  
+                    <div class="input-field col s12 right hide-on-med-and-down">
+                        <ul>
+                            <h:form>
+                                <p:menuButton value="Bienvenid@ #{request.remoteUser}" >
+                                    <p:menuitem value="Mi Perfil" url="faces/perfil.xhtml"  icon="ui-icon-person" styleClass="submenu"/>
+                                    <p:menuitem value="Productos ofrecidos" url="faces/addProducts.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
+                                    <p:menuitem value="Mensajes Privados" url="faces/privateMessages.xhtml" icon="ui-icon-note" />
+                                    <p:menuitem value="Mis pedidos" url="faces/myRequests.xhtml"  icon="ui-icon-note"/>
+                                    <p:menuitem value="Peticiones " url="faces/requests.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
+                                    <p:separator />
+                                    <p:menuitem value="Logout" actionListener="#{userCtrl.logout}" ajax="false" icon="ui-icon-close"/>
+                                </p:menuButton>
+                            </h:form>
                         </ul>
-                        <ul class="side-nav" id="mobile-demo">
-                            <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
-                            <a href="faces/register.xhtml" class="waves-effect waves-yellow btn-skin">Regístrate</a>
-                        </ul>
-
-                    </c:when>
-                    <c:otherwise>
-
-
-                        <div class="input-field col s12 right hide-on-med-and-down">
-                      
-                                <h:form>
-                                 
-                                        <p:menuButton value="Bienvenid@ #{request.remoteUser}" >
-                                            <p:menuitem value="Mi Perfil" url="faces/perfil.xhtml"  icon="ui-icon-disk" styleClass="submenu"/>
-                                            <p:menuitem value="Productos ofrecidos" url="faces/addProducts.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
-                                            <p:menuitem value="Mensajes Privados" url="faces/privateMessages.xhtml"  />
-                                            <p:menuitem value="Mis pedidos" url="faces/myRequests.xhtml"  icon="ui-icon-note"/>
-                                            <p:menuitem value="Peticiones " url="faces/requests.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
-
-                                            <p:separator />
-                                            <p:menuitem value="Logout" actionListener="#{userCtrl.logout}" ajax="false" icon="ui-icon-close"/>
-                                        </p:menuButton>
-                                    
-                                </h:form>
-                            
-                        </div>
-                    </c:otherwise>
-                </c:choose>
-
+                    </div>
+                </ui:fragment>
             </div>
         </nav>
 
@@ -145,9 +137,9 @@
                             <h5 class="center">Y más herramientas...</h5>
 
                             <p class="light">Acepta o deniega los pedidos,puede que en algún momento no dispongas de tiempo para preparar los productos.<br/>
-                                            Envía mensajes privados para contactar con el vendedor<br/>
-                                            Revisa el estado de tus pedidos en la pestaña Mis Pedidos.<br/>
-                                            
+                                Envía mensajes privados para contactar con el vendedor<br/>
+                                Revisa el estado de tus pedidos en la pestaña Mis Pedidos.<br/>
+
                             </p>
                         </div>
                     </div>

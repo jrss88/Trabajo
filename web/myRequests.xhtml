@@ -2,7 +2,7 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template/template.xhtml"
+                template="/WEB-INF/template/templateAccess.xhtml"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -14,27 +14,26 @@
             <div styleClass="row">
 
                 <div styleClass="modal-content">
-                    <div class="row">
-                        <div class="container-fluid">
+                    <div class="row center">
+                     
                             <h1 class="center">MIS PETICIONES</h1>
-                        </div>
+                     
                     </div>
-
                     <h:form id="myrequests"> 
                         <h:panelGroup id="myR">
-                            <h:dataTable var="MyOrder" value="#{orderCtrl.ordersUser}" styleClass="table table-bordered centered" border="2"  >
-
+                            <h:dataTable var="MyOrder" value="#{orderCtrl.ordersUser}" styleClass="table table-bordered centered" border="2">
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Fecha "></h:outputText>
                                     </f:facet>
-                                    <h:outputText value="#{MyOrder.date}"  ></h:outputText>
+                                    <h:outputText value="#{MyOrder.date}"  >
+                                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                                    </h:outputText>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Pedido a: "></h:outputText>
                                     </f:facet>
-
                                     <h:outputText style="color:green" value="#{MyOrder.u_saler.name}"  ></h:outputText>
                                 </h:column>
                                 <h:column>
@@ -42,9 +41,9 @@
                                         <h:outputText value="Productos"/>
                                     </f:facet>    
                                     <h:form>
-                                        <h:dataTable value="#{MyOrder.products}" var="p" >
-                                            <h:column>
-                                                <div class="card" style="width: 40%;height: 40%">
+                                        <ui:repeat value="#{MyOrder.products}" var="p" class="col s12 m6">
+                                            <div class="row">
+                                                
 
                                                     <img class="activator" src="resources/images/#{p.imagen}" width="40%" height="40%"></img>
 
@@ -59,65 +58,24 @@
                                                             <div class="input-field col s12">
                                                                 <div class="container">
                                                                     <h:outputText value="Rating:" />
-                                                                    <p:rating value="#{p.ratingAverage}" readonly="true" styleClass="center-rating"/>
+                                                                    <p:rating value="#{p.ratingAverage}" readonly="true" styleClass="center-rating estrellas"/>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="row ">
+                                                <h:form id="selectP">
+                                                    <h:commandButton  actionListener="#{productCtrl.selectedProduct}" onclick="PF('vAndC').show();"  rendered="#{MyOrder.state==2}" styleClass="btn btn-skin" value="Valorar/Comentar">
+                                                        <f:ajax  render=":updateP:updP" execute="@form" />
+                                                        <f:attribute name="order" value="#{MyOrder}"/>
+                                                        <f:attribute name="prod" value="#{p}"/>
+                                                    </h:commandButton>
+                                                </h:form>
+                                             
                                                 </div>
-                                            </h:column>
-                                            <h:column >
-                                                <f:facet name="header">
-                                                    <h:outputText  value="Valorar y Comentar"></h:outputText>
-                                                </f:facet>
+                                            </div>
 
-                                                <h:commandButton onclick="PF('vAndC').show();"  rendered="#{MyOrder.state==2}" styleClass="btn btn-skin" value="Valorar/Comentar">
-                                                    <f:ajax  execute="@form" />
-                                                    <f:attribute name="order" value="#{MyOrder}"/>
-                                                </h:commandButton>
-
-
-                                                <p:dialog modal="true" responsive="true" maximizable="true"  resizable="true" header="Comenta y valora este producto" widgetVar="vAndC" minHeight="100">
-
-
-                                                    <h:column>
-
-                                                        <div class="card" >
-
-                                                            <img class="activator" src="resources/images/#{p.imagen}" width="40%" height="40%"></img>
-
-                                                            <div class="card-content">
-                                                                <span class="card-title activator grey-text text-darken-4 center-align">#{p.name}</span>
-
-                                                                <div class="row">
-                                                                    <div class="input-field col s12">
-                                                                        <div class="container">
-                                                                            <h:outputText value="Valora" />
-                                                                            <p:rating value="#{p.ratingAverage}" readonly="true" styleClass="center-rating"/>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="input-field col s12">
-                                                                        <div class="container">
-                                                                            <h:outputText value="Comenta" />
-                                                                            <p:inputTextarea   rows="5" cols="30" counter="display" maxlength="120" counterTemplate="{0} caracteres restantes." autoResize="true" />
-                                                                            <h:outputText id="display" />
-                                                                            <br/>
-                                                                            <br/>
-                                                                            <h:commandButton   styleClass="btn btn-skin btn-scroll"  value="Comentar"  onclick="PF('pm').hide(); Materialize.toast('Producto Comentado.Gracias por colaborar!', 4000, '', function () {})">
-                                                                                <f:ajax  execute="@form" />
-
-                                                                            </h:commandButton>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </h:column> 
-                                                </p:dialog>
-                                            </h:column>
-                                        </h:dataTable>
+                                        </ui:repeat>
                                     </h:form>
                                 </h:column>
                                 <h:column>
@@ -139,15 +97,56 @@
                                         <h:outputText  value="Marcar como entregado"></h:outputText>
                                     </f:facet>
                                     <h:form id="markAsDelivered">
-                                        <h:commandButton actionListener="#{orderCtrl.setStateOfOrderToDelivered}" rendered="#{MyOrder.state==1}" styleClass="btn btn-skin" value="Entregado">
+                                        <span class="flow-text"><h:commandButton actionListener="#{orderCtrl.setStateOfOrderToDelivered}" rendered="#{MyOrder.state==1}" styleClass="btn btn-skin" value="Poner Entregado">
                                             <f:ajax render=":myrequests:myR" execute="@form" />
                                             <f:attribute name="order" value="#{MyOrder}"/>
-                                        </h:commandButton>
-                                        <h:outputLabel style="color:green;" value="Este pedido ya ha sido marcado como entregado, ahora puedes valorar y comentar cada producto" rendered="#{MyOrder.state==2}" />
+                                        </h:commandButton></span>
+                                        <span class="flow-text"><h:outputLabel style="color:green;" value="Este pedido ya ha sido marcado como entregado, ahora puedes valorar y comentar cada producto" rendered="#{MyOrder.state==2}" /></span>
                                     </h:form>
                                 </h:column>
                             </h:dataTable>
                         </h:panelGroup>
+                    </h:form>
+                    <h:form id="updateP">
+                        <p:dialog modal="true" height="500" header="Comenta y valora este producto" widgetVar="vAndC" >
+                            <h:panelGroup id="updP">
+                                <div class="card center" >
+
+                                    <img class="activator" src="resources/images/#{productCtrl.product.imagen}" width="40%" height="40%"></img>
+                                    <div class="card-content">
+                                        <span class="card-title activator grey-text text-darken-4 center-align">#{productCtrl.product.name}</span>
+
+                                        <div class="row">
+                                            <div class="input-field col s12">
+
+                                                <p:rating  value="#{productCtrl.product.ratingAverage}" styleClass="center-rating estrellas" onRate="Materialize.toast('Producto Valorado. Gracias por colaborar!', 4000, '', function () {})">
+                                                    <p:ajax  event="rate" listener="#{productCtrl.onrate}"  />
+                                                    <f:attribute name="pr" value="#{productCtrl.product}"/>
+                                                </p:rating>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12">
+                                                <div class="container-fluid">
+                                                    <h:outputText value="Comenta" />
+                                                    <p:inputTextarea  value="#{commentCtrl.comment.comment}" rows="5" cols="30" counter="display" maxlength="120" counterTemplate="{0} caracteres restantes." autoResize="true" />
+                                                    <h:outputText id="display" />
+                                                    <br/>
+                                                    <br/>
+
+                                                    <h:commandButton actionListener="#{commentCtrl.createComment}"  styleClass="btn btn-skin btn-scroll"  value="Comentar"  onclick="PF('vAndC').hide(); Materialize.toast('Producto Comentado. Gracias por colaborar!', 4000, '', function () {})">
+                                                        <f:ajax  execute="@form" />
+                                                        <f:attribute name="productForComment" value="#{productCtrl.product}"/>
+                                                    </h:commandButton>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                        </p:dialog>
                     </h:form>
                 </div>
             </div>

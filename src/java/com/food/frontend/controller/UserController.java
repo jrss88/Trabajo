@@ -41,9 +41,10 @@ public class UserController implements Serializable {
     @PostConstruct
     public void init() {
 
-        String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-        //user= new User();
-        user = daoUser.getUserByName(remoteUser);
+        //String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        
+            user= new User();
+        //user = daoUser.getUserByName(remoteUser);
 
     }
 
@@ -79,23 +80,17 @@ public class UserController implements Serializable {
         this.user = user;
     }
 
-    public String logout() {
-        String result = "index.xhtml?faces-redirect=true";
-
+    public String logout() throws ServletException {
+        
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-
-        try {
-            request.logout();
-            result = "index.xhtml?faces-redirect=true";
-        } catch (ServletException e) {
-            log.log(Level.SEVERE, "Failed to logout user!", e);
-            result = "errorlogin.xhtml?faces-redirect=true";
-        }
-
-        return result;
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        request.logout() ;
+        facesContext.getExternalContext().invalidateSession();
+        return "faces/index.xhtml?faces-redirect=true";
+        
     }
-
+    
     public Long getIdUser(String name) {
 
         User u = this.getDaoUser().getUserByName(name);
@@ -152,14 +147,12 @@ public class UserController implements Serializable {
     public List<User> getUsers() {
 
         List<User> users = this.getDaoUser().getUsers();
-
         return users;
     }
 
     public User getUser(Long id) {
 
         User u = this.getDaoUser().getUser(id);
-
         return u;
     }
 
@@ -169,7 +162,6 @@ public class UserController implements Serializable {
         return u;
 
     }
-
     /**
      * @return the showtable
      */

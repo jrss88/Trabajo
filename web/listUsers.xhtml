@@ -7,8 +7,7 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="content">
-
+    <ui:define name="text">
         <div class="row">
             <div class="container-fluid">
                 <h1 class="center">DASHBOARD</h1>
@@ -16,14 +15,14 @@
         </div>
         <div class="row">
             <div class="col s12">
-                <div class="card-panel teal">
+                <div class="center card-panel teal">
                     <span class="white-text">Busca en tus cercanías o moviéndote por el mapa.<br></br>
                         Los puntos <FONT COLOR="yellow">amarillos</FONT> son restaurantes.<br></br>
                         Los puntos <FONT COLOR="blue">azules</FONT> son particulares.<br></br>
                         Los puntos <FONT COLOR="red">rojos</FONT> son la ubicaciones buscadas.<br></br>
                         Cada usuario será responsable de concretar con una empresa de transporte para la entrega.<br></br>
                         Los productos deberán ser empaquetados en envases adecuados para comida y entregarse en buen estado.<br></br>
-                        El incumplimiento de las normas supondrá la eliminación instantanea en la aplicación.<br></br>
+                        El incumplimiento de las normas supondrá la eliminación instantanea del usuario en la aplicación.<br></br>
 
                     </span>
                 </div>
@@ -67,7 +66,7 @@
                             <h:outputText value="Contactar"></h:outputText>
                         </f:facet>
                         <h:form id="addPrM">
-                            <h:commandButton   actionListener="#{privateMessageCtrl.dataPM}" styleClass="btn-skin btn-scroll"  onclick="PF('pm').show();">
+                            <h:commandButton  value="Escribe" actionListener="#{privateMessageCtrl.dataPM}" styleClass="btn btn-skin btn-scroll"  onclick="PF('pm').show();">
                                 <f:ajax render=":formM:sendM" execute="@form" />
                                 <f:attribute name="nameUser" value="#{User.name}" />  
                             </h:commandButton>
@@ -99,92 +98,134 @@
                 </p:dialog>
             </h:form>
         </div>
-
+    </ui:define>
+    <ui:define name="map">
         <script type="text/javascript">
             function geocode() {
                 PF('gmap').geocode(document.getElementById('address1').value);
             }
         </script>
 
+        <div class="row">
 
-        <h:form id="mapa" prependId="false">  
-            <h:panelGrid columns="3"  cellpadding="5">
-                <p:outputLabel for="address1" value="Ciudad o pueblo:" />
-                <p:inputText id="address1" styleClass="address1" />
-                <p:commandButton value="Busca en el mapa" icon="ui-icon-search" onclick="geocode()" />
-            </h:panelGrid>
-            <!--<div class="iframe-rwd">-->
-
-
-            <p:gmap id="gmap" widgetVar="gmap" center="#{mapCtrl.centerGeoMap}" zoom="13" type="ROADMAP" model="#{mapCtrl.advancedModel}" style="width:100%;height:800px">
-                <p:ajax event="geocode" listener="#{mapCtrl.onGeocode}" update="@this" />
-                <p:ajax event="overlaySelect" listener="#{mapCtrl.onMarkerSelect}" />
-
-                <p:gmapInfoWindow id="infoWindow">
-
-                    <p:outputPanel style="text-align: center;">
+            <div class="col s6">
+                <h:form  prependId="false">  
+                    <h:panelGrid columns="3"  cellpadding="5">
+                        <p:outputLabel for="address1" value="Ciudad o pueblo:" />
+                        <p:inputText id="address1" styleClass="address1" />
+                        <p:commandButton value="Busca en el mapa" icon="ui-icon-search" onclick="geocode()" />
+                    </h:panelGrid>
+                    <!--<div class="iframe-rwd">-->
 
 
+                    <p:gmap id="gmap" widgetVar="gmap" center="#{mapCtrl.centerGeoMap}" zoom="13" type="ROADMAP" model="#{mapCtrl.advancedModel}" style="width:100%;height:800px">
+                        <p:ajax event="geocode" listener="#{mapCtrl.onGeocode}" update="@this" />
+                        <p:ajax event="overlaySelect" listener="#{mapCtrl.onMarkerSelect}" />
 
-                        <div class="row">
-                            <h:outputText style="font-size: larger" value="#{mapCtrl.marker.shadow}" />
-                        </div>
-                        <div class="row">
-                            <p:rating value="5"  styleClass="center-rating estrellas"></p:rating>
-                        </div>
-                        <p:commandButton styleClass="btn-large" value="Ver que ofrece" action="#{userCtrl.enabletable}" update="panel" onclick="Materialize.toast('Bajo el mapa verás lo que ofrece', 4000, '', function () {
+                        <p:gmapInfoWindow id="infoWindow">
 
-                                })">
-                        </p:commandButton>
+                            <p:outputPanel style="text-align: center;">
+
+
+
+                                <div class="row">
+                                    <h:outputText style="font-size: larger" value="#{mapCtrl.marker.shadow}" />
+                                </div>
+                                <div class="row">
+                                    <p:rating value="5"  styleClass="center-rating estrellas"></p:rating>
+                                </div>
+                                <p:commandButton styleClass="btn-large" value="Ver que ofrece" action="#{userCtrl.enabletable}" update="panel" onclick="Materialize.toast('Al lado del mapa verás lo que ofrece', 4000, '', function () {
+
+                                        })">
+                                </p:commandButton>
+                            </p:outputPanel>
+                        </p:gmapInfoWindow>
+                    </p:gmap>
+
+                </h:form>
+            </div>
+
+            <div class="col s6">
+                <h:form prependId="false">
+
+
+                    <p:outputPanel id="panel" >
+
+                            <br/>
+                            <br/>
+                            <br/>
+                            <p:dataTable  var="p" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(mapCtrl.marker.title).id)}" styleClass="table table-bordered centered"  rendered="#{userCtrl.showtable}"  >
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Foto"></h:outputText>
+                                    </f:facet>
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                        <img class="activator" src="resources/images/#{p.imagen}" width="100%" height="100%"></img>
+                                    </div>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Nombre"></h:outputText>
+                                    </f:facet>
+                                    <h:outputText value="#{p.name}" ></h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Descripción"></h:outputText>
+                                    </f:facet>
+                                    <h:outputText value="#{p.descripcion}" ></h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Precio "></h:outputText>
+                                    </f:facet>
+                                    <h:outputText value="#{p.precio} Euros" ></h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Rating "></h:outputText>
+                                    </f:facet>
+                                    <p:rating value="#{p.ratingAverage}" readonly="true" styleClass="center-rating estrellas"></p:rating>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Añadir carrito "></h:outputText>
+                                    </f:facet>
+                                    <h:outputLink rendered="#{orderCtrl.searchProduct(p)==true}" value="Ya has añadido este producto"/>
+                                    <h:form id="addP"> 
+                                        <h:commandLink rendered="#{orderCtrl.searchProduct(p)==false}" value="Add" actionListener ="#{orderCtrl.addProduct}" styleClass="btn btn-skin "  onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})">
+                                 
+                                            <f:ajax render=":pr:cartshopping" execute="@form" />
+                                            <f:attribute name="idProduct" value="#{p.id}" />  
+                                            <f:attribute name="nameSaler" value="#{p.u.name}"/>
+                                        </h:commandLink>
+                                    </h:form>
+                                </p:column>
+                                <div class="col s12">
+                                <p:column>
+                                    <p:dataTable  value="#{commentCtrl.getCommentsProduct(p.id)}" var="c" >
+                                        <p:column>
+                                            <p:panelGrid>
+                                                <p:row>
+                                                    <p:column><h:outputText value="#{c.comment}" /></p:column>
+                                                    <p:column><h:outputText value="#{c.date}" /></p:column>
+                                                </p:row>
+                                                <p:row>
+                                                    <p:column colspan="2"></p:column>
+                                                </p:row>
+                                            </p:panelGrid>
+                                        </p:column>
+                                    </p:dataTable>
+                                  
+                                </p:column>
+                                    </div>
+                            </p:dataTable>
+                        
                     </p:outputPanel>
-                </p:gmapInfoWindow>
-            </p:gmap>
+                </h:form>
+            </div>
 
-            <p:outputPanel id="panel" >
+        </div>
 
-                <p:dataTable  var="p" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(mapCtrl.marker.title).id)}" styleClass="table table-bordered centered"  rendered="#{userCtrl.showtable}"  >
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Foto"></h:outputText>
-                        </f:facet>
-                        <div class="card-image waves-effect waves-block waves-light">
-                            <img class="activator" src="resources/images/#{p.imagen}" width="100%" height="100%"></img>
-                        </div>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Nombre"></h:outputText>
-                        </f:facet>
-                        <h:outputText value="#{p.name}" ></h:outputText>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Descripción"></h:outputText>
-                        </f:facet>
-                        <h:outputText value="#{p.descripcion}" ></h:outputText>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Precio "></h:outputText>
-                        </f:facet>
-                        <h:outputText value="#{p.precio} Euros" ></h:outputText>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Rating "></h:outputText>
-                        </f:facet>
-                        <p:rating value="5"  styleClass="center-rating estrellas"></p:rating>
-                    </p:column>
-                    <p:column>
-                        <h:form id="addP"> 
-                            <h:commandButton  actionListener ="#{orderCtrl.addProduct}" styleClass="btn btn-skin "  value="Añadir al carrito"   onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})">
-                                <f:ajax render=":pr:cartshopping" execute="@form" />
-                                <f:attribute name="idProduct" value="#{p.id}" />  
-                            </h:commandButton>
-                        </h:form>
-                    </p:column>
-                </p:dataTable>
-            </p:outputPanel>
-        </h:form>
     </ui:define>
 </ui:composition>

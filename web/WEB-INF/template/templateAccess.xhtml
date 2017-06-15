@@ -40,18 +40,16 @@
                     <ul class="right hide-on-med-and-down">
                         <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
                         <a href="faces/register.xhtml" class="waves-effect waves-yellow btn-skin">Regístrate</a>
-                        <a data-target="modalShoppingCart" class="waves-effect waves-yellow modal-trigger"><i class="material-icons prefix">shopping_cart</i></a>
+                        
                     </ul>
                     <ul class="side-nav" id="mobile-demo">
                         <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
                         <a href="faces/register.xhtml" class="waves-effect waves-yellow btn-skin">Regístrate</a>
-                        <a data-target="modalShoppingCart" class="waves-effect waves-yellow modal-trigger"><i class="material-icons prefix">shopping_cart</i></a>
+                        
                     </ul>
                 </ui:fragment>
                 <ui:fragment rendered="#{not empty request.remoteUser}">
-                    <ul class="right hide-on-med-and-down">
-                        <a data-target="modalShoppingCart" class="waves-effect waves-yellow modal-trigger"><i class="material-icons prefix">shopping_cart</i></a>
-                    </ul>
+                    
 
                     <div class="input-field col s12 right hide-on-med-and-down">
                         <ul>
@@ -67,7 +65,7 @@
                                 </p:menuButton>
                             </h:form>
                         </ul>
-
+                        
                     </div>
                 </ui:fragment>
 
@@ -100,72 +98,13 @@
 
             </div>
         </h:form>
-        <!--Layout Responsive -->
         <div class="row">
-            <div class="col s9">
+            <div class="col s12">
 
-                <ui:insert name="text"></ui:insert>
+                <ui:insert name="content"></ui:insert>
 
             </div>
-            <div class="col s3">
-
-                <br/>
-                <br/>
-                <br/>
-                <center>
-
-                    <div class="row">
-                        <div class="container-fluid ">
-                            <div class="card-panel grey lighten-5 z-depth-1">
-                                <h:form id="pr">
-                                    <h:panelGroup id="cartshopping" >
-
-                                        <center>
-                                            <br/>
-                                            <h4>Tu Carrito de la Compra </h4>
-                                        </center>
-
-                                        <p:dataTable styleClass="table-bordered" reflow="true" value="#{orderCtrl.order.products}" var="p" >
-                                            <ul class="collection">
-                                                <p:column>
-                                                    <div class="card-image waves-effect waves-block waves-light">
-                                                        <img class="activator" src="resources/images/#{p.imagen}" width="100%" height="100%"></img>
-                                                    </div>
-                                                </p:column>
-                                                <p:column headerText="Precio: ">
-                                                    <div class="card-image waves-effect waves-block waves-light">
-                                                        <h:outputText value="#{p.precio}">
-
-                                                        </h:outputText>
-
-                                                    </div>
-                                                </p:column>
-                                                <p:column headerText="Eliminar ">
-                                                    <h:commandButton styleClass="btn-skin" value="Eliminar" actionListener="#{orderCtrl.deleteProduct}"  >
-                                                        <f:ajax render=":pr:cartshopping" execute="@form" />
-                                                        <f:attribute value="#{p}" name="product"></f:attribute>
-                                                    </h:commandButton>
-                                                </p:column>
-                                            </ul>
-                                        </p:dataTable>
-                                        <h4>Total: </h4><h:outputText value="#{orderCtrl.order.total}"></h:outputText>
-                                        <br/>
-                                        <h:commandButton id="anadir"  styleClass="btn btn-skin btn-scroll"  value="Confirmar pedido" actionListener="#{orderCtrl.createOrder}" onclick="Materialize.toast('Pedido enviado!!', 4000, '', function () {})">
-                                            <f:ajax render=":pr:cartshopping " execute="@form"/>
-                                            
-                                        </h:commandButton>
-                                    </h:panelGroup>
-                                </h:form>
-                            </div>
-                        </div>
-                    </div>
-                </center>
-            </div>
-            <div class="row">
-                <div class="s12">
-                    <ui:insert name="map"></ui:insert>
-                </div>
-            </div>
+           
         </div>
 
         <!--Footer-->

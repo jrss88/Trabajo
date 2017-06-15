@@ -55,8 +55,8 @@ public class DAOProduct implements Serializable,IUProduct{
         return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
     }
 
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response editProduct(Long id, Object requestEntity) throws ClientErrorException {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response editProduct(Object requestEntity,Long id) throws ClientErrorException {
         return webTarget
                 .path("{id}")
                 .resolveTemplate("id", id)
