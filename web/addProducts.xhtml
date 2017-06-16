@@ -62,7 +62,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <h:commandButton id="enviar"  class="btn btn-skin btn-scroll"  value="Enviar" action="#{productCtrl.createProduct(fileUpload.fichero)}"/>
+                                    <h:commandButton id="enviar"  class="btn btn-skin btn-scroll"  value="Crear Producto" action="#{productCtrl.createProduct(fileUpload.fichero)}"/>
                                 </div>
                             </h:form>
                         </div>
@@ -70,11 +70,10 @@
                 </div>
             </div>
             <h:form>
-                <h:dataTable  var="Product" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(request.remoteUser).id)}" class="table table-bordered centered" border="2">
-
-                    <h:column>
-
-                        <div class="card">
+                <div class="row">
+                    <ui:repeat  var="Product" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(request.remoteUser).id)}" class="col s12 m6 ">
+                        
+                        <div class="card center">
                             <div class="card-image waves-effect waves-block waves-light">
                                 <img class="activator" src="resources/images/#{Product.imagen}"></img>
                             </div>
@@ -88,14 +87,14 @@
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <div class="container">
-                                            <h:outputText value="Valoración media de otros compradores:" />
-                                            <p:rating value="#{Product.ratingAverage}" readonly="true" styleClass="center-rating"/>
+                                            
+                                            <h:outputText value="#{Product.descripcion}" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <h:form class="well " enctype="multipart/form-data">
-                                    <h:commandButton id="delete"  class="btn btn-skin btn-scroll"  value="Eliminar del perfil" action="#{productCtrl.deleteProduct(Product.id)}" onclick="Materialize.toast('Producto eliminado del perfil!', 4000, '', function () {})"/>
+                                    <h:form class="well center" enctype="multipart/form-data">
+                                        <h:commandButton id="delete"  class="btn btn-skin btn-scroll"  value="Eliminar del perfil" action="#{productCtrl.deleteProduct(Product.id)}" onclick="Materialize.toast('Producto eliminado del perfil!', 4000, '', function () {})"/>
                                     </h:form>
                                 </div>
 
@@ -136,21 +135,18 @@
                                         </div>
                                     </div>
                                     <h:form enctype="multipart/form-data">
-                                    <h:commandButton id="enviar"  class="btn btn-skin btn-scroll"  value="Editar" action="#{productCtrl.editProduct(fileUpload.fichero,Product)}"/>
+                                        <h:commandButton id="enviar"  class="btn btn-skin btn-scroll"  value="Editar" action="#{productCtrl.editProduct(fileUpload.fichero,Product)}"/>
                                     </h:form>
                                 </h:form>
                             </div>
-
                         </div>
-
-                    </h:column>
-
-                </h:dataTable>	
+                    </ui:repeat>
+                </div>
             </h:form>
-         
+
         </div>
-       
-            <ul class="pagination center-align">
+
+        <ul class="pagination center-align">
             <li class="disabled"><a href="/.."><i class="material-icons">chevron_left</i></a></li>
             <li class="waves-effect"><a href="faces/perfil.xhtml">1</a></li>
             <li class="active"><a href="faces/addProducts.xhtml">2</a></li>

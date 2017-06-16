@@ -134,7 +134,7 @@
                                 <div class="row">
                                     <p:rating value="5"  styleClass="center-rating estrellas"></p:rating>
                                 </div>
-                                <p:commandButton styleClass="btn-large" value="Ver que ofrece" action="#{userCtrl.enabletable}" update="panel" onclick="Materialize.toast('Al lado del mapa verás lo que ofrece', 4000, '', function () {
+                                <p:commandButton styleClass="btn-large" value="Ver que ofrece" action="#{userCtrl.enabletable}" update="panel" onclick="Materialize.toast('Esto es lo que ofrece', 4000, '', function () {
 
                                         })">
                                 </p:commandButton>
@@ -147,61 +147,58 @@
 
             <div class="col s6">
                 <h:form prependId="false">
-
-
                     <p:outputPanel id="panel" >
+                        <br/>
+                        <br/>
+                        <br/>
+                        <p:dataTable  var="p" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(mapCtrl.marker.title).id)}" styleClass="table table-bordered centered"  rendered="#{userCtrl.showtable}"  >
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Foto"></h:outputText>
+                                </f:facet>
+                                <div class="card-image waves-effect waves-block waves-light">
+                                    <img class="activator" src="resources/images/#{p.imagen}" width="100%" height="100%"></img>
+                                </div>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre"></h:outputText>
+                                </f:facet>
+                                <h:outputText value="#{p.name}" ></h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Descripción"></h:outputText>
+                                </f:facet>
+                                <h:outputText value="#{p.descripcion}" ></h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Precio "></h:outputText>
+                                </f:facet>
+                                <h:outputText value="#{p.precio} Euros" ></h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Rating "></h:outputText>
+                                </f:facet>
+                                <p:rating value="#{p.ratingAverage}" readonly="true" styleClass="center-rating estrellas"></p:rating>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Añadir carrito "></h:outputText>
+                                </f:facet>
+                                <h:outputLink rendered="#{orderCtrl.searchProduct(p)==true}" value="Ya has añadido este producto"/>
+                                <h:form id="addP"> 
+                                    <h:commandLink rendered="#{orderCtrl.searchProduct(p)==false}" value="Add" actionListener ="#{orderCtrl.addProduct}" styleClass="btn btn-skin "  onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})">
 
-                            <br/>
-                            <br/>
-                            <br/>
-                            <p:dataTable  var="p" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(mapCtrl.marker.title).id)}" styleClass="table table-bordered centered"  rendered="#{userCtrl.showtable}"  >
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Foto"></h:outputText>
-                                    </f:facet>
-                                    <div class="card-image waves-effect waves-block waves-light">
-                                        <img class="activator" src="resources/images/#{p.imagen}" width="100%" height="100%"></img>
-                                    </div>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Nombre"></h:outputText>
-                                    </f:facet>
-                                    <h:outputText value="#{p.name}" ></h:outputText>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Descripción"></h:outputText>
-                                    </f:facet>
-                                    <h:outputText value="#{p.descripcion}" ></h:outputText>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Precio "></h:outputText>
-                                    </f:facet>
-                                    <h:outputText value="#{p.precio} Euros" ></h:outputText>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Rating "></h:outputText>
-                                    </f:facet>
-                                    <p:rating value="#{p.ratingAverage}" readonly="true" styleClass="center-rating estrellas"></p:rating>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Añadir carrito "></h:outputText>
-                                    </f:facet>
-                                    <h:outputLink rendered="#{orderCtrl.searchProduct(p)==true}" value="Ya has añadido este producto"/>
-                                    <h:form id="addP"> 
-                                        <h:commandLink rendered="#{orderCtrl.searchProduct(p)==false}" value="Add" actionListener ="#{orderCtrl.addProduct}" styleClass="btn btn-skin "  onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})">
-                                 
-                                            <f:ajax render=":pr:cartshopping" execute="@form" />
-                                            <f:attribute name="idProduct" value="#{p.id}" />  
-                                            <f:attribute name="nameSaler" value="#{p.u.name}"/>
-                                        </h:commandLink>
-                                    </h:form>
-                                </p:column>
-                                <div class="col s12">
+                                        <f:ajax render=":pr:cartshopping" execute="@form" />
+                                        <f:attribute name="idProduct" value="#{p.id}" />  
+                                        <f:attribute name="nameSaler" value="#{p.u.name}"/>
+                                    </h:commandLink>
+                                </h:form>
+                            </p:column>
+                            <div class="col s12 m6">
                                 <p:column>
                                     <p:dataTable  value="#{commentCtrl.getCommentsProduct(p.id)}" var="c" >
                                         <p:column>
@@ -211,21 +208,17 @@
                                                     <p:column><h:outputText value="#{c.date}" /></p:column>
                                                 </p:row>
                                                 <p:row>
-                                                    <p:column colspan="2"></p:column>
+                                                    <p:column colspan="2">asdfasdf</p:column>
                                                 </p:row>
                                             </p:panelGrid>
                                         </p:column>
                                     </p:dataTable>
-                                  
                                 </p:column>
-                                    </div>
-                            </p:dataTable>
-                        
+                            </div>
+                        </p:dataTable>
                     </p:outputPanel>
                 </h:form>
             </div>
-
         </div>
-
     </ui:define>
 </ui:composition>

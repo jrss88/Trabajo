@@ -118,14 +118,15 @@
                         <div class="container-fluid ">
                             <div class="card-panel grey lighten-5 z-depth-1">
                                 <h:form id="pr">
+                                   
                                     <h:panelGroup id="cartshopping" >
 
                                         <center>
                                             <br/>
-                                            <h4>Tu Carrito de la Compra </h4>
+                                             <h:outputLabel style="color:red; font-size: larger" value="Aun no tienes productos en tu carrito" rendered="#{empty orderCtrl.order.products}" />
                                         </center>
-
-                                        <p:dataTable styleClass="table-bordered" reflow="true" value="#{orderCtrl.order.products}" var="p" >
+                                        <h:outputLabel style="color:blue; font-size: larger" value="Tu carrito de la Compra" rendered="#{not empty orderCtrl.order.products}" />
+                                        <p:dataTable rendered="#{not empty orderCtrl.order.products}" styleClass="table-bordered" reflow="true" value="#{orderCtrl.order.products}" var="p" >
                                             <ul class="collection">
                                                 <p:column>
                                                     <div class="card-image waves-effect waves-block waves-light">
@@ -141,16 +142,21 @@
                                                     </div>
                                                 </p:column>
                                                 <p:column headerText="Eliminar ">
-                                                    <h:commandButton styleClass="btn-skin" value="Eliminar" actionListener="#{orderCtrl.deleteProduct}"  >
+                                                    <h:commandButton styleClass="btn-skin" value="" actionListener="#{orderCtrl.deleteProduct}"  >
+                                                        <i class="material-icons prefix">delete</i>
                                                         <f:ajax render=":pr:cartshopping" execute="@form" />
                                                         <f:attribute value="#{p}" name="product"></f:attribute>
                                                     </h:commandButton>
                                                 </p:column>
                                             </ul>
                                         </p:dataTable>
-                                        <h4>Total: </h4><h:outputText value="#{orderCtrl.order.total}"></h:outputText>
                                         <br/>
-                                        <h:commandButton id="anadir"  styleClass="btn btn-skin btn-scroll"  value="Confirmar pedido" actionListener="#{orderCtrl.createOrder}" onclick="Materialize.toast('Pedido enviado!!', 4000, '', function () {})">
+                                        <br/>
+                                        <h:outputText rendered="#{not empty orderCtrl.order.products}" value="Total: #{orderCtrl.order.total} euros"></h:outputText>
+                                        <br/>
+                                        <br/>
+                                        <br/>
+                                        <h:commandButton rendered="#{not empty orderCtrl.order.products}" id="anadir"  styleClass="btn btn-skin btn-scroll"  value="Confirmar pedido" actionListener="#{orderCtrl.createOrder}" onclick="Materialize.toast('Pedido enviado!!', 4000, '', function () {})">
                                             <f:ajax render=":pr:cartshopping " execute="@form"/>
                                             
                                         </h:commandButton>

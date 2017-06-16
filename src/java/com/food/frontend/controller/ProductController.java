@@ -57,7 +57,7 @@ public class ProductController implements Serializable {
         String img = file.getName();
         FileUpload fichero = new FileUpload();
 
-        int valoracion = 3;
+        int valoracion = 0;
         String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         User u = daoUser.getUserByName(remoteUser);
         Long id_user = u.getId();
@@ -92,7 +92,7 @@ public class ProductController implements Serializable {
             }
 
         }
-
+        
     }
 
     public void editProduct(Product p, Long id) {

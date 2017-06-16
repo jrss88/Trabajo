@@ -15,7 +15,15 @@
                     <center>
                         <h4>Mira lo que te han pedido</h4>
                     </center>
-
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="center card-panel teal">
+                                <span class=" white-text">Aqui podrás ver las peticiones que te han hecho otros usuarios.Podrás aceptarlas si quieres o no aceptarlas.
+                                    Independientemente de la elección las peticiones no se borrarán de la aplicación por motivos de seguridad.<br></br>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                     <h:form id="requestsExternal"> 
                         <h:panelGroup id="request">
                             <h:dataTable var="Order" value="#{orderCtrl.ordersUserReceived}" styleClass="table table-bordered centered" border="2"  >
@@ -34,47 +42,45 @@
 
                                     <h:outputText style="color:green" value="#{Order.u.name}"  ></h:outputText>
                                 </h:column>
-                                <h:column>
+                                <h:column> 
                                     <f:facet name="header" >
                                         <h:outputText value="Productos"/>
                                     </f:facet>  
                                     <h:column>
                                         <ui:repeat value="#{Order.products}" var="p" class="col s12 m6 ">
-
-                                            
-                                                <img class="activator" src="resources/images/#{p.imagen}" width="40%" height="40%"></img>
-                                                <div class="card-content">
-                                                    <span class="card-title activator grey-text text-darken-4 center-align">#{p.name}</span>
-                                                    <div class="row">
-                                                        <h:outputText value="Precio: " ></h:outputText>
-                                                        <h:outputText value=" #{p.precio} euros" ></h:outputText>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="input-field col s12">
-                                                            <div class="container">
-                                                                <h:outputText value="Rating:" />
-                                                                <p:rating value="#{p.ratingAverage}" readonly="true" styleClass="center-rating"/>
-                                                            </div>
+                                            <img class="activator" src="resources/images/#{p.imagen}" width="40%" height="40%"></img>
+                                            <div class="card-content">
+                                                <span class="card-title activator grey-text text-darken-4 center-align">#{p.name}</span>
+                                                <div class="row">
+                                                    <h:outputText value="Precio: " ></h:outputText>
+                                                    <h:outputText value=" #{p.precio} euros" ></h:outputText>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-field col s12">
+                                                        <div class="container">
+                                                            <h:outputText value="Rating:" />
+                                                            <p:rating value="#{p.ratingAverage}" readonly="true" styleClass="center-rating"/>
                                                         </div>
                                                     </div>
                                                 </div>
-                                           
+                                            </div>
+
                                         </ui:repeat>
                                     </h:column>
-                                    
+
                                 </h:column>
                                 <h:column>
-                                        <f:facet name="header" >
-                                            <h:outputText value="Aceptar"/>
-                                        </f:facet> 
-                                        <h:form id="aceptOrder"> 
-                                            <h:commandButton rendered="#{Order.state==0}" actionListener ="#{orderCtrl.setStateOfOrderToAcepted}" styleClass="btn btn-skin btn-scroll"  value="Aceptar"   onclick="Materialize.toast('Has aceptado!!Tu cliente se encuentra a la espera', 4000, '', function () {})">
-                                                <f:ajax render=":requestsExternal:request" execute="@form" />
-                                                <f:attribute name="order" value="#{Order}"/>
-                                            </h:commandButton>
-                                            <span class="flow-text"><h:outputLabel style="color:green;" value="Ya has aceptado esta petición" rendered="#{Order.state==1}" /></span>
-                                        </h:form>
-                                    </h:column>
+                                    <f:facet name="header" >
+                                        <h:outputText value="Aceptar"/>
+                                    </f:facet> 
+                                    <h:form id="aceptOrder"> 
+                                        <h:commandButton rendered="#{Order.state==0}" actionListener ="#{orderCtrl.setStateOfOrderToAcepted}" styleClass="btn btn-skin btn-scroll"  value="Aceptar"   onclick="Materialize.toast('Has aceptado!!Tu cliente se encuentra a la espera', 4000, '', function () {})">
+                                            <f:ajax render=":requestsExternal:request" execute="@form" />
+                                            <f:attribute name="order" value="#{Order}"/>
+                                        </h:commandButton>
+                                        <h:outputLabel style="color:green;" value="Ya has aceptado esta petición" rendered="#{Order.state==1}" />
+                                    </h:form>
+                                </h:column>
                             </h:dataTable> 
                         </h:panelGroup>
                     </h:form>
