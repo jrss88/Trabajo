@@ -11,6 +11,7 @@ import com.food.model.Product;
 import com.food.model.User;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -92,7 +93,7 @@ public class ProductController implements Serializable {
             }
 
         }
-        
+
     }
 
     public void editProduct(Product p, Long id) {
@@ -140,11 +141,28 @@ public class ProductController implements Serializable {
         return l;
     }
 
+    //get rating average for all products
+    public int getAverageRatingProductsUser(Long id_user) {
+
+        int average = 0;
+        List<Product> l = daoProduct.getProducts(id_user);
+        if (l.size()==0) return 0;
+        Iterator<Product> iterator = l.iterator();
+        while (iterator.hasNext()) {
+
+            average = average + iterator.next().getRatingAverage();
+
+        }
+        average = average / l.size();
+        return average;
+    }
+
     public void deleteProduct(Long id) {
 
         daoProduct.remove(id);
     }
 
+    //For show Product for each user
     public List<Product> ListenerProductosUser(AjaxBehaviorEvent e) {
 
         Long id_user = (Long) e.getComponent().getAttributes().get("id_user");
@@ -152,20 +170,21 @@ public class ProductController implements Serializable {
         return l;
     }
 
+    //set rating doing average for each product
     public void onrate(RateEvent rateEvent) {
 
-        
-       
         int rating = ((Integer) rateEvent.getRating()).intValue();
-        this.product.setRatingAverage(rating);
-        editProduct(this.product,this.product.getId());
+        Product p = daoProduct.getProduct(this.product.getId());
+        int rating_ant = p.getRatingAverage();
+        int media = (rating_ant + rating) / 2;
+        this.product.setRatingAverage(media);
+        editProduct(this.product, this.product.getId());
 
     }
-    
+    //select product
     public void selectedProduct(ActionEvent ae) {
 
         product = (Product) ae.getComponent().getAttributes().get("prod");
-        
 
     }
 }

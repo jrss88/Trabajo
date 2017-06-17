@@ -14,13 +14,25 @@
         <h:form styleClass="m6" id="formulario">
             <div class="modal-content">
                 <center>
-                    <h5>Introduzca sus datos Personales </h5>
-                </center>
+                        <h4>Introduce tus datos personales</h4>
+                    </center>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="center card-panel teal">
+                                <span class=" white-text">Registrate.<br/><br/>
+                                   
+                                    La dirección se gestiona con la API de Google Maps.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="material-icons prefix">account_circle</i>
                         <h:inputText id="name"  styleClass="validate" value="#{userCtrl.user.name}"/>
+                        <h:message for="name" class="warn" errorStyle="color:red" infoStyle="color:green"/>
                         <label for="name">Nombre Usuario</label>
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -91,7 +103,9 @@
                     <div class="input-field col s12">
                         <i class="material-icons prefix">email</i>
                         <h:inputText id="email"  styleClass="validate" value="#{userCtrl.user.email}"/>
+                        <h:message for="email" class="warn" errorStyle="color:red" infoStyle="color:green"/>
                         <label for="email">Email</label>
+                        
                     </div>
                 </div>
                 <div class="row">

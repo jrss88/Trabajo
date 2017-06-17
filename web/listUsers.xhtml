@@ -59,7 +59,7 @@
                         <f:facet name="header">
                             <h:outputText value="Rating "></h:outputText>
                         </f:facet>
-                        <p:rating value="5" styleClass="estrellas"></p:rating>
+                        <p:rating value="#{productCtrl.getAverageRatingProductsUser(User.id)}" readonly="true" styleClass="center-rating estrellas"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">

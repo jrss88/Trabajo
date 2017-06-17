@@ -130,7 +130,7 @@
 
                                                 <p:rating  value="#{productCtrl.product.ratingAverage}" styleClass="center-rating estrellas" onRate="Materialize.toast('Producto Valorado. Gracias por colaborar!', 4000, '', function () {})">
                                                     <p:ajax  event="rate" listener="#{productCtrl.onrate}"  />
-                                                    <f:attribute name="pr" value="#{productCtrl.product}"/>
+                                                    
                                                 </p:rating>
 
                                             </div>

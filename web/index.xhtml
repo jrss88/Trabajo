@@ -36,37 +36,34 @@
                     <ul class="right hide-on-med-and-down">
                         <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
                         <a href="faces/register.xhtml" class="waves-effect waves-yellow btn-skin">Regístrate</a>
-
                     </ul>
                     <ul class="side-nav" id="mobile-demo">
                         <a data-target="modalInitSesion" class="waves-effect waves-yellow modal-trigger">Inicia Sesión</a>
                         <a href="faces/register.xhtml" class="waves-effect waves-yellow btn-skin">Regístrate</a>
-                       
                     </ul>
                 </ui:fragment>
                 <ui:fragment rendered="#{not empty request.remoteUser}">
-                  
-                    <div class="input-field col s12 right hide-on-med-and-down">
-                        <ul>
+
+                    
+                        <ul class="right hide-on-med-and-down">
                             <h:form>
                                 <p:menuButton value="Bienvenid@ #{request.remoteUser}" >
-                                    <p:menuitem value="Mi Perfil" url="faces/perfil.xhtml"  icon="ui-icon-person" styleClass="submenu"/>
-                                    <p:menuitem value="Productos ofrecidos" url="faces/addProducts.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
-                                    <p:menuitem value="Mensajes Privados" url="faces/privateMessages.xhtml" icon="ui-icon-note" />
-                                    <p:menuitem value="Mis pedidos" url="faces/myRequests.xhtml"  icon="ui-icon-note"/>
-                                    <p:menuitem value="Peticiones " url="faces/requests.xhtml"  icon="ui-icon-arrowrefresh-1-w"/>
+                                    <p:menuitem value="Mi Perfil" url="faces/perfil.xhtml" styleClass="submenu"/>
+                                    <p:menuitem value="Productos ofrecidos" url="faces/addProducts.xhtml"  />
+                                    <p:menuitem value="Mensajes Privados" url="faces/privateMessages.xhtml"  />
+                                    <p:menuitem value="Mis pedidos" url="faces/myRequests.xhtml" />
+                                    <p:menuitem value="Peticiones " url="faces/requests.xhtml"  />
                                     <p:separator />
                                     <p:menuitem value="Logout" actionListener="#{userCtrl.logout}" ajax="false" icon="ui-icon-close"/>
                                 </p:menuButton>
                             </h:form>
                         </ul>
-                    </div>
+                        <ul class="side-nav" id="mobile-demo">
+                            
+                        </ul>
                 </ui:fragment>
             </div>
         </nav>
-
-
-
         <!-- Modal Structure Init Sesion-->
         <div id="modalInitSesion" class="modal modal-fixed-footer">
             <div class="modal-content">

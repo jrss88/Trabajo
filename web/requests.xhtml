@@ -13,7 +13,7 @@
             <div styleClass="row" >
                 <div styleClass="modal-content">
                     <center>
-                        <h4>Mira lo que te han pedido</h4>
+                        <h4 rendered="#{not empty orderCtrl.ordersUserReceived}">Mira lo que te han pedido</h4>
                     </center>
                     <div class="row">
                         <div class="col s12">
@@ -74,11 +74,12 @@
                                         <h:outputText value="Aceptar"/>
                                     </f:facet> 
                                     <h:form id="aceptOrder"> 
+                                        <h:outputLabel style="color:green;" value="Ya has aceptado esta petición" rendered="#{Order.state==1}" />
                                         <h:commandButton rendered="#{Order.state==0}" actionListener ="#{orderCtrl.setStateOfOrderToAcepted}" styleClass="btn btn-skin btn-scroll"  value="Aceptar"   onclick="Materialize.toast('Has aceptado!!Tu cliente se encuentra a la espera', 4000, '', function () {})">
                                             <f:ajax render=":requestsExternal:request" execute="@form" />
                                             <f:attribute name="order" value="#{Order}"/>
                                         </h:commandButton>
-                                        <h:outputLabel style="color:green;" value="Ya has aceptado esta petición" rendered="#{Order.state==1}" />
+                                        
                                     </h:form>
                                 </h:column>
                             </h:dataTable> 
