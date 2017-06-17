@@ -52,7 +52,7 @@ public class DAOUser implements Serializable, IUUsers {
 
     public DAOUser() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(getBaseuri()).path("users");
+        webTarget = client.target(baseuri).path("users");
     }
 
     public Response createUser(Object requestEntity) throws ClientErrorException {

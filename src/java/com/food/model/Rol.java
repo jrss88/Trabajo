@@ -21,15 +21,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table
 @XmlRootElement
 public class Rol implements Serializable {
-    
-    private String name;
-    private String rol;
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    private String name;
+    private String rol;
+    
+    public Rol(){}
     public Long getId() {
         return id;
     }

@@ -5,7 +5,9 @@
  */
 package com.food.frontend.controller;
 
+import com.food.frontend.dao.DAORol;
 import com.food.frontend.dao.DAOUser;
+import com.food.model.Rol;
 import com.food.model.User;
 import java.io.Serializable;
 import java.util.List;
@@ -36,6 +38,11 @@ public class UserController implements Serializable {
     private DAOUser daoUser;
     private User user;
 
+    @Inject
+    private DAORol daoRol;
+    
+    private Rol rol;
+    
     private Boolean showtable;
 
     @PostConstruct
@@ -44,6 +51,7 @@ public class UserController implements Serializable {
         //String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         
             user= new User();
+            rol= new Rol();
         //user = daoUser.getUserByName(remoteUser);
 
     }
@@ -118,6 +126,9 @@ public class UserController implements Serializable {
         this.user.setLatitud(latitud);
         this.user.setLongitud(longitud);
 
+        rol.setName(this.user.getName());
+        rol.setRol("user");
+        daoRol.create_Rol(rol);
         try {
 
             daoUser.createUser(getUser());
@@ -179,6 +190,34 @@ public class UserController implements Serializable {
     public String enabletable() {
         showtable = true;
         return "";
+    }
+
+    /**
+     * @return the daoRol
+     */
+    public DAORol getDaoRol() {
+        return daoRol;
+    }
+
+    /**
+     * @param daoRol the daoRol to set
+     */
+    public void setDaoRol(DAORol daoRol) {
+        this.daoRol = daoRol;
+    }
+
+    /**
+     * @return the rol
+     */
+    public Rol getRol() {
+        return rol;
+    }
+
+    /**
+     * @param rol the rol to set
+     */
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
 }

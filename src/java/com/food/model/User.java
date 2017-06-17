@@ -44,10 +44,10 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "name")
-    @Size(min=4,max=50,message="El nombre debe tener entre 4 y 25 caracteres") 
+    @Size(min=4,max=25,message="El nombre debe tener entre 4 y 25 caracteres") 
     private String name;
     @Column(name = "pass")
-    @Size(min=4,max=50,message="El password debe tener entre 4 y 10 caracteres")
+    @Size(min=4,max=10,message="El password debe tener entre 4 y 10 caracteres")
     private String pass;
     @Column(name = "address") 
     private String address;
@@ -66,11 +66,13 @@ public class User implements Serializable {
     private boolean isProffesional;
     @Column(name = "payment")
     private int payment;
-    @Column(name = "rating")
-    private int rating;
+    
     
 
-    public User(){}
+    public User(){
+    
+        name="";
+    }
     
     public Long getId() {
         return id;
@@ -248,18 +250,5 @@ public class User implements Serializable {
         this.isProffesional = isProffesional;
     }
 
-    /**
-     * @return the rating
-     */
-    public int getRating() {
-        return rating;
-    }
-
-    /**
-     * @param rating the rating to set
-     */
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
 
 }
