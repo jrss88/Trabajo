@@ -42,6 +42,13 @@
 
                                     <h:outputText style="color:green" value="#{Order.u.name}"  ></h:outputText>
                                 </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Dirección de envío: "></h:outputText>
+                                    </f:facet>
+
+                                    <h:outputText style="color:green" value="#{Order.u.address}"  ></h:outputText>
+                                </h:column>
                                 <h:column> 
                                     <f:facet name="header" >
                                         <h:outputText value="Productos"/>
@@ -64,10 +71,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </ui:repeat>
                                     </h:column>
-
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header" >
@@ -88,15 +93,7 @@
                 </div>
             </div>
         </div>
-        <ul class="pagination center-align">
-            <li class="disabled"><a href="/.."><i class="material-icons">chevron_left</i></a></li>
-            <li class="waves-effect"><a href="faces/perfil.xhtml">1</a></li>
-            <li class="waves-effect"><a href="faces/addProducts.xhtml">2</a></li>
-            <li class="waves-effect"><a href="faces/privateMessages.xhtml">3</a></li>
-            <li class="waves-effect"><a href="faces/myRequests.xhtml">4</a></li>
-            <li class="active"><a href="faces/requests.xhtml">5</a></li>
-            <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-        </ul>
+      
 
 
 

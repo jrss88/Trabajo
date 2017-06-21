@@ -40,20 +40,24 @@ public class UserController implements Serializable {
 
     @Inject
     private DAORol daoRol;
-    
+
     private Rol rol;
-    
+
     private Boolean showtable;
 
     @PostConstruct
     public void init() {
 
-        //String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-        
-            user= new User();
-            rol= new Rol();
-        //user = daoUser.getUserByName(remoteUser);
+        String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 
+        if (remoteUser == null) {
+            user = new User();
+        } else {
+            user = daoUser.getUserByName(remoteUser);
+        }
+        rol = new Rol();
+
+       
     }
 
     public UserController() {
@@ -89,16 +93,16 @@ public class UserController implements Serializable {
     }
 
     public String logout() throws ServletException {
-        
+
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        request.logout() ;
+        request.logout();
         facesContext.getExternalContext().invalidateSession();
-        return "faces/index.xhtml?faces-redirect=true";
-        
+        return "/index?faces-redirect=true";
+
     }
-    
+
     public Long getIdUser(String name) {
 
         User u = this.getDaoUser().getUserByName(name);
@@ -106,7 +110,8 @@ public class UserController implements Serializable {
 
     }
 
-    public void addNewUser() {
+    //return String because redirect to index
+    public String addNewUser() {
 
         double latitud = 0;
         double longitud = 0;
@@ -133,9 +138,10 @@ public class UserController implements Serializable {
 
             daoUser.createUser(getUser());
             FacesContext.getCurrentInstance().addMessage("registroCorrecto", new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se ha registrado correctamente correctamente."));
-
+            return "/index?faces-redirect=true";
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage("registroIncorrecto", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no añadido correctamente", ex.getMessage()));
+            return "/index?faces-redirect=true";
 
         }
 
@@ -173,6 +179,7 @@ public class UserController implements Serializable {
         return u;
 
     }
+
     /**
      * @return the showtable
      */

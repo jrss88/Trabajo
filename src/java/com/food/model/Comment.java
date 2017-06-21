@@ -39,12 +39,15 @@ public class Comment implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    public Comment(){
-    
-        date= new Date();
-    
+    public Comment() {
+
+        comment = "";
+        date = new Date();
+        u = new User();
+        p = new Product();
+
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -133,5 +136,5 @@ public class Comment implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
-    
+
 }

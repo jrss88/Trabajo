@@ -129,13 +129,13 @@
                         <i class="material-icons prefix">credit_card</i>
                         <h:selectOneMenu  label="Inserta medio de pago" value="#{userCtrl.user.payment}">
                             <f:selectItem itemValue="1" itemLabel="Pago mediante Transferencia" />
-                            <f:selectItem itemValue="2" itemLabel="Pago en efectivo" />	   							
+                            <f:selectItem itemValue="2" itemLabel="Pago ContraReembolso" />	   							
                         </h:selectOneMenu>
                     </div>
                 </div>
             </div>
             <div class="modal-footer center">
-                <h:commandButton id="findbutton" onclick="Materialize.toast('Registro completado', 26000)" styleClass="btn btn-skin btn-scroll"  value="Enviar" action="#{userCtrl.addNewUser()}"/>
+                <h:commandButton id="findbutton" styleClass="btn btn-skin btn-scroll"  value="Registrarse" action="#{userCtrl.addNewUser()}"/>
             </div>
         </h:form>
 

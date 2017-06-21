@@ -101,8 +101,7 @@ public class OnlineOrderREST {
         return lo;
     }
     
-    
-
+   
     @GET
     @Path("products/{id}")
     @Produces(MediaType.APPLICATION_JSON)

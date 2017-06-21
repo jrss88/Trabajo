@@ -44,23 +44,30 @@
                 </ui:fragment>
                 <ui:fragment rendered="#{not empty request.remoteUser}">
 
-                    
-                        <ul class="right hide-on-med-and-down">
-                            <h:form>
-                                <p:menuButton value="Bienvenid@ #{request.remoteUser}" >
-                                    <p:menuitem value="Mi Perfil" url="faces/perfil.xhtml" styleClass="submenu"/>
-                                    <p:menuitem value="Productos ofrecidos" url="faces/addProducts.xhtml"  />
-                                    <p:menuitem value="Mensajes Privados" url="faces/privateMessages.xhtml"  />
-                                    <p:menuitem value="Mis pedidos" url="faces/myRequests.xhtml" />
-                                    <p:menuitem value="Peticiones " url="faces/requests.xhtml"  />
-                                    <p:separator />
-                                    <p:menuitem value="Logout" actionListener="#{userCtrl.logout}" ajax="false" icon="ui-icon-close"/>
-                                </p:menuButton>
-                            </h:form>
-                        </ul>
-                        <ul class="side-nav" id="mobile-demo">
-                            
-                        </ul>
+
+                    <ul class="right hide-on-med-and-down">
+                        <h:form>
+                            <p:menuButton value="Bienvenid@ #{request.remoteUser}" >
+                                <p:menuitem value="Mi Perfil" url="faces/perfil.xhtml" styleClass="submenu"/>
+                                <p:menuitem value="Mis Productos" url="faces/addProducts.xhtml"  />
+                                <p:menuitem value="Mensajes Privados" url="faces/privateMessages.xhtml"  />
+                                <p:menuitem value="Mis pedidos" url="faces/myRequests.xhtml" />
+                                <p:menuitem value="Peticiones " url="faces/requests.xhtml"  />
+                                <p:separator />
+                                <p:menuitem value="Logout" actionListener="#{userCtrl.logout}" ajax="false" icon="ui-icon-close"/>
+                            </p:menuButton>
+                        </h:form>
+                        
+                    </ul>
+                    <ul class="side-nav" id="mobile-demo">
+
+                        <a href="faces/perfil.xhtml" class="waves-effect waves-yellow btn-skin">Mi perfil</a>
+                        <a href="faces/addProducts.xhtml" class="waves-effect waves-yellow btn-skin">Mis Productos</a>
+                        <a href="faces/privateMessages.xhtml" class="waves-effect waves-yellow btn-skin">Mensajes Privados</a>
+                        <a href="faces/myRequests.xhtml" class="waves-effect waves-yellow btn-skin">Mis pedidos</a>
+                        <a href="faces/requests.xhtml" class="waves-effect waves-yellow btn-skin">Peticiones</a>
+
+                    </ul>
                 </ui:fragment>
             </div>
         </nav>
@@ -92,7 +99,7 @@
                         <h5 class="header col s12 light">Gracias a esta aplicación tendrás la oportunidad de poder disfrutar de comida típica casera de cada lugar<br/>Se facilita el contacto entre usuarios tanto particulares y/o profesionales que repartan sus platos a domicilio.</h5>
                     </div>
                     <div class="row center">
-                        <a href="faces/listUsers.xhtml" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">DASHBOARD</a>
+                        <a href="faces/listUsers.xhtml" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">BUSCA COMIDA</a>
                     </div>
                     <br/><br/>
 

@@ -80,10 +80,8 @@
                                                             <f:attribute name="prod" value="#{p}"/>
                                                         </h:commandButton>
                                                     </h:form>
-
                                                 </div>
                                             </div>
-
                                         </ui:repeat>
                                     </h:form>
                                 </h:column>
@@ -106,10 +104,10 @@
                                         <h:outputText  value="Marcar como entregado"></h:outputText>
                                     </f:facet>
                                     <h:form id="markAsDelivered">
-                                        <span class="flow-text"><h:commandButton actionListener="#{orderCtrl.setStateOfOrderToDelivered}" rendered="#{MyOrder.state==1}" styleClass="btn btn-skin" value="Entregado">
-                                                <f:ajax render=":myrequests:myR" execute="@form" />
-                                                <f:attribute name="order" value="#{MyOrder}"/>
-                                            </h:commandButton></span>
+                                        <h:commandButton actionListener="#{orderCtrl.setStateOfOrderToDelivered}" rendered="#{MyOrder.state==1}" styleClass="btn btn-skin" value="Entregado">
+                                            <f:ajax render=":myrequests:myR" execute="@form" />
+                                            <f:attribute name="order" value="#{MyOrder}"/>
+                                        </h:commandButton>
                                         <span class="flow-text"><h:outputLabel style="color:green;" value="Este pedido ya ha sido marcado como entregado, ahora puedes valorar y comentar cada producto" rendered="#{MyOrder.state==2}" /></span>
                                     </h:form>
                                 </h:column>
@@ -130,7 +128,7 @@
 
                                                 <p:rating  value="#{productCtrl.product.ratingAverage}" styleClass="center-rating estrellas" onRate="Materialize.toast('Producto Valorado. Gracias por colaborar!', 4000, '', function () {})">
                                                     <p:ajax  event="rate" listener="#{productCtrl.onrate}"  />
-                                                    
+
                                                 </p:rating>
 
                                             </div>
@@ -160,15 +158,7 @@
                 </div>
             </div>
         </div>
-        <ul class="pagination center-align">
-            <li class="disabled"><a href="/.."><i class="material-icons">chevron_left</i></a></li>
-            <li class="waves-effect"><a href="faces/perfil.xhtml">1</a></li>
-            <li class="waves-effect"><a href="faces/addProducts.xhtml">2</a></li>
-            <li class="waves-effect"><a href="faces/privateMessages.xhtml">3</a></li>
-            <li class="active"><a href="faces/myRequests.xhtml">4</a></li>
-            <li class="waves-effect"><a href="faces/requests.xhtml">5</a></li>
-            <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-        </ul>
+       
 
 
 

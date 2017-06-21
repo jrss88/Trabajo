@@ -71,6 +71,7 @@
             </div>
             <h:form>
                 <div class="row">
+                    <h:outputLabel class="center" style="color:blue; font-size: xx-large" value="No has añadido productos a tu perfil" rendered="#{empty productCtrl.getProductsUser(userCtrl.getUserByName(request.remoteUser).id)}" />
                     <ui:repeat  var="Product" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(request.remoteUser).id)}" class="col s12 m6 ">
                         
                         <div class="card center">
@@ -146,15 +147,7 @@
 
         </div>
 
-        <ul class="pagination center-align">
-            <li class="disabled"><a href="/.."><i class="material-icons">chevron_left</i></a></li>
-            <li class="waves-effect"><a href="faces/perfil.xhtml">1</a></li>
-            <li class="active"><a href="faces/addProducts.xhtml">2</a></li>
-            <li class="waves-effect"><a href="faces/privateMessages.xhtml">3</a></li>
-            <li class="waves-effect"><a href="faces/myRequests.xhtml">4</a></li>
-            <li class="waves-effect"><a href="faces/requests.xhtml">5</a></li>
-            <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-        </ul>
+     
 
 
 

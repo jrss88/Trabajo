@@ -58,7 +58,7 @@ public class ProductController implements Serializable {
         String img = file.getName();
         FileUpload fichero = new FileUpload();
 
-        int valoracion = 0;
+        int valoracion = 3;
         String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         User u = daoUser.getUserByName(remoteUser);
         Long id_user = u.getId();

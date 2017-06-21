@@ -4,6 +4,7 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+    
     <context-param>
         <param-name>BaseUri</param-name>
         <param-value>http://localhost:8080/TFGFood/servicesREST</param-value>
@@ -38,6 +39,7 @@
             <web-resource-name>inicio Usuario autenticado</web-resource-name>
             <description/>
             <url-pattern>/faces/listUsers.xhtml</url-pattern>
+            <url-pattern>/faces/faces/listUsers.xhtml</url-pattern>
         </web-resource-collection>
         <web-resource-collection>
             <web-resource-name>request</web-resource-name>

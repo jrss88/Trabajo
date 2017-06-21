@@ -18,7 +18,7 @@
             <div class="col s12">
                 <div class="center card-panel teal">
                     <span class=" white-text">Aqui podrás ver los mensajes recibidos y los mensajes enviados<br></br>
-                      
+
                     </span>
                 </div>
             </div>
@@ -31,30 +31,36 @@
                 <h:form >
                     <div styleClass="modal-content">
                         <center>
-                            <h4>Mensajes Recibidos</h4>
+                            <br/>
+                            <h:outputLabel style="color:red; font-size: xx-large" value="No tienes mensajes recibidos" rendered="#{empty privateMessageCtrl.getPrivateMessagesReceived(userCtrl.getUserByName(request.remoteUser).id)}" />
                         </center>
-                        <h:dataTable var="PMSend" value="#{privateMessageCtrl.getPrivateMessagesReceived(userCtrl.getUserByName(request.remoteUser).id)}" styleClass="table table-bordered centered" border="2"  >
+                        <center>
+                            <h:outputLabel style="color:blue; font-size: xx-large" value="Mensajes Recibidos" rendered="#{not empty privateMessageCtrl.getPrivateMessagesReceived(userCtrl.getUserByName(request.remoteUser).id)}" >
 
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Fecha"></h:outputText>
-                                    </f:facet>
-                                    <h:outputText value="#{PMSend.date}"  >
+                            </h:outputLabel>
+                        </center>
+                        <h:dataTable var="PMSend" value="#{privateMessageCtrl.getPrivateMessagesReceived(userCtrl.getUserByName(request.remoteUser).id)}" styleClass="table table-bordered centered" border="2" rendered="#{not empty privateMessageCtrl.getPrivateMessagesReceived(userCtrl.getUserByName(request.remoteUser).id)}" >
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Fecha"></h:outputText>
+                                </f:facet>
+                                <h:outputText value="#{PMSend.date}"  >
                                     <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
-                                    </h:outputText>
-                                </h:column>
+                                </h:outputText>
+                            </h:column>
                             <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Escrito por:"></h:outputText>
-                                    </f:facet>
+                                <f:facet name="header">
+                                    <h:outputText value="Escrito por:"></h:outputText>
+                                </f:facet>
                                 <h:outputText value="#{PMSend.getuEmisor().name}"  ></h:outputText>
-                                </h:column>
+                            </h:column>
                             <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Contenido"></h:outputText>
-                                    </f:facet>
+                                <f:facet name="header">
+                                    <h:outputText value="Contenido"></h:outputText>
+                                </f:facet>
                                 <h:outputText value="#{PMSend.message}"  ></h:outputText>
-                                </h:column>
+                            </h:column>
                         </h:dataTable>
                     </div>
                 </h:form>
@@ -65,45 +71,42 @@
                 <h:form >
                     <div styleClass="modal-content">
                         <center>
-                            <h4>Mensajes Enviados</h4>
+                            <br/>
+                            <h:outputLabel style="color:red; font-size: xx-large" value="No has enviado mensajes" rendered="#{empty privateMessageCtrl.getPrivateMessagesSend(userCtrl.getUserByName(request.remoteUser).id)}" />
+                        </center>
+                        <center>
+                            <h:outputLabel style="color:blue; font-size: xx-large" value="Mensajes Enviados" rendered="#{not empty privateMessageCtrl.getPrivateMessagesSend(userCtrl.getUserByName(request.remoteUser).id)}" >
+                            </h:outputLabel>
                         </center>
                         <h:dataTable var="PMSend" value="#{privateMessageCtrl.getPrivateMessagesSend(userCtrl.getUserByName(request.remoteUser).id)}" styleClass="table table-bordered centered" border="2"  >
 
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Fecha"></h:outputText>
-                                    </f:facet>
-                                    <h:outputText value="#{PMSend.date}"  >
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Fecha"></h:outputText>
+                                </f:facet>
+                                <h:outputText value="#{PMSend.date}"  >
                                     <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
-                                    </h:outputText>
-                                </h:column>
+                                </h:outputText>
+                            </h:column>
                             <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Enviado a:"></h:outputText>
-                                    </f:facet>
+                                <f:facet name="header">
+                                    <h:outputText value="Enviado a:"></h:outputText>
+                                </f:facet>
                                 <h:outputText value="#{PMSend.getuReceptor().name}"  ></h:outputText>
-                                </h:column>
+                            </h:column>
                             <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Contenido"></h:outputText>
-                                    </f:facet>
+                                <f:facet name="header">
+                                    <h:outputText value="Contenido"></h:outputText>
+                                </f:facet>
                                 <h:outputText value="#{PMSend.message}"  ></h:outputText>
-                                </h:column>
+                            </h:column>
                         </h:dataTable>
                     </div>
                 </h:form>
-                
+
             </div>
         </div>
-            <ul class="pagination center-align">
-            <li class="disabled"><a href="/.."><i class="material-icons">chevron_left</i></a></li>
-            <li class="waves-effect"><a href="faces/perfil.xhtml">1</a></li>
-            <li class="waves-effect"><a href="faces/addProducts.xhtml">2</a></li>
-            <li class="active"><a href="faces/privateMessages.xhtml">3</a></li>
-            <li class="waves-effect"><a href="faces/myRequests.xhtml">4</a></li>
-            <li class="waves-effect"><a href="faces/requests.xhtml">5</a></li>
-            <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-        </ul>
+
 
 
 

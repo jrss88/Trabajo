@@ -28,7 +28,7 @@
         <title>TIPICAL FOOD CONNECTION</title>
     </h:head>
     <h:body>
-
+                <ui:insert name="metadata"/>
 
         <nav>
             <div class="nav-wrapper">
@@ -55,17 +55,21 @@
                         <h:form>
                             <p:menuButton value="Bienvenid@ #{request.remoteUser}" >
                                 <p:menuitem value="Mi Perfil" url="faces/perfil.xhtml" styleClass="submenu"/>
-                                <p:menuitem value="Productos ofrecidos" url="faces/addProducts.xhtml"  />
+                                <p:menuitem value="Mis Productos" url="faces/addProducts.xhtml"  />
                                 <p:menuitem value="Mensajes Privados" url="faces/privateMessages.xhtml"  />
                                 <p:menuitem value="Mis pedidos" url="faces/myRequests.xhtml" />
                                 <p:menuitem value="Peticiones " url="faces/requests.xhtml"  />
                                 <p:separator />
-                                <p:menuitem value="Logout" actionListener="#{userCtrl.logout}" ajax="false" icon="ui-icon-close"/>
+                                <p:menuitem value="Logout" action="#{userCtrl.logout()}" icon="ui-icon-close"/>
                             </p:menuButton>
                         </h:form>
                     </ul>
                     <ul class="side-nav" id="mobile-demo">
-
+                        <a href="faces/perfil.xhtml" class="waves-effect waves-yellow btn-skin">Mi perfil</a>
+                        <a href="faces/addProducts.xhtml" class="waves-effect waves-yellow btn-skin">Mis Productos</a>
+                        <a href="faces/privateMessages.xhtml" class="waves-effect waves-yellow btn-skin">Mensajes Privados</a>
+                        <a href="faces/myRequests.xhtml" class="waves-effect waves-yellow btn-skin">Mis pedidos</a>
+                        <a href="faces/requests.xhtml" class="waves-effect waves-yellow btn-skin">Peticiones</a>
                     </ul>
                 </ui:fragment>
             </div>
@@ -89,7 +93,7 @@
 
             </div>
         </div>
-     
+
         <!--Layout Responsive -->
         <div class="row">
             <div class="col s9">
@@ -110,10 +114,10 @@
                                 <h:form id="pr">
 
                                     <h:panelGroup id="cartshopping" >
-
+ 
                                         <center>
                                             <br/>
-                                            <h:outputLabel style="color:blue; font-size: xx-large" value="Aun no tienes productos en tu carrito" rendered="#{empty orderCtrl.order.products}" />
+                                            <h:outputLabel style="color:blue; font-size: xx-large" value="No tienes productos en tu carrito" rendered="#{empty orderCtrl.order.products}" />
                                         </center>
                                         <h:outputLabel style="color:blue; font-size: larger" value="Tu carrito de la Compra" rendered="#{not empty orderCtrl.order.products}" >
                                             <i class="material-icons prefix">shopping_cart</i>
@@ -134,8 +138,8 @@
                                                     </div>
                                                 </p:column>
                                                 <p:column headerText="Eliminar ">
-                                                    <h:commandButton styleClass="btn-skin" value="" actionListener="#{orderCtrl.deleteProduct}"  >
-                                                        <i class="material-icons prefix">delete</i>
+                                                    <h:commandButton  image="resources/images/delete.png" actionListener="#{orderCtrl.deleteProduct}" style="width:80%;height:47%;" >
+                                                        
                                                         <f:ajax render=":pr:cartshopping" execute="@form" />
                                                         <f:attribute value="#{p}" name="product"></f:attribute>
                                                     </h:commandButton>
@@ -153,9 +157,10 @@
 
                                         </h:commandButton>
                                     </h:panelGroup>
-                                    
+
                                 </h:form>
                             </div>
+                           
                         </div>
                     </div>
                 </center>
@@ -168,7 +173,6 @@
         </div>
 
         <!--Footer-->
-
         <footer class="f page-footer">
             <div class="container">
                 <div class="row">
@@ -193,7 +197,6 @@
                 </div>
             </div>
         </footer>
-
     </h:body>
 </html>
 

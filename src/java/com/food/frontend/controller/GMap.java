@@ -57,7 +57,7 @@ public class GMap implements Serializable{
             } else if (u.getIsProffesional() == true) {
 
                 LatLng coord = new LatLng(u.getLatitud(), u.getLongitud());
-                getAdvancedModel().addOverlay(new Marker(coord, u.getName(), "resources/images/defecto.png", "http://maps.google.com/mapfiles/ms/micons/yellow-dot.png", u.getName() + "-........- " + u.getAddress()+ " -........- " + u.getPhone()));
+                getAdvancedModel().addOverlay(new Marker(coord, u.getName(), "resources/images/defecto.png", "http://maps.google.com/mapfiles/ms/micons/yellow-dot.png", u.getName() + "-........- " + u.getAddress()));
                     
             }
 
@@ -148,10 +148,7 @@ public class GMap implements Serializable{
     public void onMarkerSelect(OverlaySelectEvent event) {
 
         marker = (Marker) event.getOverlay();
-       
-        //User asociadoSeleccionado=(User) marker.getData();
-        
-        
+         
     }
 
     public void onGeocode(GeocodeEvent event) {

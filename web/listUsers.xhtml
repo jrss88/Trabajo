@@ -10,7 +10,7 @@
     <ui:define name="text">
         <div class="row">
             <div class="container-fluid">
-                <h1 class="center">DASHBOARD</h1>
+                <h1 class="center">BUSCA COMIDA TÍPICA POR ZONAS O NAVEGANDO</h1>
             </div>
         </div>
         <div class="row">
@@ -19,9 +19,11 @@
                     <span class="white-text">Busca en tus cercanías o moviéndote por el mapa.<br></br>
                         Los puntos <FONT COLOR="yellow">amarillos</FONT> son restaurantes.<br></br>
                         Los puntos <FONT COLOR="blue">azules</FONT> son particulares.<br></br>
-                        Los puntos <FONT COLOR="red">rojos</FONT> son la ubicaciones buscadas.<br></br>
+                        Los puntos <FONT COLOR="red">rojos</FONT> son las ubicaciones buscadas.<br></br>
                         Cada usuario será responsable de concretar con una empresa de transporte para la entrega.<br></br>
-                        Los productos deberán ser empaquetados en envases adecuados para comida y entregarse en buen estado.<br></br>
+                        El precio de los portes será acordado entre los usuarios.<br></br>
+                        Se puede contactar libremente por teléfono, email o sin salir de la aplicación mediante mensaje privado.<br></br>
+                        Los productos deberán ser empaquetados en envases adecuados para la conservación óptima del producto y entregarse en buen estado.<br></br>
                         El incumplimiento de las normas supondrá la eliminación instantanea del usuario en la aplicación.<br></br>
 
                     </span>
@@ -45,17 +47,18 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">
+                            <h:outputText value="Teléfono "></h:outputText>
+                        </f:facet>
+                        <h:outputText value="#{User.phone}"  ></h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
                             <h:outputText value="Dirección "></h:outputText>
                         </f:facet>
                         <h:outputText value="#{User.address}" ></h:outputText>
                     </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Movil "></h:outputText>
-                        </f:facet>
-                        <h:outputText value="#{User.phone}" ></h:outputText>
-                    </h:column>
-                    <h:column>
+
+                    <h:column >
                         <f:facet name="header">
                             <h:outputText value="Rating "></h:outputText>
                         </f:facet>
@@ -66,17 +69,13 @@
                             <h:outputText value="Contactar"></h:outputText>
                         </f:facet>
                         <h:form id="addPrM">
-                            <h:commandButton  value="Escribe" actionListener="#{privateMessageCtrl.dataPM}" styleClass="btn btn-skin btn-scroll"  onclick="PF('pm').show();">
+
+                            <h:commandButton image="resources/images/mail.png" actionListener="#{privateMessageCtrl.dataPM}" style="width:30%;height:30%;"  onclick="PF('pm').show();" >
+
                                 <f:ajax render=":formM:sendM" execute="@form" />
                                 <f:attribute name="nameUser" value="#{User.name}" />  
                             </h:commandButton>
                         </h:form>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Ver en el mapa"></h:outputText>
-                        </f:facet>
-                        <a class="btn-floating blue-grey darken-1"><i class="material-icons">location_on</i></a>
                     </h:column>
 
                 </h:dataTable> 
@@ -107,8 +106,7 @@
         </script>
 
         <div class="row">
-
-            <div class="col s6">
+            <div class="col s12 m6">
                 <h:form  prependId="false">  
                     <h:panelGrid columns="3"  cellpadding="5">
                         <p:outputLabel for="address1" value="Ciudad o pueblo:" />
@@ -118,7 +116,7 @@
                     <!--<div class="iframe-rwd">-->
 
 
-                    <p:gmap id="gmap" widgetVar="gmap" center="#{mapCtrl.centerGeoMap}" zoom="13" type="ROADMAP" model="#{mapCtrl.advancedModel}" style="width:100%;height:800px">
+                    <p:gmap id="gmap" widgetVar="gmap" center="#{mapCtrl.centerGeoMap}" zoom="8" type="ROADMAP" model="#{mapCtrl.advancedModel}" style="width:600px;height:400px">
                         <p:ajax event="geocode" listener="#{mapCtrl.onGeocode}" update="@this" />
                         <p:ajax event="overlaySelect" listener="#{mapCtrl.onMarkerSelect}" />
 
@@ -132,6 +130,7 @@
                                     <h:outputText style="font-size: larger" value="#{mapCtrl.marker.shadow}" />
                                 </div>
                                 <div class="row">
+                                    <!--value="#{productCtrl.getAverageRatingProductsUser(userCtrl.daoUser.getUserByName(mapCtrl.marker.title).id)}"-->
                                     <p:rating value="5"  styleClass="center-rating estrellas"></p:rating>
                                 </div>
                                 <p:commandButton styleClass="btn-large" value="Ver que ofrece" action="#{userCtrl.enabletable}" update="panel" onclick="Materialize.toast('Esto es lo que ofrece', 4000, '', function () {
@@ -145,13 +144,15 @@
                 </h:form>
             </div>
 
-            <div class="col s6">
+            <div class="col s12 m6">
                 <h:form prependId="false">
                     <p:outputPanel id="panel" >
+
                         <br/>
                         <br/>
                         <br/>
-                        <p:dataTable  var="p" value="#{productCtrl.getProductsUser(userCtrl.getUserByName(mapCtrl.marker.title).id)}" styleClass="table table-bordered centered"  rendered="#{userCtrl.showtable}"  >
+
+                        <p:dataTable reflow="true" var="p"  value="#{productCtrl.getProductsUser(userCtrl.getUserByName(mapCtrl.marker.title).id)}" styleClass="table table-bordered centered"  rendered="#{userCtrl.showtable}"  >
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Foto"></h:outputText>
@@ -188,35 +189,57 @@
                                 <f:facet name="header">
                                     <h:outputText value="Añadir carrito "></h:outputText>
                                 </f:facet>
-                                <h:outputLink rendered="#{orderCtrl.searchProduct(p)==true}" value="Ya has añadido este producto"/>
+
                                 <h:form id="addP"> 
-                                    <h:commandLink rendered="#{orderCtrl.searchProduct(p)==false}" value="Add" actionListener ="#{orderCtrl.addProduct}" styleClass="btn btn-skin "  onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})">
+                                    <h:commandButton image="resources/images/add1.svg" style="width:70%;height:70%;align:centered;" actionListener ="#{orderCtrl.addProduct}"   onclick="Materialize.toast('Producto añadido al carrito!', 4000, '', function () {})">
 
                                         <f:ajax render=":pr:cartshopping" execute="@form" />
                                         <f:attribute name="idProduct" value="#{p.id}" />  
                                         <f:attribute name="nameSaler" value="#{p.u.name}"/>
-                                    </h:commandLink>
+                                    </h:commandButton>
                                 </h:form>
                             </p:column>
-                            <div class="col s12 m6">
-                                <p:column>
-                                    <p:dataTable  value="#{commentCtrl.getCommentsProduct(p.id)}" var="c" >
-                                        <p:column>
-                                            <p:panelGrid>
-                                                <p:row>
-                                                    <p:column><h:outputText value="#{c.comment}" /></p:column>
-                                                    <p:column><h:outputText value="#{c.date}" /></p:column>
-                                                </p:row>
-                                                <p:row>
-                                                    <p:column colspan="2">asdfasdf</p:column>
-                                                </p:row>
-                                            </p:panelGrid>
-                                        </p:column>
-                                    </p:dataTable>
-                                </p:column>
-                            </div>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Comentarios"></h:outputText>
+                                </f:facet>
+                                <h:form id="addPrM">
+                                    <h:commandButton  image="resources/images/comment.png"  actionListener="#{commentCtrl.listenerComment}"  style="width:70%;height:70%;" onclick="PF('comments').show();">
+                                        <f:ajax render=":formC:co" execute="@form" />
+                                        <f:attribute name="idProduct" value="#{p.id}"/>
+                                    </h:commandButton>
+                                </h:form>
+                            </p:column>
                         </p:dataTable>
                     </p:outputPanel>
+                </h:form>
+                <h:form id="formC">
+                    <p:dialog header="Comentarios" widgetVar="comments" minHeight="100">
+                        <h:panelGroup id="co">
+                            <h:outputLabel style="color:green;" value="Este producto no tiene comentarios" rendered="#{empty commentCtrl.getCommentsProduct(commentCtrl.idP)}" />
+                            <ui:repeat value="#{commentCtrl.getCommentsProduct(commentCtrl.idP)}" var="c" class="col s12 m6">
+                                <div class="card center">
+                                    <div class="row">
+                                        <h:outputText value="#{c.comment}" ></h:outputText>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <h:outputText style="color:green;" value="Escrito por: #{c.u.name}" ></h:outputText>
+                                    </div>
+                                    <div class="row">
+                                        
+                                        <h:outputText value=" #{c.date}" >
+                                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                                        </h:outputText>
+                                    </div>
+                                </div>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                            </ui:repeat>
+                        </h:panelGroup>
+                    </p:dialog>
                 </h:form>
             </div>
         </div>
